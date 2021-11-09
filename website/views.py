@@ -77,7 +77,7 @@ def edit_event(messageId,data):
     print(noteEdit)
     
     #session['receive_count'] = session.get('receive_count', 0) + 1
-    #emit('my_response',{'data':  f"{current_user.first_name} : {new_note.data}"},broadcast=True)
+    emit('my_response',{'data':  f"{current_user.first_name} : {data}"},broadcast=True)
 
 @sio.event
 def delete_event(message):
@@ -89,7 +89,6 @@ def delete_event(message):
 @sio.event
 def load_all_messages():
     results = Note.query.all()
-    
     #print(edit)
     #for result in results:
     #    emit("saved_messages", {'data': result.data, 'note_id': result.id, 'user_id':result.user_id, 'note_date':result.date})
