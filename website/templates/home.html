@@ -1,0 +1,166 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content%}
+<div class="row">
+  <div class="col-sm-8" width="fixed" padding-right="200rem">
+    <br />
+    <br />
+
+    <h4 align="left" id="tHel" class="userN">
+      Hello, {{current_user.first_name}}
+    </h4>
+    
+    <br />
+
+    <p class="userMessage">
+      Add Users to a message below, <br />
+      seperating them with a comma (<b> , </b>)
+    </p>
+
+    <!--SEND USERS AREA-->
+    <div class="input-group mb-3 shadow p-3" id="SendUsers">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">@</span>
+      </div>
+      <input type="text" name="userInput" id="usersADD" autocomplete="true" class="form-control" placeholder="Usernames" aria-label="Username" aria-describedby="basic-addon1"/>
+      &nbsp;
+      <div type="button" id="addIT" class="btn btn-sm" onclick="addUser()">
+        <span><img src="../static/images/addPerson.png" width="25rem" height="30rem"/></span>
+      </div>
+    </div>
+    <!--END SEND USERS AREA-->
+
+    <br />
+
+    <!--ALL MESSAGES-->
+    <div class="overflow-auto shadow p-3 mb-3" id="messageArea">
+      <ul class="list-group list-group-flush" id="log">
+        {%for note in allNotes%} {%if current_user.first_name ==
+        note.user.first_name%}
+        <li class="list-group-item colorClass" id="chatStuff">
+          {{"You: " + note.data}} &nbsp;
+          <div id="edDel">
+            <div type="button" id="editB" data-toggle="modal" data-target="#editModalCenter">
+              <img src="./static/images/edit.png" id="editImage" onclick = "editNote('{{note.id}}','{{note.data}}')"/>
+            </div>
+            &nbsp;
+            <button type="button" class="btn-close" id="closeX" aria-label="Close" onclick="deleteNote('{{note.id}}')"></button>
+          </div>
+        </li>
+        {%else%}
+        <li class="list-group-item" id="otherList">
+          {{note.user.first_name + ": " + note.data}}
+        </li>
+        {%endif%} {% endfor %}
+      </ul>
+    </div>
+    <!--END ALL MESSAGES-->
+
+    <br />
+
+    <!--MESSAGE AREA-->
+    <div>
+      <form name="messForm" id="broadcast" method="POST" class="input-group mb-3 shadow" action="/">
+        <textarea type="text" name="broadcast_data" id="broadcast_data" class="form-control" required></textarea>
+        <div id="submitBlock">
+          <input type="submit" value="" id="submitMessage">
+        </div>
+      </form>
+    </div>
+    <!--END MESSAGE AREA-->
+
+    <br />
+
+    <!--
+      <h2>Send:</h2>
+      <form id="emit" method="POST" action='#'>
+          <input type="text" name="emit_data" id="emit_data" placeholder="Message">
+          <input type="submit"  value = "" id = Sendy>
+      </form>
+      <form id="broadcast" method="POST" action='#'>
+          <input type="text" name="broadcast_data" id="broadcast_data" placeholder="Message">
+          <input type="submit" value="Broadcast">
+      </form>
+      
+      <form id="join" method="POST" action='#'>
+          <input type="text" name="join_room" id="join_room" placeholder="Room Name">
+          <input type="submit" value="Join Room">
+      </form>
+      <form id="leave" method="POST" action='#'>
+          <input type="text" name="leave_room" id="leave_room" placeholder="Room Name">
+          <input type="submit" value="Leave Room">
+      </form>
+      <form id="send_room" method="POST" action='#'>
+          <input type="text" name="room_name" id="room_name" placeholder="Room Name">
+          <input type="text" name="room_data" id="room_data" placeholder="Message">
+          <input type="submit" value="Send to Room">
+      </form>
+      <form id="close" method="POST" action="#">
+          <input type="text" name="close_room" id="close_room" placeholder="Room Name">
+          <input type="submit" value="Close Room">
+      </form>
+      <form id="disconnect" method="POST" action="#">
+          <input type="submit" value="Disconnect">
+      </form>
+      <h2>Receive:</h2>
+      <div id="log"></div>-->
+
+    <!--Modal used when update button is clicked-->
+    <div class="modal fade" id="editModalCenter" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" id = "mod">
+          <div class="modal-header" id = "modHead">
+            <h5 class="modal-title" id="editTitle" width="max-width">Edit Message</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true" id = "modClose">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id = "modBody">
+            <textarea id = "modalEdit"></textarea>
+          </div>
+          <div class="modal-footer" id = "modFoot">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id = "updateSumbit" type="submit" class="btn btn-primary">Update</button>
+          </div>
+        </div>
+      </div>
+    </div> 
+    <!--End of modal code--> 
+
+  </div>
+  <!--End of Left Column with Message Area-->
+
+  <!--Right side Column-->
+  <div class="col-sm-4">
+    <br />
+    <br />
+    <div>
+      <p>
+        Async mode is: <b>{{ async_mode }}</b><br />
+        Current transport is: <b><span id="transport"></span></b><br />
+        Average ping/pong latency: <b><span id="ping-pong"></span>ms</b>
+      </p>
+    </div>
+    <br />
+    <br />
+    <h5>Saved Users</h5>
+    <button type="button" id="sideAdd" class="btn btn-info btn-sm">Add</button>
+    <div class="UserList rounded overflow-auto" style="height: 10rem"></div>
+    <br />
+    <h5>Direct Messages</h5>
+    <button type="button" id="sideAdd" class="btn btn-info btn-sm">Add</button>
+    <div class="UserList rounded overflow-auto" style="height: 10rem">
+      <p>
+        Direct Messages
+      </p>
+    </div>
+    <br />
+    <h5>Channels</h5>
+    <button type="button" id="sideAdd" class="btn btn-info btn-sm">Add</button>
+    <div class="UserList rounded overflow-auto" style="height: 10rem">
+      <p>
+        Channels listed
+      </p>
+    </div>
+  </div>
+  <!--End of Right side Column-->
+</div>
+{% endblock %}
