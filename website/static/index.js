@@ -3,7 +3,6 @@ var form = document.getElementById("listItem");
 var input = document.getElementById("noteMSG");
 var edit = document.getElementById("edDel");
 
-
 var listElement = document.createElement("li");
 listElement.setAttribute("id", "msgEdit");
 
@@ -17,29 +16,35 @@ function scrollTobottom(){
   objDiv.scrollTop = objDiv.scrollHeight;
 }
 
-//Gets the currentUser
+//Gets the currentUser that is logged in
 function getCurrentUser(){
   sio.emit("getUser");
 }
 
+
 $(document).ready(function() {
+  // disconnect automatically sends from the server when the user disconnects
   sio.on("disconnect", () => {
     onlineData = 0;
     console.log("disconnected");
   });
 
+   // Connect automatically sends from the server when the user disconnects
   sio.on('connect', function() {
     onlineData = 1;
     console.log("connected!")
   });
   
+  //getCurrentUser function used here to get the current user
   getCurrentUser();
-  //scrollTobottom();
+  scrollTobottom();
 
+  //reads the current user to this function
   sio.on('c_user', function(msg) {
     username = msg.data;
   });
 
+  // displays all of the messages to the submitted messages area
   sio.emit("load_all_messages");
 
   //message receiving message add from socketio server emit message_add
@@ -85,6 +90,12 @@ $(document).ready(function() {
       clearTextArea("broadcast_data");
       return false;
   });
+
+  /*
+  $('#form#editForm').submit(function(event) {
+    sio.emit('edit_event', {id:noteId, data:document.getElementById("modalEdit").value});
+    return false;
+  });*/
 
   /*
   $('form#join').submit(function(event) {
@@ -150,7 +161,6 @@ function editNote(noteId,noteData){
   }).then((_res) => {
     window.location.href = "/";
   });*/
-  return sio.emit('edit_event', {id:noteId, data:document.getElementById("modalEdit").value});
 }
 
 function showPass(){
@@ -179,6 +189,7 @@ function showPass2(){
   }
 }
 
+/*
 function getMode(mode){
   if (mode === "dark"){
     document.body.style.backgroundColor = "darkgrey";
@@ -186,7 +197,7 @@ function getMode(mode){
   else{
     document.body.style.backgroundColor = "white";
   }
-}
+}*/
 
 // using enter with messages as well as clicking submit
 /*

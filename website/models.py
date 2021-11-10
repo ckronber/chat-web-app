@@ -11,9 +11,9 @@ class Note(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     data = db.Column(db.String(DATA_LENGTH))
     date = db.Column(db.DateTime(timezone = True),default=func.now)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  
+    edited = db.Column(db.Boolean,default=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user_list = db.relationship('Noteusers', backref='note',cascade = "all, delete, delete-orphan", lazy = 'dynamic')
-    #users = db.relationship('User',backref='note')
 
     def __repr__(self):
         return f"id: {self.id}: date: {self.date} user: {self.user_id}"

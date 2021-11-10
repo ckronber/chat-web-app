@@ -22,8 +22,8 @@ def create_app():
    
     db.init_app(app)
     #db.create_all(app=app)
-    #if not path.isfile(DB_NAME):
-    #    db.create_all(app=app)
+    if not path.isfile(DB_NAME):
+        db.create_all(app=app)
     #    print("created")
 
     from .views import views

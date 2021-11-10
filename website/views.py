@@ -52,7 +52,7 @@ def my_event():
 
 @sio.event
 def getUser():
-    send('c_user',{'data': current_user.id})
+    emit('c_user',{'data': current_user.id})
 
 @sio.event
 def my_broadcast_event(message):
@@ -71,12 +71,12 @@ def my_broadcast_event(message):
     """
     emit('message_add',{'user_name': current_user.first_name,'data': new_note.data, 'id':new_note.user_id, 'edit':edit} ,broadcast=True)
 
+    return jsonify({})
+
 @sio.event
 def edit_event(messageId,data):
     noteEdit = Note.query.filter_by(id = messageId).first()
-    print(noteEdit)
-    
-    #session['receive_count'] = session.get('receive_count', 0) + 1
+    print(noteEdit['data'])
     emit('my_response',{'data':  f"{current_user.first_name} : {data}"},broadcast=True)
 
 @sio.event
