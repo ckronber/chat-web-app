@@ -2,6 +2,7 @@ var submit = document.getElementById("submitMessage").value;
 var form = document.getElementById("listItem");
 var input = document.getElementById("noteMSG");
 var edit = document.getElementById("edDel");
+var editedID;
 
 var listElement = document.createElement("li");
 listElement.setAttribute("id", "msgEdit");
@@ -21,15 +22,15 @@ function getCurrentUser(){
   sio.emit("getUser");
 }
 
-
 $(document).ready(function() {
+
   // disconnect automatically sends from the server when the user disconnects
   sio.on("disconnect", () => {
     onlineData = 0;
     console.log("disconnected");
   });
 
-   // Connect automatically sends from the server when the user disconnects
+  // Connect automatically sends from the server when the user disconnects
   sio.on('connect', function() {
     onlineData = 1;
     console.log("connected!")
@@ -80,22 +81,23 @@ $(document).ready(function() {
   });
 
   // Handlers for the different forms in the page. These accept data from the user and send it to the server in a variety of ways
-  $('form#emit').submit(function(event) {
+  /*$('form#editSubmit').submit(function(event) {
       sio.emit('my_event', {data: $('#emit_data').val()});
       return false;
-  });
+  });*/
 
   $('form#broadcast').submit(function(event) {
-      sio.emit('my_broadcast_event', {data: $('#broadcast_data').val()});
-      clearTextArea("broadcast_data");
-      return false;
+    sio.emit('my_broadcast_event', {data: $('#broadcast_data').val()});
+    clearTextArea("broadcast_data");
+    window.location.href = "/";
+    return false;
   });
 
-  /*
-  $('#form#editForm').submit(function(event) {
-    sio.emit('edit_event', {id:noteId, data:document.getElementById("modalEdit").value});
+  $('form#editForm').submit(function(event) {
+    sio.emit('edit_event', {id:editedID, data: $("#modalEdit").val()});
+    window.location.href = "/";
     return false;
-  });*/
+  });
 
   /*
   $('form#join').submit(function(event) {
@@ -149,10 +151,11 @@ function deleteNote(noteId) {
 }
 
 function editNote(noteId,noteData){
-  //console.log('message ID: ', noteId);
-  //console.log('message data: ', noteData);
+  console.log('message ID: ', noteId);
+  console.log('message data: ', noteData);
   var editText = document.getElementById("modalEdit");
   editText.value = noteData;
+  editedID = noteId;
   //n_data = prompt("Enter edited text");
   /*
   fetch("/edit-note", {
@@ -189,15 +192,6 @@ function showPass2(){
   }
 }
 
-/*
-function getMode(mode){
-  if (mode === "dark"){
-    document.body.style.backgroundColor = "darkgrey";
-  }
-  else{
-    document.body.style.backgroundColor = "white";
-  }
-}*/
 
 // using enter with messages as well as clicking submit
 /*

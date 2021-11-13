@@ -39,7 +39,8 @@ def home():
         return render_template('home.html', user=current_user, async_mode = sio.async_mode)
 """
 
-@views.route('/') #,methods=['GET', 'POST'])
+@views.route('/',methods=['GET']) #,methods=['GET', 'POST'])
+@views.route('/home',methods=['GET'])
 @login_required
 def home():
     myNotes = Note.query.all()
@@ -74,10 +75,19 @@ def my_broadcast_event(message):
     return jsonify({})
 
 @sio.event
-def edit_event(messageId,data):
-    noteEdit = Note.query.filter_by(id = messageId).first()
-    print(noteEdit['data'])
-    emit('my_response',{'data':  f"{current_user.first_name} : {data}"},broadcast=True)
+def loadHome():
+    return home()
+
+@sio.event
+def edit_event(message):
+    noteEdit = Note.query.filter_by(id = message['id']).first()
+    print(message["data"])
+    noteEdit.data = message['data']
+    db.session.commit()
+    #print(noteEdit['data'])
+    #emit('my_response',{'data':  f"{current_user.first_name} : {data}"},broadcast=True)
+    #return jsonify({})
+    return jsonify({})
 
 @sio.event
 def delete_event(message):

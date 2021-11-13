@@ -29,9 +29,6 @@
     <!--END SEND USERS AREA-->
 
     <br>
-    <button id = "clearMessages" onclick = >Clear Text Area</button>
-
-    <br >
     <!--ALL MESSAGES-->
     <div class="overflow-auto shadow p-3 mb-3" id="messageArea">
       <ul class="list-group list-group-flush" id="log">
@@ -116,21 +113,21 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" id = "mod">
 
-          <div class="modal-header" id = "modHead">
-            <h5 class="modal-title" id="editTitle" width="max-width">Edit Message</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <div class = "modal-header" id = "modHead">
+            <h5 class = "modal-title" id = "editTitle" width = "max-width">Edit Message</h5>
+            <button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
               <span aria-hidden="true" id = "modClose">&times;</span>
             </button>
           </div>
 
-          <form action="/" id = "editForm">
+          <form id = "editForm" method="POST" action="/">
             <div class="modal-body" id = "modBody">
-              <textarea id = "modalEdit"></textarea>
+              <textarea type = "text" id = "modalEdit"></textarea>
             </div>
 
             <div class="modal-footer" id = "modFoot">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button id = "updateSumbit" type="submit" class="btn btn-primary">Update</button>
+              <button type="button" id = "closeModal" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button id = "updateSumbit" type="submit" method = "POST" class="btn btn-primary">Update</button>
             </div>
           </form>
         </div>
