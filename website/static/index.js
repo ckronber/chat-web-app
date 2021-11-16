@@ -90,11 +90,6 @@ $(document).ready(function() {
   });
 
   // Handlers for the different forms in the page. These accept data from the user and send it to the server in a variety of ways
-  
-  /*$('form#editSubmit').submit(function(event) {
-      sio.emit('my_event', {data: $('#emit_data').val()});
-      return false;
-  });*/
 
   $('form#broadcast').submit(function(event) {
     sio.emit('my_broadcast_event', {data: $('#broadcast_data').val()});
@@ -108,25 +103,6 @@ $(document).ready(function() {
     window.location.href = "/";
     return false;
   });
-
-  /*
-  $('form#join').submit(function(event) {
-      sio.emit('join', {room: $('#join_room').val()});
-      return false;
-  });
-  $('form#leave').submit(function(event) {
-      sio.emit('leave', {room: $('#leave_room').val()});
-      return false;
-  });
-  $('form#send_room').submit(function(event) {
-      sio.emit('my_room_event', {room: $('#room_name').val(), data: $('#room_data').val()});
-      return false;
-  });
-  $('form#close').submit(function(event) {
-      sio.emit('close_room', {room: $('#close_room').val()});
-      return false;
-  });
-  */
 
 });
 

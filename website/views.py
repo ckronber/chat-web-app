@@ -23,21 +23,6 @@ def background_thread():
     #    sio.sleep(10)
     #    emit('my_response', {'data': 'Server generated event'})
 
-"""
-@views.route('/',methods=['GET', 'POST'])
-@login_required
-def home():
-    if request.method == 'POST':
-        note = request.form.get('note')
-        if len(note) < 1:
-            flash('Message is too short!', category='error')
-        else:
-            new_note = Note(data=note, date = datetime.now(),user_id = current_user.id)
-            db.session.add(new_note)
-            db.session.commit()
-
-        return render_template('home.html', user=current_user, async_mode = sio.async_mode)
-"""
 
 @views.route('/',methods=['GET']) #,methods=['GET', 'POST'])
 @views.route('/home',methods=['GET'])
@@ -102,30 +87,6 @@ def load_all_messages():
     #for result in results:
     #    emit("saved_messages", {'data': result.data, 'note_id': result.id, 'user_id':result.user_id, 'note_date':result.date})
 
-"""
-@sio.event
-def join(message):
-    join_room(message['room'])
-    emit('my_response', {'data': 'In rooms: ' + ', '.join(rooms())})
-
-@sio.event
-def leave(message):
-    leave_room(message['room'])
-    emit('my_response',
-         {'data': 'In rooms: ' + ', '.join(rooms())})
-
-@sio.on('close_room')
-def on_close_room(message):
-    emit('my_response', {'data': 'Room ' + message['room'] + ' is closing.'},
-         to=message['room'])
-    close_room(message['room'])
-
-@sio.event
-def my_room_event(message):
-    emit('my_response',
-         {'data': message['data']},
-         to=message['room'])
-"""
 @sio.event
 def my_ping():
     emit('my_pong')
@@ -142,6 +103,9 @@ def connect():
 def disconnect():
     print('Client disconnected', request.sid)
 
+
+
+#edit and delete routes to pages that are not used
 """
 @views.route('/delete-note', methods=['POST'])
 @login_required
