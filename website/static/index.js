@@ -2,7 +2,6 @@ var submit = document.getElementById("submitMessage").value;
 var form = document.getElementById("listItem");
 var input = document.getElementById("noteMSG");
 var edit = document.getElementById("edDel");
-var editedID;
 
 var listElement = document.createElement("li");
 listElement.setAttribute("id", "msgEdit");
@@ -92,9 +91,13 @@ $(document).ready(function() {
   // Handlers for the different forms in the page. These accept data from the user and send it to the server in a variety of ways
 
   $('form#broadcast').submit(function(event) {
-    sio.emit('my_broadcast_event', {data: $('#broadcast_data').val()});
-    clearTextArea("broadcast_data");
-    window.location.href = "/";
+    text = $('#broadcast_data').val();
+    console.log(text);
+    if(text.length > 0){
+      sio.emit('my_broadcast_event', {data: $('#broadcast_data').val()});
+      clearTextArea("broadcast_data");
+      window.location.href = "/";
+    }
     return false;
   });
 

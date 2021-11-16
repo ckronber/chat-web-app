@@ -1,8 +1,8 @@
 from flask import Blueprint,config,request,flash,jsonify,copy_current_request_context,session,render_template
-from flask_socketio import SocketIO,send,emit,join_room,leave_room,close_room,rooms,disconnect
+from flask_socketio import SocketIO,send,emit,disconnect
 from flask.helpers import url_for
 from flask_login import login_required,current_user
-from website.models import Note
+from website.models import Note,User
 from . import db
 from threading import Lock
 from datetime import datetime
@@ -11,6 +11,7 @@ import json
 views = Blueprint('views', __name__)
 aMode = "eventlet"
 async_mode = aMode
+online_users = []
 
 sio = SocketIO(async_mode = async_mode)
 thread = None
@@ -23,13 +24,13 @@ def background_thread():
     #    sio.sleep(10)
     #    emit('my_response', {'data': 'Server generated event'})
 
-
 @views.route('/',methods=['GET']) #,methods=['GET', 'POST'])
 @views.route('/home',methods=['GET'])
 @login_required
 def home():
     myNotes = Note.query.all()
-    return render_template('home.html',allNotes=myNotes,user=current_user,async_mode = sio.async_mode)
+    users = User.query.all()
+    return render_template('home.html',allNotes=myNotes,users = users,user=current_user,async_mode = sio.async_mode)
 
 @sio.event
 def my_event():
@@ -68,6 +69,7 @@ def edit_event(message):
     noteEdit = Note.query.filter_by(id = message['id']).first()
     print(message["data"])
     noteEdit.data = message['data']
+    noteEdit.edited = True
     db.session.commit()
     emit('load_page', broadcast=True)
     return jsonify({})
@@ -98,12 +100,12 @@ def connect():
         if thread is None:
             thread = sio.start_background_task(background_thread)
     print(f"{current_user.first_name} connected")
+    online_users.append(current_user.first_name)
     
 @sio.event
 def disconnect():
     print('Client disconnected', request.sid)
-
-
+    online_users.remove(current_user.first_name)
 
 #edit and delete routes to pages that are not used
 """

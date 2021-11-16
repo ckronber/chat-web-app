@@ -4,17 +4,9 @@
 }
 
 body{
- background-color: #173e43;
- color: rgb(50, 172, 141);
+    background-color: #173e43;
+    color: rgb(50, 172, 141);
 }
-
-#darkMode{
-    background-color:darkgray;
-    color: white;
-    border-radius: .5rem;
-}
-
-
 
 .UserList{
     background-color:rgba(0, 0, 0,.5);
@@ -28,13 +20,26 @@ body{
     bottom: 2rem;
 }
 
+#columnRight{
+    padding: 2rem;
+}
+
+#mainRow{
+    width:auto;
+}
+
+/*=====================================================*/
+/* Login CSS */
+/*=====================================================*/
+#loginForm{
+}
 
 /*=====================================================*/
 /* Send Message CSS */
 /*=====================================================*/
 #submitBlock{
     border:none;
-    display: grid;
+    display: inline-flex;
     place-items: center;
 }
 
@@ -50,12 +55,19 @@ body{
     background-repeat: no-repeat;
 }
 
+
 #broadcast{
-    display:inline-flexbox;
+    display:inline-flex;
 }
 
+
 #broadcast_data{
-    width:20rem;
+    width:auto;
+}
+
+#sendArea{
+    display:inline-flex;
+    width:100%;
 }
 
 /*=====================================================*/

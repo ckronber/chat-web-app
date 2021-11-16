@@ -1,6 +1,8 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content%}
-<div class="row">
-  <div class="col-sm-8" width="fixed" padding-right="200rem">
+
+<div class="row" width = "max-width" id = "mainRow">
+  <div class="col-8" id = "columnLeft">
+    <!--width="fixed"  padding-right="200rem"-->
     <br>
     <br>
 
@@ -20,7 +22,7 @@
       <div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1">@</span>
       </div>
-      <input type="text" name="userInput" id="usersADD" autocomplete="true" class="form-control" placeholder="Usernames" aria-label="Username" aria-describedby="basic-addon1"/>
+      <input type="text" name="userInput" id="usersADD" class="form-control" placeholder="Usernames" aria-label="Username" aria-describedby="basic-addon1"/>
       &nbsp;
       <div type="button" id="addIT" class="btn btn-sm" onclick="addUser()">
         <span><img src="../static/images/addPerson.png" width="25rem" height="30rem"/></span>
@@ -32,23 +34,24 @@
     <!--ALL MESSAGES-->
     <div class="overflow-auto shadow p-3 mb-3" id="messageArea">
       <ul class="list-group list-group-flush" id="log">
-        {%for note in allNotes%} {%if current_user.first_name ==
-        note.user.first_name%}
-        <li class="list-group-item colorClass" id="chatStuff">
-          {{"You: " + note.data}} &nbsp;
-          <div id="edDel">
-            <div type="button" id="editB" data-toggle="modal" data-target="#editModalCenter">
-              <img src="./static/images/edit.png" id="editImage" onclick = "editNote('{{note.id}}','{{note.data}}')"/>
-            </div>
-            &nbsp;
-            <button type="button" class="btn-close" id="closeX" aria-label="Close" onclick="deleteNote('{{note.id}}')"></button>
-          </div>
-        </li>
-        {%else%}
-        <li class="list-group-item" id="otherList">
-          {{note.user.first_name + ": " + note.data}}
-        </li>
-        {%endif%} {% endfor %}
+        {%for note in allNotes%} 
+          {%if current_user.first_name == note.user.first_name%}
+            <li class="list-group-item colorClass" id="chatStuff">
+              {{"You: " + note.data}} &nbsp;
+              <div id="edDel">
+                <div type="button" id="editB" data-toggle="modal" data-target="#editModalCenter">
+                  <img src="./static/images/edit.png" id="editImage" onclick = "editNote('{{note.id}}','{{note.data}}')"/>
+                </div>
+                &nbsp;
+                <button type="button" class="btn-close" id="closeX" aria-label="Close" onclick="deleteNote('{{note.id}}')"></button>
+              </div>
+            </li>
+          {%else%}
+            <li class="list-group-item" id="otherList">
+              {{note.user.first_name + ": " + note.data}}
+            </li>
+          {%endif%} 
+        {% endfor %}
       </ul>
     </div>
     <!--END ALL MESSAGES-->
@@ -56,9 +59,9 @@
     <br>
 
     <!--MESSAGE AREA-->
-    <div>
+    <div id = "sendArea">
       <form name="messForm" id="broadcast" method="POST" class="input-group mb-3 shadow" action="/">
-        <textarea type="text" name="broadcast_data" id="broadcast_data" class="form-control" required></textarea>
+        <textarea type="text" name="broadcast_data" id="broadcast_data" class="form-control"></textarea>
         <div id="submitBlock">
           <input type="submit" value="" id="submitMessage">
         </div>
@@ -99,7 +102,7 @@
   <!--End of Left Column with Message Area-->
 
   <!--Right side Column-->
-  <div class="col-sm-4">
+  <div class="col-4" id = "columnRight">
     <br />
     <br />
 
@@ -114,9 +117,17 @@
     <br>
     <br>
 
-    <h5>Saved Users</h5>
+    <h5>Users</h5>
     <button type="button" id="sideAdd" class="btn btn-info btn-sm">Add</button>
-    <div class="UserList rounded overflow-auto" style="height: 10rem"></div>
+    <div class="UserList rounded overflow-auto" style="height: 10rem">
+      <ul>
+        {%for user in users%}
+          {%if user != current_user%}
+            <li>{{user.first_name}}</li>
+          {%endif%}
+        {%endfor%}
+      </ul>
+    </div>
 
     <br>
 
@@ -140,5 +151,5 @@
 
   </div>
   <!--End of Right side Column-->
-</div>
+  </div>
 {% endblock %}
