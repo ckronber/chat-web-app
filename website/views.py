@@ -84,18 +84,17 @@ def edit_event(message):
     print(message["data"])
     noteEdit.data = message['data']
     db.session.commit()
-    #print(noteEdit['data'])
-    #emit('my_response',{'data':  f"{current_user.first_name} : {data}"},broadcast=True)
-    #return jsonify({})
+    emit('load_page', broadcast=True)
     return jsonify({})
 
 @sio.event
 def delete_event(message):
-    #session['receive_count'] = session.get('receive_count', 0) + 1
-    if(message['data']):
-        pass
-        #emit('my_response',{'data':  f"{current_user.first_name} : {new_note.data}"},broadcast=True)
-    
+    noteDelete = Note.query.filter_by(id = message['id']).first()
+    db.session.delete(noteDelete)
+    db.session.commit()
+    emit('load_page', broadcast=True)
+    return jsonify({})
+
 @sio.event
 def load_all_messages():
     results = Note.query.all()
@@ -143,9 +142,11 @@ def connect():
 def disconnect():
     print('Client disconnected', request.sid)
 
+"""
 @views.route('/delete-note', methods=['POST'])
 @login_required
 def deletenote():
+    #session['receive_count'] = session.get('receive_count', 0) + 1
     note = json.loads(request.data)
     noteId = note['noteId']
     note = Note.query.get(noteId)
@@ -153,8 +154,8 @@ def deletenote():
         if note.user_id == current_user.id:
             db.session.delete(note)
             db.session.commit()
-    
     return jsonify({})
+
 
 @views.route('/edit-note', methods=['GET','POST'])
 @login_required
@@ -171,3 +172,4 @@ def editNote():
             db.session.commit()
     
     return jsonify({})
+"""

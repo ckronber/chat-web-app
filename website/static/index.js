@@ -17,6 +17,10 @@ function scrollTobottom(){
   objDiv.scrollTop = objDiv.scrollHeight;
 }
 
+function scrollBotPage(){
+  window.scrollTo(0,document.querySelector(".scrollingContainer").scrollHeight);
+}
+
 //Gets the currentUser that is logged in
 function getCurrentUser(){
   sio.emit("getUser");
@@ -44,6 +48,11 @@ $(document).ready(function() {
   sio.on('c_user', function(msg) {
     username = msg.data;
   });
+
+  //reloads the page
+  sio.on('load_page',function(){
+    location.reload();
+  })
 
   // displays all of the messages to the submitted messages area
   sio.emit("load_all_messages");
@@ -81,6 +90,7 @@ $(document).ready(function() {
   });
 
   // Handlers for the different forms in the page. These accept data from the user and send it to the server in a variety of ways
+  
   /*$('form#editSubmit').submit(function(event) {
       sio.emit('my_event', {data: $('#emit_data').val()});
       return false;
@@ -117,6 +127,7 @@ $(document).ready(function() {
       return false;
   });
   */
+
 });
 
 function addUser(){
@@ -142,12 +153,15 @@ function clearTextArea(broadcast){
 }
 
 function deleteNote(noteId) {
+  sio.emit("delete_event", {id: noteId});
+  /*
   fetch("/delete-note", {
     method: "POST",
     body: JSON.stringify({ noteId: noteId }),
   }).then((_res) => {
     window.location.href = "/";
   });
+  */
 }
 
 function editNote(noteId,noteData){
@@ -156,7 +170,6 @@ function editNote(noteId,noteData){
   var editText = document.getElementById("modalEdit");
   editText.value = noteData;
   editedID = noteId;
-  //n_data = prompt("Enter edited text");
   /*
   fetch("/edit-note", {
     method: "POST",
@@ -191,7 +204,6 @@ function showPass2(){
     y.type = "password";
   }
 }
-
 
 // using enter with messages as well as clicking submit
 /*
