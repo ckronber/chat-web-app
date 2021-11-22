@@ -91,14 +91,13 @@ $(document).ready(function() {
   // Handlers for the different forms in the page. These accept data from the user and send it to the server in a variety of ways
 
   $('form#broadcast').submit(function(event) {
-    text = $('#broadcast_data').val();
-    console.log(text);
-    if(text.length > 0){
+    broadText = $('#broadcast_data').val();
+    if(broadText.length() > 0){
       sio.emit('my_broadcast_event', {data: $('#broadcast_data').val()});
       clearTextArea("broadcast_data");
       window.location.href = "/";
+      return false;
     }
-    return false;
   });
 
   $('form#editForm').submit(function(event) {
@@ -146,7 +145,7 @@ function deleteNote(noteId) {
 function editNote(noteId,noteData){
   console.log('message ID: ', noteId);
   console.log('message data: ', noteData);
-  var editText = document.getElementById("modalEdit");
+  var editText = document.getElementById("modalEdit").value;
   editText.value = noteData;
   editedID = noteId;
   /*
