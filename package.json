@@ -16,5 +16,8 @@
     "app"
   ],
   "author": "Chris Kronberg",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "publishConfig": {
+    "@ckronber:registry": "https://npm.pkg.github.com"
+  }
 }
