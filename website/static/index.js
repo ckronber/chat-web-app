@@ -2,6 +2,7 @@ var submit = document.getElementById("submitMessage").value;
 var form = document.getElementById("listItem");
 var input = document.getElementById("noteMSG");
 var edit = document.getElementById("edDel");
+var onlineData;
 
 var listElement = document.createElement("li");
 listElement.setAttribute("id", "msgEdit");
@@ -92,12 +93,13 @@ $(document).ready(function() {
 
   $('form#broadcast').submit(function(event) {
     broadText = $('#broadcast_data').val();
-    if(broadText.length() > 0){
-      sio.emit('my_broadcast_event', {data: $('#broadcast_data').val()});
+    if(broadText.length > 0){
+      sio.emit('my_broadcast_event', {data: broadText});
       clearTextArea("broadcast_data");
-      window.location.href = "/";
+      //window.location.href = "/";
       return false;
     }
+    return false;
   });
 
   $('form#editForm').submit(function(event) {
@@ -145,9 +147,10 @@ function deleteNote(noteId) {
 function editNote(noteId,noteData){
   console.log('message ID: ', noteId);
   console.log('message data: ', noteData);
-  var editText = document.getElementById("modalEdit").value;
-  editText.value = noteData;
-  editedID = noteId;
+  document.getElementById("modalEdit").value = noteData;
+  //editVal = document.getElementById('modalEdit').value;  
+  //console.log(editVal.innerHTML);
+  //editText = noteData;
   /*
   fetch("/edit-note", {
     method: "POST",
@@ -155,6 +158,7 @@ function editNote(noteId,noteData){
   }).then((_res) => {
     window.location.href = "/";
   });*/
+  return false;
 }
 
 function showPass(){

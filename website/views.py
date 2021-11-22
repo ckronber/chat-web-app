@@ -47,17 +47,16 @@ def my_broadcast_event(message):
     new_note = Note(data=message['data'], date = datetime.now(),user_id = current_user.id)
     db.session.add(new_note)
     db.session.commit()
-    edit = """
-    <div id = "edDel">
-        <div type = "button" id = "editB">
-            <img src="./static/images/edit.png" id = "editImage" onclick = "editNote('{{note.id}}')">
-        </div>
-        &nbsp;
-        <button type="button" class="btn-close" id = "closeX" aria-label="Close" onclick="deleteNote('{{note.id}}')"></button>
-    </div>
-    """
+    edit = "<div id = \"edDel\">"
+    edit += ("<div type = \"button\" class = \"btn\" data-bs-toggle=\"modal\" data-bs-target=\"#editModalCenter\" id =\"editB\">")
+    edit += ("<img src=\"./static/images/edit.png\" id=\"editImage\" onclick = \"editNote(\'{{note.id}}\',\'{{note.data}}\')\">")   
+    edit += ("</div>")
+    edit += ("&nbsp;")
+    edit += ("<button type=\"button\" class=\"btn-close\" id =\"closeX\" aria-label=\"Close\" onclick=\"deleteNote(\'{{note.id}}\')\">")
+    edit += ("</button>")   
+    edit += ("</div>")
+    print(edit)
     emit('message_add',{'user_name': current_user.first_name,'data': new_note.data, 'id':new_note.user_id, 'edit':edit} ,broadcast=True)
-
     return jsonify({})
 
 @sio.event
@@ -71,7 +70,7 @@ def edit_event(message):
     noteEdit.data = message['data']
     noteEdit.edited = True
     db.session.commit()
-    emit('load_page', broadcast=True)
+    #emit('load_page', broadcast=True)
     return jsonify({})
 
 @sio.event

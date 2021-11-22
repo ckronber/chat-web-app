@@ -39,7 +39,7 @@
             <li class="list-group-item colorClass" id="chatStuff">
               {{"You: " + note.data}} &nbsp;
               <div id="edDel">
-                <div type="button" id="editB" data-toggle="modal" data-target="#editModalCenter">
+                <div type="button" class = "btn" id="editB" data-bs-toggle="modal" data-bs-target="#editModalCenter">
                   <img src="./static/images/edit.png" id="editImage" onclick = "editNote('{{note.id}}','{{note.data}}')"/>
                 </div>
                 &nbsp;
@@ -73,29 +73,29 @@
 
     <!--Modal used when update button is clicked-->
     <div class="modal fade" id="editModalCenter" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" id = "mod">
 
           <div class = "modal-header" id = "modHead">
             <h5 class = "modal-title" id = "editTitle" width = "max-width">Edit Message</h5>
-            <button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
+            <button type = "button" class = "btn-close" data-bs-dismiss = "modal" aria-label = "Close">
               <span aria-hidden="true" id = "modClose">&times;</span>
             </button>
           </div>
 
           <form id = "editForm" method="POST" action="/">
             <div class="modal-body" id = "modBody">
-              <textarea type = "text" id = "modalEdit"></textarea>
+              <textarea type = "text" id = "modalEdit">Test</textarea>
             </div>
 
             <div class="modal-footer" id = "modFoot">
-              <button type="button" id = "closeModal" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" id = "closeModal" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               <button id = "updateSumbit" type="submit" method = "POST" class="btn btn-primary">Update</button>
             </div>
-          </form>
+          </form> 
         </div>
       </div>
-    </div> 
+    </div>
     <!--End of modal code--> 
 
   </div>
