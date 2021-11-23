@@ -31,8 +31,7 @@ body{
 /*=====================================================*/
 /* Login CSS */
 /*=====================================================*/
-#loginForm{
-}
+
 
 /*=====================================================*/
 /* Send Message CSS */
@@ -44,7 +43,7 @@ body{
 }
 
 #submitMessage{
-    background-image: url("./images/send1.png");
+    background-image: url("../images/send1.png");
     margin: .6rem;
     width:3rem;
     height:3rem;
@@ -84,10 +83,10 @@ body{
     color:rgb(52, 180, 159);
     max-width: max-content;
     background-color:transparent;
-    height: auto;   
+    height: 1.8rem;   
     text-align: left;
-    padding: .3rem;
-    margin-top: .2rem;
+    padding: .1rem;
+    margin-top: .3rem;
     border:none;
 }
 
@@ -109,50 +108,50 @@ body{
  }
 
 #edDel{
-    width:fit-content;
     display:inline-flex;
-}
-
-#msgEdit{
-    width: max-width;
-    display:inline-block;
-    height: fit-content;
+    height: 1.8rem;
+    width: auto;
 }
 
 /*EDIT button*/
 #editB{
     border:none;
     background-color:transparent;
-    display: inline;
+    display:inline-flex;
+    border-radius: 2rem;
+    height:auto;
+    width:auto;
+    margin-right: .1rem;
+    opacity: .4;
 }
 
 #editB:hover{
     border:transparent;
     background-color:transparent;
+    border-radius: 2rem;
+    margin-right: .1rem;
     background-color:goldenrod;
-    border-radius: 5rem;
+    opacity: .9;
 }
 
-
  #editImage{
-     height:1.2rem;
-     width:1.2rem;
+    height:auto;
+    width:1.2rem;
  }
-
 
 /*CLOSE button*/
 #closeX{
     border:none;
-    width:.8rem;
+    width:1.2rem;
     height:auto;
-    border-radius: 1;
-    size: .6;
+    border-radius: 1rem;
+    opacity:.4;
 }
 
 #closeX:hover{
     background-color: red;
+    opacity:.9;
 }
-
 
 /*=====================================================*/
 /* Modal CSS Stuff*/

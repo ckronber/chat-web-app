@@ -37,12 +37,12 @@
         {%for note in allNotes%} 
           {%if current_user.first_name == note.user.first_name%}
             <li class="list-group-item colorClass" id="chatStuff">
-              {{"You: " + note.data}} &nbsp;
+              {{"You: " + note.data}}
               <div id="edDel">
                 <div type="button" class = "btn" id="editB" data-bs-toggle="modal" data-bs-target="#editModalCenter">
-                  <img src="./static/images/edit.png" id="editImage" onclick = "editNote('{{note.id}}','{{note.data}}')"/>
+                  <img src="../static/images/edit.png" id="editImage" onclick = "editNote('{{note.id}}','{{note.data}}')"/>
                 </div>
-                &nbsp;
+
                 <button type="button" class="btn-close" id="closeX" aria-label="Close" onclick="deleteNote('{{note.id}}')"></button>
               </div>
             </li>
@@ -72,20 +72,18 @@
     <br>
 
     <!--Modal used when update button is clicked-->
-    <div class="modal fade" id="editModalCenter" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
+    <div class="modal" id="editModalCenter" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" id = "mod">
 
           <div class = "modal-header" id = "modHead">
             <h5 class = "modal-title" id = "editTitle" width = "max-width">Edit Message</h5>
-            <button type = "button" class = "btn-close" data-bs-dismiss = "modal" aria-label = "Close">
-              <span aria-hidden="true" id = "modClose">&times;</span>
-            </button>
+            <button type = "button" id="modClose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
 
           <form id = "editForm" method="POST" action="/">
             <div class="modal-body" id = "modBody">
-              <textarea type = "text" id = "modalEdit">Test</textarea>
+              <textarea type = "text" id = "modalEdit"></textarea>
             </div>
 
             <div class="modal-footer" id = "modFoot">
@@ -131,6 +129,7 @@
 
     <br>
 
+    <!--
     <h5>Direct Messages</h5>
     <button type="button" id="sideAdd" class="btn btn-info btn-sm">Add</button>
     <div class="UserList rounded overflow-auto" style="height: 10rem">
@@ -138,7 +137,7 @@
         Direct Messages
       </p>
     </div>
-
+    -->
     <br>
 
     <h5>Channels</h5>
