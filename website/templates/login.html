@@ -3,13 +3,15 @@
 <div id = "loginForm">
   <form method="POST">
     <br>
+    <br>
     <h3 align="center">Login</h3>
+    <br>
 
     <div class="form-group">
       <label for="email">Email Address</label>
       <input type="email" class="form-control" id="email" name="email" placeholder="Enter email"/>
     </div>
-
+    <br>
     <div class="form-group form-width-md">
       <label for="password">Password</label>
       <input type="password" id="password" class="form-control" name="password" placeholder="Enter password"/>
@@ -18,8 +20,11 @@
     </div>
 
     <br />
-    <button type="submit" class="btn btn-primary">Login</button>
-
+    <button type="submit" id = "loginSelf" class="btn btn-primary">Login</button>
+  </form>
+  
+  <form action="/signup">
+    <button id = "newUser" class="btn btn-secondary">New User?</button>
   </form>
 </div>
 {% endblock %}

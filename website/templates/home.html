@@ -39,10 +39,9 @@
             <li class="list-group-item colorClass" id="chatStuff">
               {{"You: " + note.data}}
               <div id="edDel">
-                <div type="button" class = "btn" id="editB" data-bs-toggle="modal" data-bs-target="#editModalCenter">
-                  <img src="../static/images/edit.png" id="editImage" onclick = "editNote('{{note.id}}','{{note.data}}')"/>
+                <div type="button" class = "btn" id="editB" data-bs-toggle="modal" data-bs-target="#editModalCenter" onclick = "editNote('{{note.id}}','{{note.data}}')">
+                  <img src="../static/images/edit.png" id="editImage"/>
                 </div>
-
                 <button type="button" class="btn-close" id="closeX" aria-label="Close" onclick="deleteNote('{{note.id}}')"></button>
               </div>
             </li>
@@ -104,40 +103,39 @@
     <br />
     <br />
 
+    <!--
     <div>
       <p>
-        Async mode is: <b>{{ async_mode }}</b><br />
+        Async mode is: <b>{{async_mode}}</b><br />
         Current transport is: <b><span id="transport"></span></b><br />
         Average ping/pong latency: <b><span id="ping-pong"></span>ms</b>
       </p>
     </div>
-
+    -->
+    
     <br>
     <br>
 
     <h5>Users</h5>
-    <button type="button" id="sideAdd" class="btn btn-info btn-sm">Add</button>
+    <!--<button type="button" id="sideAdd" class="btn btn-info btn-sm">Add</button>-->
+    <br>
     <div class="UserList rounded overflow-auto" style="height: 10rem">
       <ul>
         {%for user in users%}
           {%if user != current_user%}
-            <li>{{user.first_name}}</li>
+          <li id = "dMessage"><a id = "userLink" data-bs-toggle = "tooltip" data-bs-placement="left" title="click to DM" href="https://www.google.com">{{user.first_name}}</a>
+            {%if user.user_online == true%}
+              <style>#userLink {color: green;}</style>
+            {%else%}
+              <style>#userLink {color: red;}</style>
+            {%endif%}
+            
+          </li>
           {%endif%}
         {%endfor%}
       </ul>
     </div>
 
-    <br>
-
-    <!--
-    <h5>Direct Messages</h5>
-    <button type="button" id="sideAdd" class="btn btn-info btn-sm">Add</button>
-    <div class="UserList rounded overflow-auto" style="height: 10rem">
-      <p>
-        Direct Messages
-      </p>
-    </div>
-    -->
     <br>
 
     <h5>Channels</h5>

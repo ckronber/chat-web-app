@@ -11,7 +11,6 @@ import json
 views = Blueprint('views', __name__)
 aMode = "eventlet"
 async_mode = aMode
-online_users = []
 
 sio = SocketIO(async_mode = async_mode)
 thread = None
@@ -47,6 +46,7 @@ def my_broadcast_event(message):
     db.session.add(new_note)
     db.session.commit()
     emit('message_add',{'user_name': current_user.first_name,'data': new_note.data, 'id':new_note.user_id} ,broadcast=True)
+    emit('load_page', broadcast=True)
     return jsonify({})
 
 @sio.event
@@ -89,12 +89,19 @@ def connect():
         if thread is None:
             thread = sio.start_background_task(background_thread)
     print(f"{current_user.first_name} connected")
-    online_users.append(current_user.first_name)
+    online = User.query.filter_by(id = current_user.id).first()
+    online.user_online = True
+    print(online.user_online)
+    return jsonify({})
+    
     
 @sio.event
 def disconnect():
     print('Client disconnected', request.sid)
-    online_users.remove(current_user.first_name)
+    online = User.query.filter_by(id = current_user.id).first()
+    online.user_online = False
+    print(online.user_online)
+    return jsonify({})
 
 #edit and delete routes to pages that are not used
 """
@@ -110,7 +117,6 @@ def deletenote():
             db.session.delete(note)
             db.session.commit()
     return jsonify({})
-
 
 @views.route('/edit-note', methods=['GET','POST'])
 @login_required

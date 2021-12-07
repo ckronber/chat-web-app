@@ -2,13 +2,10 @@ var submit = document.getElementById("submitMessage").value;
 var form = document.getElementById("listItem");
 var input = document.getElementById("noteMSG");
 var edit = document.getElementById("edDel");
-var onlineData, editedID;
-
 var listElement = document.createElement("li");
 listElement.setAttribute("id", "msgEdit");
 
-console.log(edit);
-
+var onlineData, editedID;
 var username,thisUser;
 const sio = io();
 
@@ -18,7 +15,7 @@ function scrollTobottom(){
 }
 
 function scrollBotPage(){
-  window.scrollTo(0,document.querySelector(".scrollingContainer").scrollHeight);
+  window.scrollTo(0,document.querySelector(".scrollingContainer").scrollHeight); 
 }
 
 //Gets the currentUser that is logged in
@@ -26,26 +23,13 @@ function getCurrentUser(){
   sio.emit("getUser");
 }
 
-function getModal(text){
-  document.getElementById("modalEdit").value = text;
-}
-
-function editNote(noteId,noteData){
-  getModal(noteData)
+async function editNote(noteId,noteData){
+  var nData = document.getElementById("modalEdit");
+  nData.value = noteData;
   editedID = noteId;
-  //editVal = document.getElementById('modalEdit').value;  
-  //console.log(editVal.innerHTML);
-  //editText = noteData;
-  /*
-  fetch("/edit-note", {
-    method: "POST",
-    body: JSON.stringify({ noteId: noteId, note_data: n_data}),
-  }).then((_res) => {
-    window.location.href = "/";
-  });*/
 }
 
-function deleteNote(noteId) {
+async function deleteNote(noteId) {
   sio.emit("delete_event", {id: noteId});
   /*
   fetch("/delete-note", {
@@ -57,9 +41,9 @@ function deleteNote(noteId) {
   */
 }
 
-function addUser(){
-  var uIn = document.getElementById("usersADD").value;
-  var len = document.getElementById("broadcast_data").placeholder;
+async function addUser(){
+  let uIn = document.getElementById("usersADD").value;
+  let len = document.getElementById("broadcast_data").placeholder;
   console.log(len);
 
   if(uIn && len){
@@ -72,8 +56,8 @@ function addUser(){
   clearTextArea("usersADD");
 }
 
-function clearTextArea(broadcast){
-  var messageData = document.getElementById(broadcast).value;
+async function clearTextArea(broadcast){
+  let messageData = document.getElementById(broadcast).value;
   console.log(messageData);
   messageData = "";
   document.getElementById(broadcast).value = messageData;
@@ -106,6 +90,7 @@ function showPass2(){
 }
 
 $(document).ready(function() {
+
   // disconnect automatically sends from the server when the user disconnects
   sio.on("disconnect", () => {
     onlineData = 0;

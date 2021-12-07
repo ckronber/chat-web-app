@@ -180,3 +180,44 @@ body{
     width:100%;
 }
 /*=====================================================*/
+
+#dMessage{
+    display: flex;
+}
+
+#userLink{
+    color: turquoise;
+    text-decoration: none;
+}
+
+#userLink:hover{
+    color: darkolivegreen;
+    text-decoration: none;
+}
+
+#loginForm{
+    width: 50%;
+    margin-left:5rem;
+}
+
+#loginSelf{
+    margin-left: 30%;
+}
+
+#loginSelf:hover{
+    background-color: darkgreen;
+}
+
+#newUser{
+    margin-left:30%;
+    margin-top: 5rem;
+}
+
+#signPost{
+    width: 50%;
+    margin-left:5rem;
+}
+
+#signInput{
+    margin-bottom: .5rem;
+}
