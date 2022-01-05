@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content%}
 
-<div class="row" width = "max-width" id = "mainRow">
+<div class="row" width = "max-width" id = "mainRow" >
   <div class="col-8" id = "columnLeft">
     <!--width="fixed"  padding-right="200rem"-->
     <br>
@@ -129,7 +129,6 @@
             {%else%}
               <style>#userLink {color: red;}</style>
             {%endif%}
-            
           </li>
           {%endif%}
         {%endfor%}
@@ -139,10 +138,11 @@
     <br>
 
     <h5>Channels</h5>
-    <button type="button" id="sideAdd" class="btn btn-info btn-sm">Add</button>
+    <br>
+    <!--<button type="button" id="sideAdd" class="btn btn-info btn-sm">Add</button>-->
     <div class="UserList rounded overflow-auto" style="height: 10rem">
       <p>
-        Channels listed
+        channel1
       </p>
     </div>
 

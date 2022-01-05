@@ -32,7 +32,6 @@ body{
 /* Login CSS */
 /*=====================================================*/
 
-
 /*=====================================================*/
 /* Send Message CSS */
 /*=====================================================*/
@@ -54,14 +53,14 @@ body{
     background-repeat: no-repeat;
 }
 
-
 #broadcast{
     display:inline-flex;
 }
 
-
 #broadcast_data{
     width:auto;
+    opacity: .7;
+    min-height:4rem;
 }
 
 #sendArea{
@@ -83,10 +82,9 @@ body{
     color:rgb(52, 180, 159);
     max-width: max-content;
     background-color:transparent;
-    height: 1.8rem;   
+    height: auto;   
     text-align: left;
     padding: .1rem;
-    margin-top: .3rem;
     border:none;
 }
 
@@ -105,6 +103,8 @@ body{
 
 #log{
     display:inline-flexbox;
+    width: 100%;
+    height:max-content;
  }
 
 #edDel{
