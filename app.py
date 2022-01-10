@@ -1,7 +1,12 @@
 from website import create_app
 from website.views import sio
 
+#This port is used for local testing
 PORT = 5000
+
+#This port is used when testing on a domain
+#PORT = 80
+
 HOST = "localhost"
 
 app = create_app()

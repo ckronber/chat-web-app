@@ -4,6 +4,7 @@ from os import path,environ
 from flask_login import LoginManager
 from flask_migrate import Migrate
 
+FILEPATH = "C:/Users/ckron/Desktop/chat-web-app/website/"
 DB_NAME = "database.db"
 db = SQLAlchemy()
 
@@ -25,10 +26,9 @@ def create_app():
     db.init_app(app)
     migrate = Migrate(app, db)
 
-    #db.create_all(app=app)
-    if not path.isfile(DB_NAME):
+    if not path.isfile(FILEPATH+ DB_NAME):
         db.create_all(app=app)
-    #    print("created")
+        print("created")
 
     from .views import views
     from .auth import auth

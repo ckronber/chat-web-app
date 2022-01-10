@@ -46,7 +46,7 @@ def my_broadcast_event(message):
     db.session.add(new_note)
     db.session.commit()
     emit('message_add',{'user_name': current_user.first_name,'data': new_note.data, 'id':new_note.user_id} ,broadcast=True)
-    emit('load_page', broadcast=True)
+    emit("load_all_messages", broadcast=True)
     return jsonify({})
 
 @sio.event
@@ -56,11 +56,12 @@ def loadHome():
 @sio.event
 def edit_event(message):
     noteEdit = Note.query.filter_by(id = message['id']).first()
-    print(message["data"])
+    #print(message["data"])
     noteEdit.data = message['data']
     noteEdit.edited = True
     db.session.commit()
-    emit('load_page', broadcast=True)
+    #emit('message_edit',{'id'=noteEdit.msg_id ,'data' = noteEdit.data})
+    emit("load_all_messages",broadcast=True)
     return jsonify({})
 
 @sio.event
@@ -68,7 +69,7 @@ def delete_event(message):
     noteDelete = Note.query.filter_by(id = message['id']).first()
     db.session.delete(noteDelete)
     db.session.commit()
-    emit('load_page', broadcast=True)
+    emit("load_all_messages",broadcast=True)
     return jsonify({})
 
 @sio.event
@@ -85,12 +86,15 @@ def my_ping():
 @sio.event
 def connect():
     global thread
+
     with thread_lock:
         if thread is None:
             thread = sio.start_background_task(background_thread)
+            
     print(f"{current_user.first_name} connected")
     online = User.query.filter_by(id = current_user.id).first()
     online.user_online = True
+    db.session.commit()
     print(online.user_online)
     return jsonify({})
     
@@ -100,6 +104,7 @@ def disconnect():
     print('Client disconnected', request.sid)
     online = User.query.filter_by(id = current_user.id).first()
     online.user_online = False
+    db.session.commit()
     print(online.user_online)
     return jsonify({})
 

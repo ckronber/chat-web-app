@@ -9,13 +9,14 @@ var onlineData, editedID;
 var username,thisUser;
 const sio = io();
 
+
 function scrollTobottom(){
   var objDiv = document.getElementById("messageArea");
   objDiv.scrollTop = objDiv.scrollHeight;
 }
 
 function scrollBotPage(){
-  window.scrollTo(0,document.querySelector(".scrollingContainer").scrollHeight); 
+  window.scrollTo(0,document.body.scrollHeight); 
 }
 
 //Gets the currentUser that is logged in
@@ -23,25 +24,17 @@ function getCurrentUser(){
   sio.emit("getUser");
 }
 
-async function editNote(noteId,noteData){
+function editNote(noteId,noteData){
   var nData = document.getElementById("modalEdit");
   nData.value = noteData;
   editedID = noteId;
 }
 
-async function deleteNote(noteId) {
+function deleteNote(noteId) {
   sio.emit("delete_event", {id: noteId});
-  /*
-  fetch("/delete-note", {
-    method: "POST",
-    body: JSON.stringify({ noteId: noteId }),
-  }).then((_res) => {
-    window.location.href = "/";
-  });
-  */
 }
 
-async function addUser(){
+function addUser(){
   let uIn = document.getElementById("usersADD").value;
   let len = document.getElementById("broadcast_data").placeholder;
   console.log(len);
@@ -56,7 +49,7 @@ async function addUser(){
   clearTextArea("usersADD");
 }
 
-async function clearTextArea(broadcast){
+function clearTextArea(broadcast){
   let messageData = document.getElementById(broadcast).value;
   console.log(messageData);
   messageData = "";
@@ -89,22 +82,53 @@ function showPass2(){
   }
 }
 
+// disconnect automatically sends from the server when the user disconnects
+sio.on("disconnect", () => {
+  onlineData = 0;
+  console.log("disconnected");
+})
+
+// Connect automatically sends from the server when the user disconnects
+sio.on('connect',function() {
+  onlineData = 1;
+  console.log("connected!");
+})
+
+//reloads the page
+sio.on('load_page',function(){
+  location.reload();
+})
+
+ //message receiving message add from socketio server emit message_add
+ sio.on('message_add',function(msg) {
+  edit = "<div id = \"edDel\">";
+  edit += "<div type = \"button\" class = \"btn\" data-bs-toggle=\"modal\" data-bs-target=\"#editModalCenter\" id =\"editB\">";
+  edit += "<img src=\"./static/images/edit.png\" id=\"editImage\" onclick = \"editNote("+msg.id+","+msg.data+")\">";
+  edit += "</div>";
+  edit += "<button type=\"button\" class=\"btn-close\" id =\"closeX\" aria-label=\"Close\" onclick=\"deleteNote({{"+msg.id+"}})\">";
+  edit += "</button>";
+  edit += "</div>";
+
+  if(msg.id == username){
+    $('#log').append("<li class='list-group-item' id = 'chatStuff'>You: "+ msg.data + edit +"</li>");
+  }
+  else{
+    listElement = msg.user_name +" : " +  msg.data;
+    $('#log').append(listElement);
+  } 
+  scrollTobottom();
+  return(msg);
+})
+
+sio.on("message_edit",function(edit_msg)
+{
+
+})
+
 $(document).ready(function() {
-
-  // disconnect automatically sends from the server when the user disconnects
-  sio.on("disconnect", () => {
-    onlineData = 0;
-    console.log("disconnected");
-  });
-
-  // Connect automatically sends from the server when the user disconnects
-  sio.on('connect',function() {
-    onlineData = 1;
-    console.log("connected!")
-  });
-  
   //getCurrentUser function used here to get the current user
   getCurrentUser();
+  scrollBotPage();
   scrollTobottom();
 
   //reads the current user to this function
@@ -112,34 +136,11 @@ $(document).ready(function() {
     username = msg.data;
   });
 
-  //reloads the page
-  sio.on('load_page',function(){
-    location.reload();
-  })
-
   // displays all of the messages to the submitted messages area
   sio.emit("load_all_messages");
 
-  //message receiving message add from socketio server emit message_add
-  sio.on('message_add',function(msg) {
-    edit = "<div id = \"edDel\">";
-    edit += "<div type = \"button\" class = \"btn\" data-bs-toggle=\"modal\" data-bs-target=\"#editModalCenter\" id =\"editB\">";
-    edit += "<img src=\"./static/images/edit.png\" id=\"editImage\" onclick = \"editNote("+msg.id+","+msg.data+")\">";
-    edit += "</div>";
-    edit += "<button type=\"button\" class=\"btn-close\" id =\"closeX\" aria-label=\"Close\" onclick=\"deleteNote({{"+msg.id+"}})\">";
-    edit += "</button>";
-    edit += "</div>";
-
-    if(msg.id == username){
-      $('#log').append("<li class='list-group-item' id = 'chatStuff'>You: "+ msg.data + edit +"</li>");
-    }
-    else{
-      listElement = msg.user_name +" : " +  msg.data;
-      $('#log').append(listElement);
-    } 
-    scrollTobottom()
-  });
-
+  //Below is commented out and will only be used for making sure code works. Final version will not have this
+  /*
   // Interval function that tests message latency by sending a "ping" message. The server then responds with a "pong" message and the round trip time is measured.
   var ping_pong_times = [];
   var start_time;
@@ -159,10 +160,11 @@ $(document).ready(function() {
           sum += ping_pong_times[i];
       $('#ping-pong').text(Math.round(10 * sum / ping_pong_times.length) / 10);
   });
+  */
 
   // Handlers for the different forms in the page. These accept data from the user and send it to the server in a variety of ways
 
-  $('form#broadcast').submit(function(event) {
+  $('form#broadcast').submit(function() {
     broadText = $('#broadcast_data').val();
     if(broadText.length > 0){
       sio.emit('my_broadcast_event', {data: broadText});
@@ -172,8 +174,11 @@ $(document).ready(function() {
     return false;
   });
 
-  $('form#editForm').submit(function(event) {
-    sio.emit('edit_event', {id:editedID, data: $("#modalEdit").val()});
+  $('form#editForm').submit(function() {
+    editedData = $("#modalEdit").val();
+    $("#editModalCenter").modal("hide");
+    console.log(editedID,editedData);
+    sio.emit('edit_event', {id:editedID, data: editedData});
     return false;
   });
 });
