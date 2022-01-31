@@ -29,7 +29,6 @@
       </div>
     </div>
     <!--END SEND USERS AREA-->
-
     <br>
     <!--ALL MESSAGES-->
     <div class="overflow-auto shadow p-3 mb-3" id="messageArea">
@@ -123,7 +122,7 @@
       <ul>
         {%for user in users%}
           {%if user != current_user%}
-          <li id = "dMessage"><a id = "userLink" data-bs-toggle = "tooltip" data-bs-placement="left" title="click to DM" href="https://www.google.com">{{user.first_name}}</a>
+          <li id = "dMessage"><a id = "userLink" data-bs-toggle = "tooltip" data-bs-placement="left" title="click to DM">{{user.first_name}}</a>
             {%if user.user_online == true%}
               <style>#userLink {color: green;}</style>
             {%else%}

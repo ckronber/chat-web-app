@@ -1,4 +1,4 @@
-from flask import Blueprint,config,request,flash,jsonify,copy_current_request_context,session,render_template
+from flask import Blueprint,config,request,jsonify,copy_current_request_context,session,render_template
 from flask_socketio import SocketIO,send,emit,disconnect
 from flask.helpers import url_for
 from flask_login import login_required,current_user
@@ -75,9 +75,8 @@ def delete_event(message):
 @sio.event
 def load_all_messages():
     results = Note.query.all()
-    #print(edit)
-    #for result in results:
-    #    emit("saved_messages", {'data': result.data, 'note_id': result.id, 'user_id':result.user_id, 'note_date':result.date})
+    emit("saved_messages",myResult =results, broadcast=True)
+    return jsonify({})
 
 @sio.event
 def my_ping():

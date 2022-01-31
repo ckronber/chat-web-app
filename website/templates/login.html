@@ -1,29 +1,31 @@
 {% extends "base.html" %} {% block title %}Login{% endblock %} {% block content
 %}
 <div id = "loginForm">
-  <form method="POST">
+  <form id = "myLogin" method="POST">
     <br>
     <br>
-    <h3 align="center">Login</h3>
-    <br>
+    <div class = "shadow" id = "loginInfo">
+      <h3 align="center">Login</h3>
+      <hr>
+      <br>
 
-    <div class="form-group">
-      <label for="email">Email Address</label>
-      <input type="email" class="form-control" id="email" name="email" placeholder="Enter email"/>
-    </div>
-    <br>
-    <div class="form-group form-width-md">
-      <label for="password">Password</label>
-      <input type="password" id="password" class="form-control" name="password" placeholder="Enter password"/>
-      <br />
-      <input type="checkbox" onclick="showPass()"/> Show Password
+      <div class="form-floating mb-3">
+        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email"/>
+        <label for="email">Email Address</label>
+      </div>
+      <br>
+      <div class="form-floating mb-3"> <!--form-width-md-->
+        <input type="password" id="password" class="form-control" name="password" placeholder="Enter password"/>
+        <label for="password">Password</label>
+        <br />
+        <input type="checkbox" id = "passShow" onclick="showPass()"/><div id = "checkLabel">Show Password</div>
+      </div>
     </div>
 
-    <br />
     <button type="submit" id = "loginSelf" class="btn btn-primary">Login</button>
   </form>
   
-  <form action="/signup">
+  <form id = "mySign" action="/signup">
     <button id = "newUser" class="btn btn-secondary">New User?</button>
   </form>
 </div>

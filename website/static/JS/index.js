@@ -1,14 +1,13 @@
-var submit = document.getElementById("submitMessage").value;
-var form = document.getElementById("listItem");
-var input = document.getElementById("noteMSG");
-var edit = document.getElementById("edDel");
-var listElement = document.createElement("li");
+let submit = document.getElementById("submitMessage").value;
+let form = document.getElementById("listItem");
+let input = document.getElementById("noteMSG");
+let edit = document.getElementById("edDel");
+let listElement = document.createElement("li");
 listElement.setAttribute("id", "msgEdit");
 
-var onlineData, editedID;
-var username,thisUser;
+let onlineData, editedID;
+let username,thisUser;
 const sio = io();
-
 
 function scrollTobottom(){
   var objDiv = document.getElementById("messageArea");
@@ -120,10 +119,39 @@ sio.on('load_page',function(){
   return(msg);
 })
 
-sio.on("message_edit",function(edit_msg)
-{
 
+/*
+sio.on("saved_messages",function(myResults)
+{
+  $('#log').empty();
+  for(res in myResults){
+    console.log(res.data);
+  }
 })
+
+function message_clear(){
+  logs = document.getElementById('#log');
+  $('#log').empty();
+}
+*/
+
+$('form#broadcast').submit(function() {
+  broadText = $('#broadcast_data').val();
+  if(broadText.length > 0){
+    sio.emit('my_broadcast_event', {data: broadText});
+    clearTextArea("broadcast_data");
+    return false;
+  }
+  return false;
+});
+
+$('form#editForm').submit(function() {
+  editedData = $("#modalEdit").val();
+  $("#editModalCenter").modal("hide");
+  console.log(editedID,editedData);
+  sio.emit('edit_event', {id:editedID, data: editedData});
+  return false;
+});
 
 $(document).ready(function() {
   //getCurrentUser function used here to get the current user
@@ -164,23 +192,7 @@ $(document).ready(function() {
 
   // Handlers for the different forms in the page. These accept data from the user and send it to the server in a variety of ways
 
-  $('form#broadcast').submit(function() {
-    broadText = $('#broadcast_data').val();
-    if(broadText.length > 0){
-      sio.emit('my_broadcast_event', {data: broadText});
-      clearTextArea("broadcast_data");
-      return false;
-    }
-    return false;
-  });
-
-  $('form#editForm').submit(function() {
-    editedData = $("#modalEdit").val();
-    $("#editModalCenter").modal("hide");
-    console.log(editedID,editedData);
-    sio.emit('edit_event', {id:editedID, data: editedData});
-    return false;
-  });
+  
 });
 
 

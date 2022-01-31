@@ -28,9 +28,86 @@ body{
     width:auto;
 }
 
+
+/*=====================================================*/
+/* Navigation Bar CSS */
+/*=====================================================*/
+
+#navbar{
+    margin-left:1rem;
+}
+
 /*=====================================================*/
 /* Login CSS */
 /*=====================================================*/
+
+#loginForm{
+    width: 70%;
+    margin-left:7rem;
+    margin-top: 3rem;
+}
+
+#loginSelf{
+    margin-left: 6.5rem;
+}
+
+#loginInfo{
+    border-radius: 2rem;
+    background-color: rgba(0, 0, 0, .2);
+}
+
+#myLogin{
+    display: inline;
+}
+
+#mySign{
+    display: inline-flex;
+    width: 3rem;
+}
+
+#passShow{
+    margin-top: 1rem;
+    margin-left: 2rem;
+    width:2rem;
+    block-size: 1.5rem;
+    display:inline-flex;
+}
+
+#newUser{
+    margin-left:80%;
+    margin-top: 5rem;
+    min-width: 10rem;
+}
+
+#signInput{
+    margin-bottom: 1rem;
+}
+
+/*=====================================================*/
+/* Sign-Up CSS */
+/*=====================================================*/
+
+#signPost{
+    margin-top: 5rem;
+    width: 70%;
+    margin-left:20%;
+}
+
+#signupInfo{
+    border-radius: 2rem;
+    background-color: rgba(0, 0, 0, .2);
+}
+
+#signSubmit{
+    width:10rem;
+    margin-left:60%;
+    margin-bottom: 2rem;
+}
+
+#checkLabel{
+    display: inline-flex;
+    vertical-align: 20%;
+}
 
 /*=====================================================*/
 /* Send Message CSS */
@@ -183,6 +260,7 @@ body{
 
 #dMessage{
     display: flex;
+    margin-left: -1.5rem;
 }
 
 #userLink{
@@ -193,31 +271,4 @@ body{
 #userLink:hover{
     color: darkolivegreen;
     text-decoration: none;
-}
-
-#loginForm{
-    width: 50%;
-    margin-left:5rem;
-}
-
-#loginSelf{
-    margin-left: 30%;
-}
-
-#loginSelf:hover{
-    background-color: darkgreen;
-}
-
-#newUser{
-    margin-left:30%;
-    margin-top: 5rem;
-}
-
-#signPost{
-    width: 50%;
-    margin-left:5rem;
-}
-
-#signInput{
-    margin-bottom: .5rem;
 }

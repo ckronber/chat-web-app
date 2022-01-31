@@ -5,7 +5,7 @@ from website.views import sio
 PORT = 5000
 
 #This port is used when testing on a domain
-#PORT = 80
+#PORT = 443
 
 HOST = "localhost"
 
@@ -15,4 +15,5 @@ sio.init_app(app)
 
 if __name__ == "__main__":
     #app.run(app,debug=True,port=PORT,host=HOST)
+    #sio.run(app,debug=True,port=PORT,host=HOST,keyfile = 'C:\\Users\ckron\key.pem', certfile='C:\\Users\ckron\cert.pem')
     sio.run(app,debug=True,port=PORT,host=HOST)
