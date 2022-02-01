@@ -4,13 +4,12 @@
   <div class="col-8" id = "columnLeft">
     <!--width="fixed"  padding-right="200rem"-->
     <br>
-    <br>
 
     <h4 align="left" id="tHel" class="userN">
       Hello, {{current_user.first_name}}
     </h4>
     
-    <br>
+    <hr>
 
     <p class="userMessage">
       Add Users to a message below, <br>
@@ -29,7 +28,9 @@
       </div>
     </div>
     <!--END SEND USERS AREA-->
+
     <br>
+
     <!--ALL MESSAGES-->
     <div class="overflow-auto shadow p-3 mb-3" id="messageArea">
       <ul class="list-group list-group-flush" id="log">
@@ -59,7 +60,8 @@
     <!--MESSAGE AREA-->
     <div id = "sendArea">
       <form name="messForm" id="broadcast" method="POST" class="input-group mb-3 shadow" action="/">
-        <textarea type="text" name="broadcast_data" id="broadcast_data" class="form-control"></textarea>
+        <textarea type="input" name="broadcast_data" id="broadcast_data" class="form-control"></textarea>
+        <div ></div>
         <div id="submitBlock">
           <input type="submit" value="" id="submitMessage">
         </div>
@@ -95,57 +97,63 @@
     <!--End of modal code--> 
 
   </div>
-  <!--End of Left Column with Message Area-->
+    <!--End of Left Column with Message Area-->
 
   <!--Right side Column-->
   <div class="col-4" id = "columnRight">
-    <br />
-    <br />
+      <br>
 
-    <!--
-    <div>
-      <p>
-        Async mode is: <b>{{async_mode}}</b><br />
-        Current transport is: <b><span id="transport"></span></b><br />
-        Average ping/pong latency: <b><span id="ping-pong"></span>ms</b>
-      </p>
-    </div>
-    -->
-    
-    <br>
-    <br>
+      <!--
+      <div>
+        <p>
+          Async mode is: <b>{{async_mode}}</b><br />
+          Current transport is: <b><span id="transport"></span></b><br />
+          Average ping/pong latency: <b><span id="ping-pong"></span>ms</b>
+        </p>
+      </div>
+      -->
+      <div id = "channelAdd">
+        <h5 id = "chanText">My Channels</h5>
+        <div type ="button" id = "addChan">Add</div>
+      </div>
 
-    <h5>Users</h5>
-    <!--<button type="button" id="sideAdd" class="btn btn-info btn-sm">Add</button>-->
-    <br>
-    <div class="UserList rounded overflow-auto" style="height: 10rem">
-      <ul>
-        {%for user in users%}
-          {%if user != current_user%}
-          <li id = "dMessage"><a id = "userLink" data-bs-toggle = "tooltip" data-bs-placement="left" title="click to DM">{{user.first_name}}</a>
-            {%if user.user_online == true%}
-              <style>#userLink {color: green;}</style>
-            {%else%}
-              <style>#userLink {color: red;}</style>
+      <div>
+        <br>
+        <!--<button type="button" id="sideAdd" class="btn btn-info btn-sm">Add</button>-->
+        <div class="UserList rounded overflow-auto shadow" style="height: 10rem">
+        </div>
+      </div>
+
+      <br>
+      <br>
+      <h5>Users</h5>
+      <br>
+
+      <div class="UserList rounded overflow-auto shadow" style="height: 31.5rem">
+        <ul>
+          {%for user in users%}
+            {%if user != current_user%}
+            <li id = "dMessage">
+              <div type="button" class="btn btn-primary position-relative" id = "userLink" data-bs-placement="left">
+                {{user.first_name}}
+                {%if user.user_online == true%}
+                  <span class="position-absolute top-0 start-100 translate-middle p-1 bg-success rounded-circle" id = "bubble"> 
+                    <span class="visually-hidden">Online</span>
+                  </span>
+                {%else%}
+                  <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger rounded-circle"id = "bubble">
+                    <span class="visually-hidden">Offline</span>
+                  </span>
+                {%endif%}
+              </div>
+            </li>
             {%endif%}
-          </li>
-          {%endif%}
-        {%endfor%}
-      </ul>
+          {%endfor%}
+        </ul>
+      </div>
     </div>
+    <!--End of Right side Column-->
 
-    <br>
+</div>
 
-    <h5>Channels</h5>
-    <br>
-    <!--<button type="button" id="sideAdd" class="btn btn-info btn-sm">Add</button>-->
-    <div class="UserList rounded overflow-auto" style="height: 10rem">
-      <p>
-        channel1
-      </p>
-    </div>
-
-  </div>
-  <!--End of Right side Column-->
-  </div>
 {% endblock %}

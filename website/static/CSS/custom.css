@@ -37,6 +37,7 @@ body{
     margin-left:1rem;
 }
 
+
 /*=====================================================*/
 /* Login CSS */
 /*=====================================================*/
@@ -256,19 +257,51 @@ body{
 #modalEdit{
     width:100%;
 }
+
 /*=====================================================*/
+/* Users CSS Stuff*/
+/*=====================================================*/
+
+#userLink{
+    color: turquoise;
+    text-decoration: none;
+    background-color:none;
+    background:none;
+    border:none;
+    margin-top:.2rem;
+    padding:0;
+    padding-right: 1rem;
+}
 
 #dMessage{
     display: flex;
     margin-left: -1.5rem;
 }
 
-#userLink{
-    color: turquoise;
-    text-decoration: none;
+#bubble{
+    margin-top:.4rem;
+    margin-left: -.6rem;
+    inline-size: .1rem;
 }
 
-#userLink:hover{
-    color: darkolivegreen;
-    text-decoration: none;
+/*=====================================================*/
+/* Channel CSS Stuff*/
+/*=====================================================*/
+
+#channelAdd{
+    display:inline-flex;
+    font-weight: bolder;
+}
+
+#chanText{
+    width:max-content;
+}
+
+#addChan{
+    margin-left:.5rem;
+    background-color: rgba(8, 8, 114, 0.404);
+    width: 3rem;
+    height:min-content;
+    border-radius: .3rem;
+    text-align: center;
 }
