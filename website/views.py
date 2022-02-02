@@ -9,13 +9,13 @@ from datetime import datetime
 import json
 
 views = Blueprint('views', __name__)
-aMode = "eventlet"
-async_mode = aMode
+async_mode = "eventlet"
 
 sio = SocketIO(async_mode = async_mode)
 thread = None
 thread_lock = Lock()
 
+@sio.event
 def background_thread():
     """Example of how to send server generated events to clients."""
     print("background Thread")
@@ -46,7 +46,7 @@ def my_broadcast_event(message):
     db.session.add(new_note)
     db.session.commit()
     emit('message_add',{'user_name': current_user.first_name,'data': new_note.data, 'id':new_note.user_id} ,broadcast=True)
-    emit("load_all_messages", broadcast=True)
+    #emit("load_all_messages", broadcast=True)
     return jsonify({})
 
 @sio.event
@@ -61,7 +61,7 @@ def edit_event(message):
     noteEdit.edited = True
     db.session.commit()
     #emit('message_edit',{'id'=noteEdit.msg_id ,'data' = noteEdit.data})
-    emit("load_all_messages",broadcast=True)
+    #emit("load_all_messages",broadcast=True)
     return jsonify({})
 
 @sio.event
@@ -69,13 +69,13 @@ def delete_event(message):
     noteDelete = Note.query.filter_by(id = message['id']).first()
     db.session.delete(noteDelete)
     db.session.commit()
-    emit("load_all_messages",broadcast=True)
+    #emit("load_all_messages",broadcast=True)
     return jsonify({})
 
 @sio.event
 def load_all_messages():
     results = Note.query.all()
-    emit("saved_messages",myResult =results, broadcast=True)
+    emit("saved_messages",myResult=results, broadcast=True)
     return jsonify({})
 
 @sio.event

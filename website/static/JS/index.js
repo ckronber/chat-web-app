@@ -81,6 +81,14 @@ function showPass2(){
   }
 }
 
+//-----------------------------------------
+//SocketIO Messages received by the server
+//-----------------------------------------
+
+//reads the current user to this function
+sio.on('c_user',function(msg) {
+  username = msg.data;
+});
 // disconnect automatically sends from the server when the user disconnects
 sio.on("disconnect", () => {
   onlineData = 0;
@@ -99,7 +107,7 @@ sio.on('load_page',function(){
 })
 
  //message receiving message add from socketio server emit message_add
- sio.on('message_add',function(msg) {
+sio.on('message_add',function(msg) {
   edit = "<div id = \"edDel\">";
   edit += "<div type = \"button\" class = \"btn\" data-bs-toggle=\"modal\" data-bs-target=\"#editModalCenter\" id =\"editB\">";
   edit += "<img src=\"./static/images/edit.png\" id=\"editImage\" onclick = \"editNote("+msg.id+","+msg.data+")\">";
@@ -119,11 +127,10 @@ sio.on('load_page',function(){
   return(msg);
 })
 
-
 /*
 sio.on("saved_messages",function(myResults)
 {
-  $('#log').empty();
+  $('#log').val()
   for(res in myResults){
     console.log(res.data);
   }
@@ -132,14 +139,19 @@ sio.on("saved_messages",function(myResults)
 function message_clear(){
   logs = document.getElementById('#log');
   $('#log').empty();
-}
-*/
+  sio.emit("load_all_messages");
+}*/
+
+//-----------------------------------------
+//Submit functions for Forms used
+//-----------------------------------------
 
 $('form#broadcast').submit(function() {
   broadText = $('#broadcast_data').val();
   if(broadText.length > 0){
     sio.emit('my_broadcast_event', {data: broadText});
     clearTextArea("broadcast_data");
+    sio.emit('load_all_messages')
     return false;
   }
   return false;
@@ -153,22 +165,24 @@ $('form#editForm').submit(function() {
   return false;
 });
 
+//Functions to use when the page loads
 $(document).ready(function() {
   //getCurrentUser function used here to get the current user
   getCurrentUser();
   scrollBotPage();
   scrollTobottom();
 
-  //reads the current user to this function
-  sio.on('c_user',function(msg) {
-    username = msg.data;
-  });
-
   // displays all of the messages to the submitted messages area
   sio.emit("load_all_messages");
+});
+
+
+//-----------------------------------------
+//Commented Code to Possibly Add back later
+//-----------------------------------------
 
   //Below is commented out and will only be used for making sure code works. Final version will not have this
-  /*
+  
   // Interval function that tests message latency by sending a "ping" message. The server then responds with a "pong" message and the round trip time is measured.
   var ping_pong_times = [];
   var start_time;
@@ -188,12 +202,9 @@ $(document).ready(function() {
           sum += ping_pong_times[i];
       $('#ping-pong').text(Math.round(10 * sum / ping_pong_times.length) / 10);
   });
-  */
+  
 
   // Handlers for the different forms in the page. These accept data from the user and send it to the server in a variety of ways
-
-  
-});
 
 
 // using enter with messages as well as clicking submit
@@ -205,4 +216,4 @@ input.addEventListener("keyup", function(event) {
         event.preventDefault();
         submit.click();
     }
-}); */
+});*/ 

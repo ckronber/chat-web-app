@@ -9,7 +9,7 @@ body{
 }
 
 .UserList{
-    background-color:rgba(0, 0, 0,.5);
+    background-color:rgba(0, 0, 0,.4);
     margin-top: -1rem;
     padding-top: .2rem;
 }
@@ -28,7 +28,6 @@ body{
     width:auto;
 }
 
-
 /*=====================================================*/
 /* Navigation Bar CSS */
 /*=====================================================*/
@@ -36,7 +35,6 @@ body{
 #navbar{
     margin-left:1rem;
 }
-
 
 /*=====================================================*/
 /* Login CSS */
@@ -235,7 +233,7 @@ body{
 /* Modal CSS Stuff*/
 /*=====================================================*/
 #mod{
-    background-color:rgba(0, 0, 0, 0.6);
+    background-color:rgba(0, 0, 0, 0.4);
 }
 
 #modClose{
@@ -298,10 +296,76 @@ body{
 }
 
 #addChan{
-    margin-left:.5rem;
-    background-color: rgba(8, 8, 114, 0.404);
-    width: 3rem;
+    margin-left:2rem;
+    background: none;
+    width: auto;
     height:min-content;
-    border-radius: .3rem;
-    text-align: center;
+    transform: rotate(90deg);
 }
+
+.addSign:hover{
+    height:2rem;
+    width:2rem;
+    margin-top:-.5rem;
+    color:darkslategray;
+}
+
+#searchChan{
+    margin-left:3rem;
+    background: none;
+    width: auto;
+    height:min-content;
+}
+
+.searchChan:hover{
+    height:1.8rem;
+    width:1.8rem;
+    margin-top: -1rem;
+    color:darkslategray;
+}
+
+
+/*=====================================================*/
+/* Add Channel Modal CSS Stuff*/
+/*=====================================================*/
+
+#userNum{
+    width:fit-content;
+}
+
+
+/*=====================================================*/
+/* Search Channel Modal CSS Stuff*/
+/*=====================================================*/
+
+#chanButt{
+    margin-left: .2rem;
+    margin-bottom: .5rem;
+}
+
+/*=====================================================*/
+/* Scroll Bar CSS Stuff*/
+/*=====================================================*/
+
+/* width */
+::-webkit-scrollbar {
+    width: .5rem;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #0f0c0c27;
+    border-radius: .5rem;
+    background:none;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: darkslategray;
+    border-radius: .3rem;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: dimgray; 
+  }
