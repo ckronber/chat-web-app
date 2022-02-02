@@ -16,6 +16,6 @@
   "author": "Chris Kronberg",
   "license": "UNLICENSED",
   "publishConfig": {
-    "@ckronber:registry": "https://npm.chat-web-app.github.com"
+    "@ckronber:registry": "https://npm.pkg.github.com"
   }
 }
