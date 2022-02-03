@@ -1,0 +1,21 @@
+{
+  "name": "chat-web-app",
+  "version": "1.0.0",
+  "description": "exit0",
+  "main": "index.js",
+  "scripts": {
+    "test": "exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "@ckronber/chat-web-app"
+  },
+  "keywords": [
+    "chat"
+  ],
+  "author": "Chris Kronberg",
+  "license": "UNLICENSED",
+  "publishConfig": {
+    "@ckronber:registry": "https://npm.pkg.github.com"
+  }
+}

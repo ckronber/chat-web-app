@@ -1,0 +1,371 @@
+.navTextMain, H1{
+    color: rgb(50, 172, 141);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body{
+    background-color: #173e43;
+    color: rgb(50, 172, 141);
+}
+
+.UserList{
+    background-color:rgba(0, 0, 0,.4);
+    margin-top: -1rem;
+    padding-top: .2rem;
+}
+
+#sideAdd{
+    position:relative;
+    left:10rem;
+    bottom: 2rem;
+}
+
+#columnRight{
+    padding: 2rem;
+}
+
+#mainRow{
+    width:auto;
+}
+
+/*=====================================================*/
+/* Navigation Bar CSS */
+/*=====================================================*/
+
+#navbar{
+    margin-left:1rem;
+}
+
+/*=====================================================*/
+/* Login CSS */
+/*=====================================================*/
+
+#loginForm{
+    width: 70%;
+    margin-left:7rem;
+    margin-top: 3rem;
+}
+
+#loginSelf{
+    margin-left: 6.5rem;
+}
+
+#loginInfo{
+    border-radius: 2rem;
+    background-color: rgba(0, 0, 0, .2);
+}
+
+#myLogin{
+    display: inline;
+}
+
+#mySign{
+    display: inline-flex;
+    width: 3rem;
+}
+
+#passShow{
+    margin-top: 1rem;
+    margin-left: 2rem;
+    width:2rem;
+    block-size: 1.5rem;
+    display:inline-flex;
+}
+
+#newUser{
+    margin-left:80%;
+    margin-top: 5rem;
+    min-width: 10rem;
+}
+
+#signInput{
+    margin-bottom: 1rem;
+}
+
+/*=====================================================*/
+/* Sign-Up CSS */
+/*=====================================================*/
+
+#signPost{
+    margin-top: 5rem;
+    width: 70%;
+    margin-left:20%;
+}
+
+#signupInfo{
+    border-radius: 2rem;
+    background-color: rgba(0, 0, 0, .2);
+}
+
+#signSubmit{
+    width:10rem;
+    margin-left:60%;
+    margin-bottom: 2rem;
+}
+
+#checkLabel{
+    display: inline-flex;
+    vertical-align: 20%;
+}
+
+/*=====================================================*/
+/* Send Message CSS */
+/*=====================================================*/
+#submitBlock{
+    border:none;
+    display: inline-flex;
+    place-items: center;
+}
+
+#submitMessage{
+    background-image: url("../images/send1.png");
+    margin: .6rem;
+    width:3rem;
+    height:3rem;
+    background-size: 100% 100%;
+    border:none;
+    border-radius: 100rem;
+    background-color: transparent;
+    background-repeat: no-repeat;
+}
+
+#broadcast{
+    display:inline-flex;
+}
+
+#broadcast_data{
+    width:auto;
+    opacity: .7;
+    min-height:4rem;
+}
+
+#sendArea{
+    display:inline-flex;
+    width:100%;
+}
+
+/*=====================================================*/
+/* Message Area with Buttons*/
+/*=====================================================*/
+#messageArea{
+    width:max-width;
+    height: 30rem;
+    background-color: rgba(0, 0, 0, .4);
+    border-radius: 1rem;
+}
+
+#chatStuff{
+    color:rgb(52, 180, 159);
+    max-width: max-content;
+    background-color:transparent;
+    height: auto;   
+    text-align: left;
+    padding: .1rem;
+    border:none;
+}
+
+#otherList{
+    color:rgb(52, 180, 159);
+    max-width: auto;
+    max-width: max-content;
+    background-color:transparent;
+    padding: .1rem;
+    padding-right: .5rem;
+    margin: .1rem;
+    border-radius: 1rem;
+    height: auto;   
+    border: none;
+}
+
+#log{
+    display:inline-flexbox;
+    width: 100%;
+    height:max-content;
+ }
+
+#edDel{
+    display:inline-flex;
+    height: 1.8rem;
+    width: auto;
+}
+
+/*EDIT button*/
+#editB{
+    border:none;
+    background-color:transparent;
+    display:inline-flex;
+    border-radius: 2rem;
+    height:auto;
+    width:auto;
+    margin-right: .1rem;
+    opacity: .4;
+}
+
+#editB:hover{
+    border:transparent;
+    background-color:transparent;
+    border-radius: 2rem;
+    margin-right: .1rem;
+    background-color:goldenrod;
+    opacity: .9;
+}
+
+ #editImage{
+    height:auto;
+    width:1.2rem;
+ }
+
+/*CLOSE button*/
+#closeX{
+    border:none;
+    width:1.2rem;
+    height:auto;
+    border-radius: 1rem;
+    opacity:.4;
+}
+
+#closeX:hover{
+    background-color: red;
+    opacity:.9;
+}
+
+/*=====================================================*/
+/* Modal CSS Stuff*/
+/*=====================================================*/
+#mod{
+    background-color:rgba(0, 0, 0, 0.4);
+}
+
+#modClose{
+    color:red;
+}
+
+#modHead{
+    border:none;
+}
+
+#modBody{
+    border:none;
+}
+
+#modFoot{
+    border:none;
+}
+
+#modalEdit{
+    width:100%;
+}
+
+/*=====================================================*/
+/* Users CSS Stuff*/
+/*=====================================================*/
+
+#userLink{
+    color: turquoise;
+    text-decoration: none;
+    background-color:none;
+    background:none;
+    border:none;
+    margin-top:.2rem;
+    padding:0;
+    padding-right: 1rem;
+}
+
+#dMessage{
+    display: flex;
+    margin-left: -1.5rem;
+}
+
+#bubble{
+    margin-top:.4rem;
+    margin-left: -.6rem;
+    inline-size: .1rem;
+}
+
+/*=====================================================*/
+/* Channel CSS Stuff*/
+/*=====================================================*/
+
+#channelAdd{
+    display:inline-flex;
+    font-weight: bolder;
+}
+
+#chanText{
+    width:max-content;
+}
+
+#addChan{
+    margin-left:2rem;
+    background: none;
+    width: auto;
+    height:min-content;
+    transform: rotate(90deg);
+}
+
+.addSign:hover{
+    height:2rem;
+    width:2rem;
+    margin-top:-.5rem;
+    color:darkslategray;
+}
+
+#searchChan{
+    margin-left:3rem;
+    background: none;
+    width: auto;
+    height:min-content;
+}
+
+.searchChan:hover{
+    height:1.8rem;
+    width:1.8rem;
+    margin-top: -1rem;
+    color:darkslategray;
+}
+
+
+/*=====================================================*/
+/* Add Channel Modal CSS Stuff*/
+/*=====================================================*/
+
+#userNum{
+    width:fit-content;
+}
+
+
+/*=====================================================*/
+/* Search Channel Modal CSS Stuff*/
+/*=====================================================*/
+
+#chanButt{
+    margin-left: .2rem;
+    margin-bottom: .5rem;
+}
+
+/*=====================================================*/
+/* Scroll Bar CSS Stuff*/
+/*=====================================================*/
+
+/* width */
+::-webkit-scrollbar {
+    width: .5rem;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #0f0c0c27;
+    border-radius: .5rem;
+    background:none;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: darkslategray;
+    border-radius: .3rem;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: dimgray; 
+  }

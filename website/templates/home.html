@@ -1,17 +1,18 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content%}
-<div class="row">
-  <div class="col-sm-8" width="fixed" padding-right="200rem">
-    <br />
-    <br />
+
+<div class="row" width = "max-width" id = "mainRow" >
+  <div class="col-8" id = "columnLeft">
+    <!--width="fixed"  padding-right="200rem"-->
+    <br>
 
     <h4 align="left" id="tHel" class="userN">
       Hello, {{current_user.first_name}}
     </h4>
     
-    <br />
+    <hr>
 
     <p class="userMessage">
-      Add Users to a message below, <br />
+      Add Users to a message below, <br>
       seperating them with a comma (<b> , </b>)
     </p>
 
@@ -20,7 +21,7 @@
       <div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1">@</span>
       </div>
-      <input type="text" name="userInput" id="usersADD" autocomplete="true" class="form-control" placeholder="Usernames" aria-label="Username" aria-describedby="basic-addon1"/>
+      <input type="search" name="userInput" id="usersADD" class="form-control" placeholder="Usernames" aria-label="Username" aria-describedby="basic-addon1"/>
       &nbsp;
       <div type="button" id="addIT" class="btn btn-sm" onclick="addUser()">
         <span><img src="../static/images/addPerson.png" width="25rem" height="30rem"/></span>
@@ -28,38 +29,39 @@
     </div>
     <!--END SEND USERS AREA-->
 
-    <br />
+    <br>
 
     <!--ALL MESSAGES-->
     <div class="overflow-auto shadow p-3 mb-3" id="messageArea">
       <ul class="list-group list-group-flush" id="log">
-        {%for note in allNotes%} {%if current_user.first_name ==
-        note.user.first_name%}
-        <li class="list-group-item colorClass" id="chatStuff">
-          {{"You: " + note.data}} &nbsp;
-          <div id="edDel">
-            <div type="button" id="editB" data-toggle="modal" data-target="#editModalCenter">
-              <img src="./static/images/edit.png" id="editImage" onclick = "editNote('{{note.id}}','{{note.data}}')"/>
-            </div>
-            &nbsp;
-            <button type="button" class="btn-close" id="closeX" aria-label="Close" onclick="deleteNote('{{note.id}}')"></button>
-          </div>
-        </li>
-        {%else%}
-        <li class="list-group-item" id="otherList">
-          {{note.user.first_name + ": " + note.data}}
-        </li>
-        {%endif%} {% endfor %}
+        {%for note in allNotes%} 
+          {%if current_user.first_name == note.user.first_name%}
+            <li class="list-group-item colorClass" id="chatStuff">
+              {{"You: " + note.data}}
+              <div id="edDel">
+                <div type="button" class = "btn" id="editB" data-bs-toggle="modal" data-bs-target="#editModalCenter" onclick = "editNote('{{note.id}}','{{note.data}}')">
+                  <img src="../static/images/edit.png" id="editImage"/>
+                </div>
+                <button type="button" class="btn-close" id="closeX" aria-label="Close" onclick="deleteNote('{{note.id}}')"></button>
+              </div>
+            </li>
+          {%else%}
+            <li class="list-group-item" id="otherList">
+              {{note.user.first_name + ": " + note.data}}
+            </li>
+          {%endif%} 
+        {% endfor %}
       </ul>
     </div>
     <!--END ALL MESSAGES-->
 
-    <br />
+    <br>
 
     <!--MESSAGE AREA-->
-    <div>
+    <div id = "sendArea">
       <form name="messForm" id="broadcast" method="POST" class="input-group mb-3 shadow" action="/">
-        <textarea type="text" name="broadcast_data" id="broadcast_data" class="form-control" required></textarea>
+        <textarea type="input" name="broadcast_data" id="broadcast_data" class="form-control"></textarea>
+        <div ></div>
         <div id="submitBlock">
           <input type="submit" value="" id="submitMessage">
         </div>
@@ -67,100 +69,161 @@
     </div>
     <!--END MESSAGE AREA-->
 
-    <br />
-
-    <!--
-      <h2>Send:</h2>
-      <form id="emit" method="POST" action='#'>
-          <input type="text" name="emit_data" id="emit_data" placeholder="Message">
-          <input type="submit"  value = "" id = Sendy>
-      </form>
-      <form id="broadcast" method="POST" action='#'>
-          <input type="text" name="broadcast_data" id="broadcast_data" placeholder="Message">
-          <input type="submit" value="Broadcast">
-      </form>
-      
-      <form id="join" method="POST" action='#'>
-          <input type="text" name="join_room" id="join_room" placeholder="Room Name">
-          <input type="submit" value="Join Room">
-      </form>
-      <form id="leave" method="POST" action='#'>
-          <input type="text" name="leave_room" id="leave_room" placeholder="Room Name">
-          <input type="submit" value="Leave Room">
-      </form>
-      <form id="send_room" method="POST" action='#'>
-          <input type="text" name="room_name" id="room_name" placeholder="Room Name">
-          <input type="text" name="room_data" id="room_data" placeholder="Message">
-          <input type="submit" value="Send to Room">
-      </form>
-      <form id="close" method="POST" action="#">
-          <input type="text" name="close_room" id="close_room" placeholder="Room Name">
-          <input type="submit" value="Close Room">
-      </form>
-      <form id="disconnect" method="POST" action="#">
-          <input type="submit" value="Disconnect">
-      </form>
-      <h2>Receive:</h2>
-      <div id="log"></div>-->
+    <br>
 
     <!--Modal used when update button is clicked-->
-    <div class="modal fade" id="editModalCenter" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal fade" id="editModalCenter" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" id = "mod">
-          <div class="modal-header" id = "modHead">
-            <h5 class="modal-title" id="editTitle" width="max-width">Edit Message</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true" id = "modClose">&times;</span>
-            </button>
+
+          <div class = "modal-header" id = "modHead">
+            <h5 class = "modal-title" id = "editTitle" width = "max-width">Edit Message</h5>
+            <button type = "button" id="modClose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body" id = "modBody">
-            <textarea id = "modalEdit"></textarea>
-          </div>
-          <div class="modal-footer" id = "modFoot">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button id = "updateSumbit" type="submit" class="btn btn-primary">Update</button>
-          </div>
+
+          <form id = "editForm" method="POST" action="/"> 
+            <div class="modal-body" id = "modBody">
+              <textarea type = "text" id = "modalEdit"></textarea>
+            </div>
+
+            <div class="modal-footer" id = "modFoot">
+              <button type="button" id = "closeModal" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button id = "updateSubmit" type="submit" class="btn btn-primary">Update</button>
+            </div>
+          </form> 
         </div>
       </div>
-    </div> 
+    </div>
     <!--End of modal code--> 
 
   </div>
-  <!--End of Left Column with Message Area-->
+    <!--End of Left Column with Message Area-->
 
   <!--Right side Column-->
-  <div class="col-sm-4">
-    <br />
-    <br />
-    <div>
-      <p>
-        Async mode is: <b>{{ async_mode }}</b><br />
-        Current transport is: <b><span id="transport"></span></b><br />
-        Average ping/pong latency: <b><span id="ping-pong"></span>ms</b>
-      </p>
+  <div class="col-4" id = "columnRight">
+      <br>
+
+      
+      <div>
+        <p>
+          Async mode is: <b>{{async_mode}}</b><br />
+          Current transport is: <b><span id="transport"></span></b><br />
+          Average ping/pong latency: <b><span id="ping-pong"></span>ms</b>
+        </p>
+      </div>
+      
+
+      
+      <!--Channel Section of the code-->
+      <div id = "channelAdd">
+        <h5 id = "chanText">My Channels</h5>
+        <div type ="button" id = "addChan" data-bs-toggle="modal" data-bs-target="#channelModal">
+          <svg xmlns="http://www.w3.org/2000/svg" width="1.7rem" height="1.7rem" fill="currentColor" class="bi bi-file-plus addSign" viewBox="0 0 16 16">
+            <path d="M8.5 6a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V10a.5.5 0 0 0 1 0V8.5H10a.5.5 0 0 0 0-1H8.5V6z"/>
+            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
+          </svg>
+        </div>
+        <!--Searching for Channels-->
+        <div type = "button" id = "searchChan" data-bs-toggle="modal" data-bs-target="#channelSearch">
+          <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" fill="currentColor" class="bi bi-search searchChan" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+          </svg>
+        </div>
+      </div>
+
+      <!--End of channel Section of code-->
+
+      <div>
+        <br>
+        <!--<button type="button" id="sideAdd" class="btn btn-info btn-sm">Add</button>-->
+        <div class="UserList rounded overflow-auto shadow" style="height: 10rem">
+        </div>
+      </div>
+
+      <br>
+      <br>
+      <h5>Users</h5>
+      <br>
+
+      <div class="UserList rounded overflow-auto shadow" style="height: 31.5rem">
+        <ul>
+          {%for user in users%}
+            {%if user != current_user%}
+            <li id = "dMessage">
+              <div type="button" class="btn btn-primary position-relative" id = "userLink" data-bs-placement="left">
+                {{user.first_name}}
+                {%if user.user_online == true%}
+                  <span class="position-absolute top-0 start-100 translate-middle p-1 bg-success rounded-circle" id = "bubble"> 
+                    <span class="visually-hidden">Online</span>
+                  </span>
+                {%else%}
+                  <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger rounded-circle"id = "bubble">
+                    <span class="visually-hidden">Offline</span>
+                  </span>
+                {%endif%}
+              </div>
+            </li>
+            {%endif%}
+          {%endfor%}
+        </ul>
+      </div>
     </div>
-    <br />
-    <br />
-    <h5>Saved Users</h5>
-    <button type="button" id="sideAdd" class="btn btn-info btn-sm">Add</button>
-    <div class="UserList rounded overflow-auto" style="height: 10rem"></div>
-    <br />
-    <h5>Direct Messages</h5>
-    <button type="button" id="sideAdd" class="btn btn-info btn-sm">Add</button>
-    <div class="UserList rounded overflow-auto" style="height: 10rem">
-      <p>
-        Direct Messages
-      </p>
+    <!--End of Right side Column-->
+
+    <!-- Modal for Adding a Channel -->
+    <div class="modal fade" id="channelModal" tabindex="-1" aria-labelledby="createChannel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Create Channel</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <label for="chanInput" class="col-form-label" >Channel Name:</label>
+            <input type="Name" class = "form-control" id = "chanInput" placeholder = "Enter a name for this Channel" value="">
+            <br>
+            <label for="chanDesc" class="col-form-label">About:</label>
+            <textarea class = "form-control" name="description" id="chanDesc" placeholder="Enter desciption here" value=""></textarea>
+            <br>
+            <label for="userNum" class="col-form-label">Max Number of Users:</label>
+            <input type="number" class = "form-control" id = "userNum" min=2 max=100>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
     </div>
-    <br />
-    <h5>Channels</h5>
-    <button type="button" id="sideAdd" class="btn btn-info btn-sm">Add</button>
-    <div class="UserList rounded overflow-auto" style="height: 10rem">
-      <p>
-        Channels listed
-      </p>
+    <!--End of Modal for adding a channel-->
+
+    <!-- Modal for Searching for a Channel -->
+    <div class="modal fade" id="channelSearch" tabindex="-1" aria-labelledby="searchChannel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Create Channel</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <label for="chanInput" class="col-form-label" >Search for Channel:</label>
+            <input type="search" class = "form-control" id = "chanInput" placeholder = "Search for channel here" value="">
+            <br>
+            <div id = "foundChannels">
+              <ul>
+                <li>channel1 <button id = "chanButt">Add</button></li>
+                <li>channel2 <button id = "chanButt">Add</button></li>
+              </ul>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Search</button>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  <!--End of Right side Column-->
+    <!--End of Modal for adding a channel-->
 </div>
+
 {% endblock %}

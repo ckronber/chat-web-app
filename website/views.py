@@ -1,21 +1,21 @@
-from flask import Blueprint,config,request,flash,jsonify,copy_current_request_context,session,render_template
-from flask_socketio import SocketIO,send,emit,join_room,leave_room,close_room,rooms,disconnect
+from flask import Blueprint,config,request,jsonify,copy_current_request_context,session,render_template
+from flask_socketio import SocketIO,send,emit,disconnect
 from flask.helpers import url_for
 from flask_login import login_required,current_user
-from website.models import Note
+from website.models import Note,User
 from . import db
 from threading import Lock
 from datetime import datetime
 import json
 
 views = Blueprint('views', __name__)
-aMode = "eventlet"
-async_mode = aMode
+async_mode = "eventlet"
 
 sio = SocketIO(async_mode = async_mode)
 thread = None
 thread_lock = Lock()
 
+@sio.event
 def background_thread():
     """Example of how to send server generated events to clients."""
     print("background Thread")
@@ -23,27 +23,13 @@ def background_thread():
     #    sio.sleep(10)
     #    emit('my_response', {'data': 'Server generated event'})
 
-"""
-@views.route('/',methods=['GET', 'POST'])
-@login_required
-def home():
-    if request.method == 'POST':
-        note = request.form.get('note')
-        if len(note) < 1:
-            flash('Message is too short!', category='error')
-        else:
-            new_note = Note(data=note, date = datetime.now(),user_id = current_user.id)
-            db.session.add(new_note)
-            db.session.commit()
-
-        return render_template('home.html', user=current_user, async_mode = sio.async_mode)
-"""
-
-@views.route('/') #,methods=['GET', 'POST'])
+@views.route('/',methods=['GET']) #,methods=['GET', 'POST'])
+@views.route('/home',methods=['GET'])
 @login_required
 def home():
     myNotes = Note.query.all()
-    return render_template('home.html',allNotes=myNotes,user=current_user,async_mode = sio.async_mode)
+    users = User.query.all()
+    return render_template('home.html',allNotes=myNotes,users = users,user=current_user,async_mode = sio.async_mode)
 
 @sio.event
 def my_event():
@@ -52,72 +38,46 @@ def my_event():
 
 @sio.event
 def getUser():
-    send('c_user',{'data': current_user.id})
+    emit('c_user',{'data': current_user.id})
 
 @sio.event
 def my_broadcast_event(message):
-    #session['receive_count'] = session.get('receive_count', 0) + 1
     new_note = Note(data=message['data'], date = datetime.now(),user_id = current_user.id)
     db.session.add(new_note)
     db.session.commit()
-    edit = """
-    <div id = "edDel">
-        <div type = "button" id = "editB">
-            <img src="./static/images/edit.png" id = "editImage" onclick = "editNote('{{note.id}}')">
-        </div>
-        &nbsp;
-        <button type="button" class="btn-close" id = "closeX" aria-label="Close" onclick="deleteNote('{{note.id}}')"></button>
-    </div>
-    """
-    emit('message_add',{'user_name': current_user.first_name,'data': new_note.data, 'id':new_note.user_id, 'edit':edit} ,broadcast=True)
+    emit('message_add',{'user_name': current_user.first_name,'data': new_note.data, 'id':new_note.user_id} ,broadcast=True)
+    #emit("load_all_messages", broadcast=True)
+    return jsonify({})
 
 @sio.event
-def edit_event(messageId,data):
-    noteEdit = Note.query.filter_by(id = messageId).first()
-    print(noteEdit)
-    
-    #session['receive_count'] = session.get('receive_count', 0) + 1
-    #emit('my_response',{'data':  f"{current_user.first_name} : {new_note.data}"},broadcast=True)
+def loadHome():
+    return home()
+
+@sio.event
+def edit_event(message):
+    noteEdit = Note.query.filter_by(id = message['id']).first()
+    #print(message["data"])
+    noteEdit.data = message['data']
+    noteEdit.edited = True
+    db.session.commit()
+    #emit('message_edit',{'id'=noteEdit.msg_id ,'data' = noteEdit.data})
+    #emit("load_all_messages",broadcast=True)
+    return jsonify({})
 
 @sio.event
 def delete_event(message):
-    #session['receive_count'] = session.get('receive_count', 0) + 1
-    if(message['data']):
-        pass
-        #emit('my_response',{'data':  f"{current_user.first_name} : {new_note.data}"},broadcast=True)
-    
+    noteDelete = Note.query.filter_by(id = message['id']).first()
+    db.session.delete(noteDelete)
+    db.session.commit()
+    #emit("load_all_messages",broadcast=True)
+    return jsonify({})
+
 @sio.event
 def load_all_messages():
     results = Note.query.all()
-    
-    #print(edit)
-    #for result in results:
-    #    emit("saved_messages", {'data': result.data, 'note_id': result.id, 'user_id':result.user_id, 'note_date':result.date})
+    emit("saved_messages",myResult=results, broadcast=True)
+    return jsonify({})
 
-"""
-@sio.event
-def join(message):
-    join_room(message['room'])
-    emit('my_response', {'data': 'In rooms: ' + ', '.join(rooms())})
-
-@sio.event
-def leave(message):
-    leave_room(message['room'])
-    emit('my_response',
-         {'data': 'In rooms: ' + ', '.join(rooms())})
-
-@sio.on('close_room')
-def on_close_room(message):
-    emit('my_response', {'data': 'Room ' + message['room'] + ' is closing.'},
-         to=message['room'])
-    close_room(message['room'])
-
-@sio.event
-def my_room_event(message):
-    emit('my_response',
-         {'data': message['data']},
-         to=message['room'])
-"""
 @sio.event
 def my_ping():
     emit('my_pong')
@@ -125,18 +85,34 @@ def my_ping():
 @sio.event
 def connect():
     global thread
+
     with thread_lock:
         if thread is None:
             thread = sio.start_background_task(background_thread)
+            
     print(f"{current_user.first_name} connected")
+    online = User.query.filter_by(id = current_user.id).first()
+    online.user_online = True
+    db.session.commit()
+    print(online.user_online)
+    return jsonify({})
+    
     
 @sio.event
 def disconnect():
     print('Client disconnected', request.sid)
+    online = User.query.filter_by(id = current_user.id).first()
+    online.user_online = False
+    db.session.commit()
+    print(online.user_online)
+    return jsonify({})
 
+#edit and delete routes to pages that are not used
+"""
 @views.route('/delete-note', methods=['POST'])
 @login_required
 def deletenote():
+    #session['receive_count'] = session.get('receive_count', 0) + 1
     note = json.loads(request.data)
     noteId = note['noteId']
     note = Note.query.get(noteId)
@@ -144,7 +120,6 @@ def deletenote():
         if note.user_id == current_user.id:
             db.session.delete(note)
             db.session.commit()
-    
     return jsonify({})
 
 @views.route('/edit-note', methods=['GET','POST'])
@@ -162,3 +137,4 @@ def editNote():
             db.session.commit()
     
     return jsonify({})
+"""
