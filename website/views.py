@@ -1,12 +1,12 @@
 from flask import Blueprint,config,request,jsonify,copy_current_request_context,session,render_template
 from flask_socketio import SocketIO,send,emit,disconnect
-from flask.helpers import url_for
+#from flask.helpers import url_for
 from flask_login import login_required,current_user
 from website.models import Note,User
 from . import db
 from threading import Lock
 from datetime import datetime
-import json
+#import json
 
 views = Blueprint('views', __name__)
 async_mode = "eventlet"

@@ -24,7 +24,7 @@ def create_app():
     #app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
    
     db.init_app(app)
-    migrate = Migrate(app, db)
+    Migrate(app, db)
 
     if not path.isfile(FILEPATH+ DB_NAME):
         db.create_all(app=app)

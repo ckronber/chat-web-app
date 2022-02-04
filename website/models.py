@@ -2,7 +2,7 @@ from sqlalchemy.sql.functions import user
 from flask_login import UserMixin
 from sqlalchemy.sql import func
 from datetime import datetime
-from flask_migrate import Migrate
+#from flask_migrate import Migrate
 from . import db
 
 EMAIL_LENGTH = PASS_LENGTH = NAME_LENGTH = 150
