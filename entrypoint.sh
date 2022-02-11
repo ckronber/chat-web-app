@@ -1,0 +1,1 @@
+CMD ["python", "app.py", "--noinput"]
