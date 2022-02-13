@@ -1,9 +1,10 @@
 # For more information, please refer to https://aka.ms/vscode-docker-python
-FROM python:3.8-slim-buster
+FROM python:3.8
+#-slim-buster
 
 EXPOSE 5000
 
-ENV VAR1=10
+ENV DOCKER_BUILD=1
 
 # Keeps Python from generating .pyc files in the container
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -11,27 +12,13 @@ ENV PYTHONDONTWRITEBYTECODE=1
 # Turns off buffering for easier container logging
 ENV PYTHONUNBUFFERED=1
 
-# Install pip requirements
 COPY requirements.txt .
-RUN python -m pip install -r requirements.txt
+# Install pip requirements
+RUN pip install -r requirements.txt
 
-WORKDIR /app
-COPY . /app
-
-# Creates a non-root user with an explicit UID and adds permission to access the /app folder
-# For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
-RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
-USER appuser
+COPY ./chat-app ./chat
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
-CMD ["--bind", "0.0.0.0:5000", "main:app"]
-#"gunicorn",
-
-# Container image that runs your code
-FROM alpine:3.10
-
-# Copies your code file from your action repository to the filesystem path `/` of the container
-COPY entrypoint.sh /entrypoint.sh
-
-# Code file to execute when the docker container starts up (`entrypoint.sh`)
-ENTRYPOINT ["/entrypoint.sh"]
+#CMD ["--bind", "0.0.0.0:5000", "./chat/app:sio"]
+#CMD ["gunicorn","-w", "1","./chat/app:app"]
+CMD ["python", "./chat/app.py"]

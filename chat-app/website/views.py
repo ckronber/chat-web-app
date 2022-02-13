@@ -12,6 +12,7 @@ views = Blueprint('views', __name__)
 async_mode = "eventlet"
 
 sio = SocketIO(async_mode = async_mode)
+#sio = SocketIO()
 thread = None
 thread_lock = Lock()
 
