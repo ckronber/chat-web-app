@@ -1,8 +1,8 @@
 # For more information, please refer to https://aka.ms/vscode-docker-python
-FROM python:3.8
+FROM python:3.9
 #-slim-buster
 
-EXPOSE 5000
+EXPOSE 80
 
 ENV DOCKER_BUILD=1
 
@@ -22,3 +22,4 @@ COPY ./chat-app ./chat
 #CMD ["--bind", "0.0.0.0:5000", "./chat/app:sio"]
 #CMD ["gunicorn","-w", "1","./chat/app:app"]
 CMD ["python", "./chat/app.py"]
+#RUN python ./chat/app.py
