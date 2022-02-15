@@ -20,6 +20,6 @@ COPY ./chat-app ./chat
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
 #CMD ["--bind", "0.0.0.0:5000", "./chat/app:sio"]
-#CMD ["gunicorn","-w", "1","./chat/app:app"]
+#CMD ["gunicorn --worker-class eventlet -w 1","./chat/app:app"]
 CMD ["python", "./chat/app.py"]
 #RUN python ./chat/app.py

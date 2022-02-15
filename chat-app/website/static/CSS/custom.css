@@ -301,6 +301,7 @@ body{
     width: auto;
     height:min-content;
     transform: rotate(90deg);
+    display:flex;
 }
 
 .addSign:hover{
@@ -315,6 +316,7 @@ body{
     background: none;
     width: auto;
     height:min-content;
+    display:flex;
 }
 
 .searchChan:hover{
@@ -341,6 +343,51 @@ body{
 #chanButt{
     margin-left: .2rem;
     margin-bottom: .5rem;
+}
+
+
+/*=====================================================*/
+/* Account Settings CSS Stuff*/
+/*=====================================================*/
+
+#currentDiv{
+    width:50%;
+    font-size: 1.2rem;
+    margin-left: 25%;
+    position:absolute;
+}
+
+
+#userData{
+    background-color:rgba(0, 0, 0, 0.4);
+    border-radius: 1rem;
+    height:max-content;
+    padding-top: .5rem;
+    padding-left: 1rem;
+    padding-bottom: 1rem;
+}
+
+#aTitle{
+    background: none;
+    text-align: center;
+}
+
+#setButt{
+    background-color:darkorange;
+    padding-right: 1rem;
+    padding-left: .5rem;
+    width:fit-content;
+    color:black;
+    border-radius: 0rem 1rem 1rem 0rem;
+    font-weight:bolder;
+    position:absolute;
+    margin-left: 70%;
+    margin-top: -2rem;
+}
+
+#topDiv{
+    align-items: center;
+    display:inline-flexbox;
 }
 
 /*=====================================================*/

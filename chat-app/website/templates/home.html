@@ -6,7 +6,7 @@
     <br>
 
     <h4 align="left" id="tHel" class="userN">
-      Hello, {{current_user.first_name}}
+      Hello, {{current_user.user_name}}
     </h4>
     
     <hr>
@@ -103,7 +103,7 @@
   <div class="col-4" id = "columnRight">
       <br>
 
-      
+      <!--
       <div>
         <p>
           Async mode is: <b>{{async_mode}}</b><br />
@@ -111,7 +111,7 @@
           Average ping/pong latency: <b><span id="ping-pong"></span>ms</b>
         </p>
       </div>
-      
+      -->
 
       
       <!--Channel Section of the code-->
@@ -200,7 +200,7 @@
     <!-- Modal for Searching for a Channel -->
     <div class="modal fade" id="channelSearch" tabindex="-1" aria-labelledby="searchChannel" aria-hidden="true">
       <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content">`
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Create Channel</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

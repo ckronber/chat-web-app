@@ -15,7 +15,9 @@ function scrollTobottom(){
 }
 
 function scrollBotPage(){
-  window.scrollTo(0,document.body.scrollHeight); 
+  var scrollingheight = (document.body.scrollHeight);
+  console.log(scrollingheight);
+  return scrollingheight;
 }
 
 //Gets the currentUser that is logged in
@@ -169,14 +171,16 @@ $('form#editForm').submit(function() {
 $(document).ready(function() {
   //getCurrentUser function used here to get the current user
   getCurrentUser();
-  scrollBotPage();
-  scrollTobottom();
-
-  // displays all of the messages to the submitted messages area
+ 
+ // displays all of the messages to the submitted messages area
   sio.emit("load_all_messages");
+  scrollTobottom();
+  //scrollBotPage();
 });
 
-
+window.onbeforeunload = function () {
+  window.scrollTo(0, scrollBotPage());
+}
 //-----------------------------------------
 //Commented Code to Possibly Add back later
 //-----------------------------------------

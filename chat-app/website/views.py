@@ -12,7 +12,7 @@ views = Blueprint('views', __name__)
 async_mode = "eventlet"
 
 sio = SocketIO(async_mode = async_mode)
-#sio = SocketIO()
+
 thread = None
 thread_lock = Lock()
 
@@ -32,6 +32,11 @@ def home():
     users = User.query.all()
     return render_template('home.html',allNotes=myNotes,users = users,user=current_user,async_mode = sio.async_mode)
 
+@views.route('/account',methods=['GET','POST']) 
+@login_required
+def account():
+    return render_template('userSettings.html',user = current_user,async_mode = sio.async_mode)
+
 @sio.event
 def my_event():
     pass
@@ -46,7 +51,7 @@ def my_broadcast_event(message):
     new_note = Note(data=message['data'], date = datetime.now(),user_id = current_user.id)
     db.session.add(new_note)
     db.session.commit()
-    emit('message_add',{'user_name': current_user.first_name,'data': new_note.data, 'id':new_note.user_id} ,broadcast=True)
+    emit('message_add',{'user_name': current_user.user_name,'data': new_note.data, 'id':new_note.user_id} ,broadcast=True)
     #emit("load_all_messages", broadcast=True)
     return jsonify({})
 
@@ -91,7 +96,7 @@ def connect():
         if thread is None:
             thread = sio.start_background_task(background_thread)
             
-    print(f"{current_user.first_name} connected")
+    print(f"{current_user.user_name} connected")
     online = User.query.filter_by(id = current_user.id).first()
     online.user_online = True
     db.session.commit()

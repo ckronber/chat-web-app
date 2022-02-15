@@ -1,0 +1,72 @@
+{% extends "base.html" %} {% block title %}User Settings{% endblock %} {% block content%}
+    <br>
+    <div id = "topDiv">
+        <h2 id = "aTitle">Account Settings</h2>
+        <div type="button" id ="setButt" data-bs-toggle="modal" data-bs-target="#editAccount">Edit</div>
+    </div>
+    <div id = "currentDiv">
+        <hr>
+        <div id ="userData">
+            Username: {{current_user.user_name}}
+            <br>
+            First Name: {{current_user.first_name}}
+            <br>
+            Last Name: {{current_user.last_name}}
+            <br>
+            Email: {{current_user.email}}
+            <br>
+            Birth Date: {{current_user.birth_date}}
+            <br>
+            <hr>
+            Gender: {{current_user.gender}}
+            <br>
+            Relationsip Status: {{current_user.relationship_status}}
+            <br>
+            {%if current_user.relationship_status == "Married"%}
+                Marriage Date: {{current_user.marriage_date}}
+                <br>
+            {%endif%}
+            Sexuality: {{current_user.gender_interest}}
+            <hr>
+            Interests: {{current_user.interests}}
+        </div>
+    </div>
+
+     <!--Modal used when edit button is clicked-->
+     <div class="modal fade" id="editAccount" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content" id = "mod">
+  
+            <div class = "modal-header" id = "modHead">
+              <h5 class = "modal-title" id = "editTitle" width = "max-width">Edit Account Information</h5>
+              <button type = "button" id="modClose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <div class="modal-body" id = "modBody">
+                Select Item to Edit
+                <div class="input-group">
+                    <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+                      <option value="1" selected>Username</option>
+                      <option value="2">First Name</option>
+                      <option value="3">Last Name</option>
+                      <option value="4">Email</option>
+                      <option value="5">Birth Date</option>
+                      <option value="6">Gender</option>
+                      <option value="7">Relationship Status</option>
+                      <option value="8">Sexuality</option>
+                      <option value="9">Interests</option>
+                    </select>
+                    <button class="btn btn-outline-secondary" type="button" onClick="addValue">EDIT</button>
+                  </div> 
+            </div>
+            <form id = "editForm" method="POST" action="/account"> 
+              <div class="modal-footer" id = "modFoot">
+                <button type="button" id = "closeModal" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button id = "updateSubmit" type="submit" class="btn btn-primary">Update</button>
+              </div>
+            </form> 
+          </div>
+        </div>
+      </div>
+      <!--End of modal code--> 
+{% endblock %}
