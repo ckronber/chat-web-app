@@ -16,7 +16,7 @@ COPY requirements.txt .
 # Install pip requirements
 RUN pip install -r requirements.txt
 
-COPY ./chat-app ./chat
+COPY ./chatApp ./chat
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
 #CMD ["--bind", "0.0.0.0:5000", "./chat/app:sio"]
