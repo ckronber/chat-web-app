@@ -1,7 +1,7 @@
-from flask import Blueprint,render_template,request,flash,redirect,url_for
 from .models import User
-from werkzeug.security import generate_password_hash,check_password_hash
 from . import db
+from flask import Blueprint,render_template,request,flash,redirect,url_for
+from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import login_user,login_required,logout_user,current_user
 
 auth = Blueprint('auth', __name__)
@@ -35,14 +35,17 @@ def logout():
 def sign_up():
     if request.method == 'POST':
         email = request.form.get('email')
-        user_name = request.form.get('firstName')
+        user_name = request.form.get('user_name')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
 
-        user = User.query.filter_by(email=email).first()
-
-        if user:
+        userEmail = User.query.filter_by(email=email).first()
+        userName = User.query.filter_by(user_name=user_name).first()
+        print(userName)
+        if userEmail:
             flash('Email already exists',category='error')
+        elif userName:
+            flash('Username already exists',category='error')
         elif len(email) < 4:
             flash('Email must be greater than 3 characters', category='error')
         elif len(user_name) < 2:

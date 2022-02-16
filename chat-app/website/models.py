@@ -69,7 +69,7 @@ class User(db.Model,UserMixin):
     birth_date = db.Column(db.DateTime(timezone=True))
     first_name = db.Column(db.String(NAME_LENGTH),default=None)
     last_name = db.Column(db.String(NAME_LENGTH),default=None) 
-    user_name = db.Column(db.String(NAME_LENGTH))
+    user_name = db.Column(db.String(NAME_LENGTH),unique=True)
     marriage_date = db.Column(db.DateTime(timezone = True))
     interests = db.Column(db.String(DATA_LENGTH))
     description = db.Column(db.String(DATA_LENGTH))

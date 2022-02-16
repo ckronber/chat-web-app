@@ -4,9 +4,8 @@ let input = document.getElementById("noteMSG");
 let edit = document.getElementById("edDel");
 let listElement = document.createElement("li");
 listElement.setAttribute("id", "msgEdit");
+let onlineData, editedID, username, thisUser;
 
-let onlineData, editedID;
-let username,thisUser;
 const sio = io();
 
 function scrollTobottom(){
@@ -17,7 +16,7 @@ function scrollTobottom(){
 function scrollBotPage(){
   var scrollingheight = (document.body.scrollHeight);
   console.log(scrollingheight);
-  return scrollingheight;
+  return scrollingheight; 
 }
 
 //Gets the currentUser that is logged in
@@ -104,11 +103,12 @@ sio.on('connect',function() {
 })
 
 //reloads the page
+
 sio.on('load_page',function(){
   location.reload();
 })
 
- //message receiving message add from socketio server emit message_add
+//message receiving message add from socketio server emit message_add
 sio.on('message_add',function(msg) {
   edit = "<div id = \"edDel\">";
   edit += "<div type = \"button\" class = \"btn\" data-bs-toggle=\"modal\" data-bs-target=\"#editModalCenter\" id =\"editB\">";
@@ -124,7 +124,7 @@ sio.on('message_add',function(msg) {
   else{
     listElement = msg.user_name +" : " +  msg.data;
     $('#log').append(listElement);
-  } 
+  }
   scrollTobottom();
   return(msg);
 })
@@ -167,26 +167,26 @@ $('form#editForm').submit(function() {
   return false;
 });
 
+window.onbeforeunload = function () {
+  window.scrollTo(0, scrollBotPage());
+}
+
 //Functions to use when the page loads
 $(document).ready(function() {
   //getCurrentUser function used here to get the current user
   getCurrentUser();
- 
  // displays all of the messages to the submitted messages area
   sio.emit("load_all_messages");
   scrollTobottom();
   //scrollBotPage();
 });
 
-window.onbeforeunload = function () {
-  window.scrollTo(0, scrollBotPage());
-}
 //-----------------------------------------
 //Commented Code to Possibly Add back later
 //-----------------------------------------
 
   //Below is commented out and will only be used for making sure code works. Final version will not have this
-  
+  /*
   // Interval function that tests message latency by sending a "ping" message. The server then responds with a "pong" message and the round trip time is measured.
   var ping_pong_times = [];
   var start_time;
@@ -207,7 +207,7 @@ window.onbeforeunload = function () {
       $('#ping-pong').text(Math.round(10 * sum / ping_pong_times.length) / 10);
   });
   
-
+*/
   // Handlers for the different forms in the page. These accept data from the user and send it to the server in a variety of ways
 
 

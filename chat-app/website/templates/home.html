@@ -35,7 +35,7 @@
     <div class="overflow-auto shadow p-3 mb-3" id="messageArea">
       <ul class="list-group list-group-flush" id="log">
         {%for note in allNotes%} 
-          {%if current_user.first_name == note.user.first_name%}
+          {%if current_user.user_name == note.user.user_name%}
             <li class="list-group-item colorClass" id="chatStuff">
               {{"You: " + note.data}}
               <div id="edDel">
@@ -47,7 +47,7 @@
             </li>
           {%else%}
             <li class="list-group-item" id="otherList">
-              {{note.user.first_name + ": " + note.data}}
+              {{note.user.user_name + ": " + note.data}}
             </li>
           {%endif%} 
         {% endfor %}
@@ -151,7 +151,7 @@
             {%if user != current_user%}
             <li id = "dMessage">
               <div type="button" class="btn btn-primary position-relative" id = "userLink" data-bs-placement="left">
-                {{user.first_name}}
+                {{user.user_name}}
                 {%if user.user_online == true%}
                   <span class="position-absolute top-0 start-100 translate-middle p-1 bg-success rounded-circle" id = "bubble"> 
                     <span class="visually-hidden">Online</span>
