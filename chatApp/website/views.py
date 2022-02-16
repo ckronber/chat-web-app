@@ -1,17 +1,17 @@
 from flask import Blueprint,request,jsonify,render_template
 from flask_socketio import SocketIO,emit
 #from flask.helpers import url_for
-from flask_login import login_required,current_user
+from flask_login import login_required,current_user, logout_user
 from website.models import Note,User
-from . import db
+from . import create_app, db
 from threading import Lock
 from datetime import datetime
 #import json
 
 views = Blueprint('views', __name__)
 async_mode = "eventlet"
-
-sio = SocketIO(async_mode = async_mode)
+app = create_app()
+sio = SocketIO(app,async_mode = async_mode)
 
 thread = None
 thread_lock = Lock()
@@ -52,7 +52,7 @@ def my_broadcast_event(message):
     db.session.add(new_note)
     db.session.commit()
     emit('message_add',{'user_name': current_user.user_name,'data': new_note.data, 'id':new_note.user_id} ,broadcast=True)
-    #emit("load_all_messages", broadcast=True)
+    load_all_messages()
     return jsonify({})
 
 @sio.event
@@ -66,8 +66,8 @@ def edit_event(message):
     noteEdit.data = message['data']
     noteEdit.edited = True
     db.session.commit()
-    #emit('message_edit',{'id'=noteEdit.msg_id ,'data' = noteEdit.data})
-    #emit("load_all_messages",broadcast=True)
+    emit('message_edit',{'id':noteEdit.msg_id ,'data':noteEdit.data})
+    load_all_messages()
     return jsonify({})
 
 @sio.event
@@ -75,7 +75,7 @@ def delete_event(message):
     noteDelete = Note.query.filter_by(id = message['id']).first()
     db.session.delete(noteDelete)
     db.session.commit()
-    #emit("load_all_messages",broadcast=True)
+    load_all_messages()
     return jsonify({})
 
 @sio.event
@@ -89,13 +89,12 @@ def my_ping():
     emit('my_pong')
 
 @sio.event
+@login_required
 def connect():
-    global thread
-
-    with thread_lock:
-        if thread is None:
-            thread = sio.start_background_task(background_thread)
-            
+    #global thread
+    #with thread_lock:
+    #    if thread is None:
+    #        thread = sio.start_background_task(background_thread)
     print(f"{current_user.user_name} connected")
     online = User.query.filter_by(id = current_user.id).first()
     online.user_online = True
@@ -105,6 +104,7 @@ def connect():
     
     
 @sio.event
+@login_required
 def disconnect():
     print('Client disconnected', request.sid)
     online = User.query.filter_by(id = current_user.id).first()

@@ -1,4 +1,4 @@
-let submit = document.getElementById("submitMessage").value;
+let submitMessage = document.getElementById("submitMessage");
 let form = document.getElementById("listItem");
 let input = document.getElementById("noteMSG");
 let edit = document.getElementById("edDel");
@@ -82,6 +82,25 @@ function showPass2(){
   }
 }
 
+//-------------------------------------------------------
+//Functions for changing bubble color for online/offline
+//-------------------------------------------------------
+
+function userOnlineBubble(){
+  data = "<span class=\"position-absolute top-0 start-100 translate-middle p-1 bg-success rounded-circle\" id = \"bubble\">"
+  data += "<span class=\"visually-hidden\">Online</span>"
+  data += "</span>\";"
+  $("#myBubble").val = data;
+}
+
+function userOfflineBubble(){
+  data = "<span class=\"position-absolute top-0 start-100 translate-middle p-1 bg-danger rounded-circle\" id = \"bubble\">"
+  data += "<span class=\"visually-hidden\">Online</span>"
+  data += "</span>\";"
+  $("#myBubble").val = data;
+}
+
+
 //-----------------------------------------
 //SocketIO Messages received by the server
 //-----------------------------------------
@@ -92,13 +111,11 @@ sio.on('c_user',function(msg) {
 });
 // disconnect automatically sends from the server when the user disconnects
 sio.on("disconnect", () => {
-  onlineData = 0;
   console.log("disconnected");
 })
 
 // Connect automatically sends from the server when the user disconnects
 sio.on('connect',function() {
-  onlineData = 1;
   console.log("connected!");
 })
 
@@ -150,22 +167,23 @@ function message_clear(){
 
 $('form#broadcast').submit(function() {
   broadText = $('#broadcast_data').val();
+  console.log(broadText);
   if(broadText.length > 0){
     sio.emit('my_broadcast_event', {data: broadText});
     clearTextArea("broadcast_data");
-    sio.emit('load_all_messages')
-    return false;
+    sio.emit('load_all_messages');
   }
   return false;
 });
 
-$('form#editForm').submit(function() {
+$('form#editForm').submit(function(){
   editedData = $("#modalEdit").val();
   $("#editModalCenter").modal("hide");
   console.log(editedID,editedData);
   sio.emit('edit_event', {id:editedID, data: editedData});
   return false;
 });
+
 
 window.onbeforeunload = function () {
   window.scrollTo(0, scrollBotPage());
@@ -220,4 +238,5 @@ input.addEventListener("keyup", function(event) {
         event.preventDefault();
         submit.click();
     }
-});*/ 
+    */
+//});

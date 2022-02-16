@@ -35,7 +35,7 @@
     <div class="overflow-auto shadow p-3 mb-3" id="messageArea">
       <ul class="list-group list-group-flush" id="log">
         {%for note in allNotes%} 
-          {%if current_user.user_name == note.user.user_name%}
+          {%if current_user.user_name==note.user.user_name%}
             <li class="list-group-item colorClass" id="chatStuff">
               {{"You: " + note.data}}
               <div id="edDel">
@@ -46,9 +46,7 @@
               </div>
             </li>
           {%else%}
-            <li class="list-group-item" id="otherList">
-              {{note.user.user_name + ": " + note.data}}
-            </li>
+            <li class="list-group-item" id="otherList">{{note.user.user_name + ": " + note.data}}</li>
           {%endif%} 
         {% endfor %}
       </ul>
@@ -152,15 +150,17 @@
             <li id = "dMessage">
               <div type="button" class="btn btn-primary position-relative" id = "userLink" data-bs-placement="left">
                 {{user.user_name}}
-                {%if user.user_online == true%}
-                  <span class="position-absolute top-0 start-100 translate-middle p-1 bg-success rounded-circle" id = "bubble"> 
-                    <span class="visually-hidden">Online</span>
-                  </span>
-                {%else%}
-                  <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger rounded-circle"id = "bubble">
-                    <span class="visually-hidden">Offline</span>
-                  </span>
-                {%endif%}
+                <div id = "myBubble">
+                  {%if user.user_online == true%}
+                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-success rounded-circle" id = "bubble"> 
+                      <span class="visually-hidden">Online</span>
+                    </span>
+                  {%else%}
+                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger rounded-circle"id = "bubble">
+                      <span class="visually-hidden">Offline</span>
+                    </span>
+                  {%endif%}
+                </div>
               </div>
             </li>
             {%endif%}

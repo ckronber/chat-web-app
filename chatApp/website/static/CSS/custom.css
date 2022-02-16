@@ -166,7 +166,6 @@ body{
 
 #otherList{
     color:rgb(52, 180, 159);
-    max-width: auto;
     max-width: max-content;
     background-color:transparent;
     padding: .1rem;
@@ -178,7 +177,7 @@ body{
 }
 
 #log{
-    display:inline-flexbox;
+    display:inline-flex;
     width: 100%;
     height:max-content;
  }

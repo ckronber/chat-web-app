@@ -11,8 +11,8 @@ def login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-
         user = User.query.filter_by(email=email).first()
+
         if user:
             if check_password_hash(user.password,password):
                 #flash('Logged in successfully!', category='success')
@@ -41,6 +41,7 @@ def sign_up():
 
         userEmail = User.query.filter_by(email=email).first()
         userName = User.query.filter_by(user_name=user_name).first()
+
         print(userName)
         if userEmail:
             flash('Email already exists',category='error')
