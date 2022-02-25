@@ -11,7 +11,7 @@ HOST = "localhost"
 #MYKEY = "C:\\Users\\ckron\\key.pem"
 
 if __name__ == "__main__":
-    sio.run(app,debug=True,host=HOST,port=PORT)
+    sio.run(app,debug=True,host=HOST,port=PORT,ssl_context='adhoc')
     #sio.run(app,port=PORT,host=HOST,certfile=MYCERT,keyfile=MYKEY,server_side=True,debug=True)
     #sio.run(app,debug=True,port=80,host=HOST)
     #sio.run(app,debug=True,host=HOST,port=PORT
