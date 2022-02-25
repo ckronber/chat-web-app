@@ -1,6 +1,6 @@
-from .models import User
-from . import db
-from flask import Blueprint,render_template,request,flash,redirect,url_for
+from website.models import User
+from website import db
+from flask import Blueprint,render_template,flash,redirect,request,url_for
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import login_user,login_required,logout_user,current_user
 
@@ -18,6 +18,7 @@ def login():
                 #flash('Logged in successfully!', category='success')
                 login_user(user, remember=True)
                 return redirect(url_for('views.home'))
+                #return redirect('/home')
             else:
                 flash('Incorrect password, try again.', category = 'error')
         else:
@@ -63,5 +64,6 @@ def sign_up():
              login_user(new_user,remember=True)
              #flash('Account Created!', category='success')
              return redirect(url_for('views.home'))
+             #return redirect('/home')
 
     return render_template("sign_up.html",user=current_user)

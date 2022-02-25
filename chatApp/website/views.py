@@ -1,18 +1,18 @@
 from flask import Blueprint,request,jsonify,render_template
-from flask_socketio import SocketIO,emit
-#from flask.helpers import url_for
+from flask_socketio import SocketIO,emit,send
+from flask.helpers import url_for
 from flask_login import login_required,current_user, logout_user
-from website.models import Note,User
-from . import create_app, db
+from numpy import broadcast
+from .models import Note, User
+from . import db
 from threading import Lock
 from datetime import datetime
 #import json
 
-views = Blueprint('views', __name__)
-async_mode = "eventlet"
-app = create_app()
-sio = SocketIO(app,async_mode = async_mode)
+async_mode = None
+sio = SocketIO(async_mode=async_mode)
 
+views = Blueprint('views', __name__)
 thread = None
 thread_lock = Lock()
 
@@ -24,7 +24,7 @@ def background_thread():
     #    sio.sleep(10)
     #    emit('my_response', {'data': 'Server generated event'})
 
-@views.route('/',methods=['GET']) #,methods=['GET', 'POST'])
+@views.route('/',methods=['GET'])
 @views.route('/home',methods=['GET'])
 @login_required
 def home():
@@ -44,7 +44,7 @@ def my_event():
 
 @sio.event
 def getUser():
-    emit('c_user',{'data': current_user.id})
+     emit('c_user',{'data': current_user.id},broadcast=True)
 
 @sio.event
 def my_broadcast_event(message):
@@ -57,7 +57,7 @@ def my_broadcast_event(message):
 
 @sio.event
 def loadHome():
-    return home()
+    return  home()
 
 @sio.event
 def edit_event(message):
@@ -86,15 +86,15 @@ def load_all_messages():
 
 @sio.event
 def my_ping():
-    emit('my_pong')
+     emit('my_pong')
 
 @sio.event
-@login_required
 def connect():
-    #global thread
-    #with thread_lock:
-    #    if thread is None:
-    #        thread = sio.start_background_task(background_thread)
+    global thread
+    with thread_lock:
+        if thread is None:
+            thread =  sio.start_background_task(background_thread)
+            
     print(f"{current_user.user_name} connected")
     online = User.query.filter_by(id = current_user.id).first()
     online.user_online = True
@@ -104,7 +104,6 @@ def connect():
     
     
 @sio.event
-@login_required
 def disconnect():
     print('Client disconnected', request.sid)
     online = User.query.filter_by(id = current_user.id).first()

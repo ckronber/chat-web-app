@@ -109,12 +109,13 @@ function userOfflineBubble(){
 sio.on('c_user',function(msg) {
   username = msg.data;
 });
-// disconnect automatically sends from the server when the user disconnects
+// disconnect automatically emits from the server when the user disconnects
+
 sio.on("disconnect", () => {
   console.log("disconnected");
 })
 
-// Connect automatically sends from the server when the user disconnects
+// Connect automatically emits from the server when the user disconnects
 sio.on('connect',function() {
   console.log("connected!");
 })
@@ -185,7 +186,7 @@ $('form#editForm').submit(function(){
 });
 
 
-window.onbeforeunload = function () {
+window.onbeforeunload =async function () {
   window.scrollTo(0, scrollBotPage());
 }
 

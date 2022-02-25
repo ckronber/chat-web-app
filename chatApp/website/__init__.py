@@ -1,11 +1,13 @@
-from flask import Flask
+from flask import Flask,Blueprint,blueprints
 from flask_sqlalchemy import SQLAlchemy
 from os import path,environ
 from flask_login import LoginManager
 from flask_migrate import Migrate
 
-FILEPATH = "C:/Users/ckron/Desktop/chat-web-app/website/"
+
+FILEPATH = "chatApp/website/"
 DB_NAME = "database.db"
+
 db = SQLAlchemy()
 
 def create_app():
@@ -24,23 +26,21 @@ def create_app():
     #app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
    
     db.init_app(app)
-    Migrate(app, db)
+    #Migrate(app=app,db=db)
 
-    if not path.isfile(FILEPATH+ DB_NAME):
+    if path.isfile(FILEPATH+DB_NAME) is not True:
         db.create_all(app=app)
         print("created")
-
-    from .views import views
-    from .auth import auth
-    app.register_blueprint(views, url_prefix='/')
-    app.register_blueprint(auth, url_prefix='/')
+        
+    from . import views,auth
+    app.register_blueprint(views.views, url_prefix='/')
+    app.register_blueprint(auth.auth, url_prefix='/')
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
     from .models import User
-
     @login_manager.user_loader
     def load_user(id):
         return User.query.get(int(id))

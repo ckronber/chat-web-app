@@ -1,10 +1,10 @@
 #from sqlalchemy.sql.functions import user
-import asyncio
 import enum
 from flask_login import UserMixin
 from sqlalchemy.sql import func
-from datetime import date, datetime
-#from flask_migrate import Migrate
+from datetime import datetime
+from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 from . import db
 
 EMAIL_LENGTH = PASS_LENGTH = NAME_LENGTH = 150
@@ -68,9 +68,9 @@ class User(db.Model,UserMixin):
     marriage_date = db.Column(db.DateTime(timezone = True))
     interests = db.Column(db.String(DATA_LENGTH))
     description = db.Column(db.String(DATA_LENGTH))
-    gender = db.Column(db.Enum(GenderEnum))
-    gender_interest = db.Column(db.Enum(GenInterest))
-    relationship_status = db.Column(db.Enum(RelationshipStatus))
+    #gender = db.Column(db.Enum(GenderEnum))
+    #gender_interest = db.Column(db.Enum(GenInterest))
+    #relationship_status = db.Column(db.Enum(RelationshipStatus))
     notes = db.relationship('Note',backref = 'user',cascade = "all, delete, delete-orphan", lazy = 'dynamic')
     #noteUsers = db.relationship('Note', backref='user',cascade = "all, delete, delete-orphan",lazy = 'dynamic')
     channels = db.relationship('Channel', backref = 'user', cascade = "all, delete, delete-orphan", lazy = 'dynamic')
