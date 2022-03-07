@@ -1,7 +1,9 @@
+from django.shortcuts import redirect
 from flask import Blueprint,request,jsonify,render_template
 from flask_socketio import SocketIO,emit,send
 from flask.helpers import url_for
 from flask_login import login_required,current_user, logout_user
+from itsdangerous import json
 from numpy import broadcast
 from .models import Note, User
 from . import db
@@ -16,14 +18,16 @@ views = Blueprint('views', __name__)
 thread = None
 thread_lock = Lock()
 
-@sio.event
-def background_thread():
-    """Example of how to send server generated events to clients."""
-    print("background Thread")
-    #while True:
-    #    sio.sleep(10)
-    #    emit('my_response', {'data': 'Server generated event'})
 
+#ONLINE/OFFLINE
+#=====================================================================================
+@sio.event
+def update_ulist(online,userid):
+    emit('up_user',{"status":online,"id":userid},broadcast=True)
+    return jsonify({})
+
+#ROUTE FOR HOME WEBPAGE
+#========================================================================================
 @views.route('/',methods=['GET'])
 @views.route('/home',methods=['GET'])
 @login_required
@@ -32,11 +36,16 @@ def home():
     users = User.query.all()
     return render_template('home.html',allNotes=myNotes,users = users,user=current_user,async_mode = sio.async_mode)
 
+
+#ROUTE FOR ACCOUNT WEBPAGE
+#========================================================================================
 @views.route('/account',methods=['GET','POST']) 
 @login_required
 def account():
     return render_template('userSettings.html',user = current_user,async_mode = sio.async_mode)
 
+
+#EVENTS FOR SOCKETIO SERVER
 @sio.event
 def my_event():
     pass
@@ -91,15 +100,16 @@ def my_ping():
 
 @sio.event
 def connect():
-    global thread
-    with thread_lock:
-        if thread is None:
-            thread =  sio.start_background_task(background_thread)
-            
+    #global thread
+    #with thread_lock:
+    #    if thread is None:
+    #        thread =  sio.start_background_task(background_thread)        
+    update_ulist(True,current_user.id)
     print(f"{current_user.user_name} connected")
     online = User.query.filter_by(id = current_user.id).first()
     online.user_online = True
-    db.session.commit()
+    db.session.commit()        
+    
     print(online.user_online)
     return jsonify({})
     
@@ -107,6 +117,7 @@ def connect():
 @sio.event
 def disconnect():
     print('Client disconnected', request.sid)
+    update_ulist(False,current_user.id)
     online = User.query.filter_by(id = current_user.id).first()
     online.user_online = False
     db.session.commit()

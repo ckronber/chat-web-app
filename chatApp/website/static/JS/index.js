@@ -100,7 +100,6 @@ function userOfflineBubble(){
   $("#myBubble").val = data;
 }
 
-
 //-----------------------------------------
 //SocketIO Messages received by the server
 //-----------------------------------------
@@ -115,9 +114,23 @@ sio.on("disconnect", () => {
   console.log("disconnected");
 })
 
+
 // Connect automatically emits from the server when the user disconnects
 sio.on('connect',function() {
   console.log("connected!");
+})
+
+sio.on('up_user',function(online) {
+  user = document.getElementById("myBubble"+online.id);
+  if (user!= null){
+    if(online.status == true)
+    {
+      user.innerHTML = "<span class=\"position-absolute top-0 start-100 translate-middle p-1 bg-success rounded-circle\" id = \"bubble\"></span>";
+    }
+    else{
+      user.innerHTML = "<span class=\"position-absolute top-0 start-100 translate-middle p-1 bg-danger rounded-circle\" id = \"bubble\"></span>";
+    }
+  }
 })
 
 sio.on('delete_message',function(messId){

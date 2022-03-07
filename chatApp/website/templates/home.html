@@ -144,25 +144,21 @@
       <br>
 
       <div class="UserList rounded overflow-auto shadow" style="height: 31.5rem">
-        <ul>
+        <ul id = "uList" style="list-style: none;">
           {%for user in users%}
             {%if user != current_user%}
-            <li id = "dMessage">
-              <div type="button" class="btn btn-primary position-relative" id = "userLink" data-bs-placement="left">
-                {{user.user_name}}
-                <div id = "myBubble">
-                  {%if user.user_online == true%}
-                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-success rounded-circle" id = "bubble"> 
-                      <span class="visually-hidden">Online</span>
-                    </span>
-                  {%else%}
-                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger rounded-circle"id = "bubble">
-                      <span class="visually-hidden">Offline</span>
-                    </span>
-                  {%endif%}
+              <li id = "user{{user.id}}">
+                <div type="button" class="btn btn-primary position-relative" id = "userLink" data-bs-placement="left">
+                  {{user.user_name}}
+                  <div id = "myBubble{{user.id}}">
+                    {%if user.user_online == true%}
+                      <span class="position-absolute top-0 start-100 translate-middle p-1 bg-success rounded-circle" id = "bubble"></span>
+                    {%else%}
+                      <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger rounded-circle"id = "bubble"></span>
+                    {%endif%}
+                  </div>
                 </div>
-              </div>
-            </li>
+              </li>
             {%endif%}
           {%endfor%}
         </ul>
