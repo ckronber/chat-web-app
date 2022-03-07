@@ -46,14 +46,15 @@ def account():
 
 
 #EVENTS FOR SOCKETIO SERVER
-@sio.event
-def my_event():
-    pass
+
+#@sio.event
+#def my_event():
+#    pass
     #emit('my_response',{'data': message['data']})
 
 @sio.event
 def getUser():
-     emit('c_user',{'data': current_user.id},broadcast=True)
+     emit('c_user',{'data': current_user.id,"user_name":current_user.user_name})
 
 @sio.event
 def my_broadcast_event(message):
@@ -71,7 +72,6 @@ def loadHome():
 @sio.event
 def edit_event(message):
     noteEdit = Note.query.filter_by(id = message['id']).first()
-    #print(message["data"])
     noteEdit.data = message['data']
     noteEdit.edited = True
     db.session.commit()
@@ -94,10 +94,13 @@ def load_all_messages():
     emit("saved_messages",myResult=results, broadcast=True)
     return jsonify({})
 
-@sio.event
-def my_ping():
-     emit('my_pong')
+#@sio.event
+#def my_ping():
+#     emit('my_pong')
 
+
+#CONNECT AND DISCONNECT EVENTS
+#=========================================================================
 @sio.event
 def connect():
     #global thread

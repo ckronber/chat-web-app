@@ -106,14 +106,13 @@ function userOfflineBubble(){
 
 //reads the current user to this function
 sio.on('c_user',function(msg) {
-  username = msg.data;
+  thisUser = msg.user_name;
 });
 // disconnect automatically emits from the server when the user disconnects
 
 sio.on("disconnect", () => {
   console.log("disconnected");
 })
-
 
 // Connect automatically emits from the server when the user disconnects
 sio.on('connect',function() {
@@ -153,15 +152,15 @@ sio.on('message_add',function(msg) {
   edit += "</button>";
   edit += "</div>";
 
-  if(msg.id == username){
-    $('#log').append("<li class='list-group-item' id = 'chatStuff'>You: "+ msg.data + edit +"</li>");
+  if(msg.user_name == thisUser){
+    $('#log').append("<li class=\"list-group-item\" id = \"chatStuff\">You: "+ msg.data + edit +"</li>");
   }
   else{
-    listElement = msg.user_name +" : " +  msg.data;
+    listElement = "<li class=\"list-group-item\" id = \"chatStuff\">"+msg.user_name +" : " +  msg.data +"</li>";
     $('#log').append(listElement);
   }
   scrollTobottom();
-  return(msg);
+  return false;
 })
 
 /*

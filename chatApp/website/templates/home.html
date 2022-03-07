@@ -36,7 +36,7 @@
       <ul class="list-group list-group-flush" id="log">
         {%for note in allNotes%} 
           {%if current_user.user_name==note.user.user_name%}
-            <li class="list-group-item colorClass" id="chatStuff">
+            <li class="list-group-item colorClass chatStuff" id="chat{{note.id}}">
               {{"You: " + note.data}}
               <div id="edDel">
                 <div type="button" class = "btn" id="editB" data-bs-toggle="modal" data-bs-target="#editModalCenter" onclick = "editNote('{{note.id}}','{{note.data}}')">
