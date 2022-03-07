@@ -120,6 +120,10 @@ sio.on('connect',function() {
   console.log("connected!");
 })
 
+sio.on('delete_message',function(messId){
+  console.log(messId.id)
+})
+
 //reloads the page
 
 sio.on('load_page',function(){

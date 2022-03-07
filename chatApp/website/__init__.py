@@ -4,7 +4,6 @@ from os import path,environ
 from flask_login import LoginManager
 from flask_migrate import Migrate
 
-
 FILEPATH = "chatApp/website/"
 DB_NAME = "database.db"
 
@@ -26,7 +25,7 @@ def create_app():
     #app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
    
     db.init_app(app)
-    #Migrate(app=app,db=db)
+    migrate = Migrate(app,db)
 
     if path.isfile(FILEPATH+DB_NAME) is not True:
         db.create_all(app=app)

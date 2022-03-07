@@ -75,6 +75,7 @@ def delete_event(message):
     noteDelete = Note.query.filter_by(id = message['id']).first()
     db.session.delete(noteDelete)
     db.session.commit()
+    emit("delete_message",{"id":noteDelete.id},broadcast = True)
     load_all_messages()
     return jsonify({})
 
