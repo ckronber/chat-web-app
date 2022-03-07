@@ -2,7 +2,7 @@
 FROM python:3.9
 #-slim-buster
 
-EXPOSE 80
+EXPOSE 5000
 
 ENV DOCKER_BUILD=1
 
