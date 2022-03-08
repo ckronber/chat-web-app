@@ -25,9 +25,11 @@ function getCurrentUser(){
 }
 
 function editNote(noteId,noteData){
-  var nData = document.getElementById("modalEdit");
-  nData.value = noteData;
-  editedID = noteId;
+  //var nData = document.getElementById("modalEdit");
+  document.getElementById("modalEdit").value = noteData;
+  var messID = "chat"+noteId;
+  //nData.value = noteData;
+ //return messID;
 }
 
 function deleteNote(noteId) {
@@ -82,10 +84,16 @@ function showPass2(){
   }
 }
 
+//Used from Stack Overflow
+function removeElement(id) {
+  var element = document.getElementById(id);
+  element.parentNode.removeChild(element);
+}
 //-------------------------------------------------------
 //Functions for changing bubble color for online/offline
 //-------------------------------------------------------
 
+/*
 function userOnlineBubble(){
   data = "<span class=\"position-absolute top-0 start-100 translate-middle p-1 bg-success rounded-circle\" id = \"bubble\">"
   data += "<span class=\"visually-hidden\">Online</span>"
@@ -98,7 +106,7 @@ function userOfflineBubble(){
   data += "<span class=\"visually-hidden\">Online</span>"
   data += "</span>\";"
   $("#myBubble").val = data;
-}
+}*/
 
 //-----------------------------------------
 //SocketIO Messages received by the server
@@ -144,23 +152,26 @@ sio.on('load_page',function(){
 
 //message receiving message add from socketio server emit message_add
 sio.on('message_add',function(msg) {
-  edit = "<div id = \"edDel\">";
-  edit += "<div type = \"button\" class = \"btn\" data-bs-toggle=\"modal\" data-bs-target=\"#editModalCenter\" id =\"editB\">";
-  edit += "<img src=\"./static/images/edit.png\" id=\"editImage\" onclick = \"editNote("+msg.id+","+msg.data+")\">";
-  edit += "</div>";
-  edit += "<button type=\"button\" class=\"btn-close\" id =\"closeX\" aria-label=\"Close\" onclick=\"deleteNote({{"+msg.id+"}})\">";
-  edit += "</button>";
-  edit += "</div>";
+  edit = `<div id = \"edDel\">
+    <div type = \"button\" class = \"btn\" data-bs-toggle=\"modal\" data-bs-target=\"#editModalCenter\" id =\"editB\" onclick =\"editNote('`+msg.id+"','"+msg.data+`')\">
+    <img src=\"./static/images/edit.png\" id=\"editImage\">
+    </div>
+    <button type=\"button\" class=\"btn-close\" id =\"closeX\" aria-label=\"Close\" onclick=\"deleteNote('`+msg.id+`')\">
+    </button>
+  </div>`;
+
+  console.log(edit)
 
   if(msg.user_name == thisUser){
-    $('#log').append("<li class=\"list-group-item\" id = \"chatStuff\">You: "+ msg.data + edit +"</li>");
+    var listValue = "<li class=\"list-group-item chatStuff\" id =\"chat"+msg.id+"\">You: "+ msg.data + edit +"</li>"
   }
   else{
-    listElement = "<li class=\"list-group-item\" id = \"chatStuff\">"+msg.user_name +" : " +  msg.data +"</li>";
-    $('#log').append(listElement);
+    var listValue= "<li class=\"list-group-item chatStuff\">"+msg.user_name +" : " +  msg.data +"</li>";
   }
+  console.log(listValue);
+  $('#log').append(listValue);
   scrollTobottom();
-  return false;
+  //return false;
 })
 
 /*
@@ -183,7 +194,7 @@ function message_clear(){
 //-----------------------------------------
 
 $('form#broadcast').submit(function() {
-  broadText = $('#broadcast_data').val();
+  var broadText = $('#broadcast_data').val();
   console.log(broadText);
   if(broadText.length > 0){
     sio.emit('my_broadcast_event', {data: broadText});
@@ -191,16 +202,15 @@ $('form#broadcast').submit(function() {
     sio.emit('load_all_messages');
   }
   return false;
-});
+})
 
 $('form#editForm').submit(function(){
-  editedData = $("#modalEdit").val();
+  var editedData = $("#modalEdit").val();
   $("#editModalCenter").modal("hide");
   console.log(editedID,editedData);
   sio.emit('edit_event', {id:editedID, data: editedData});
   return false;
-});
-
+})
 
 window.onbeforeunload =async function () {
   window.scrollTo(0, scrollBotPage());
@@ -214,7 +224,7 @@ $(document).ready(function() {
   sio.emit("load_all_messages");
   scrollTobottom();
   //scrollBotPage();
-});
+})
 
 //-----------------------------------------
 //Commented Code to Possibly Add back later
