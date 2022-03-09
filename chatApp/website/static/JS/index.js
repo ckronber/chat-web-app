@@ -209,7 +209,7 @@ $('form#broadcast').submit(function() {
   if(broadText.length > 0){
     sio.emit('my_broadcast_event', {data: broadText});
     clearTextArea("broadcast_data");
-    sio.emit('load_all_messages');
+    //sio.emit('load_all_messages');
   }
   return false;
 })

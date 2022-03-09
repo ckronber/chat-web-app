@@ -11,7 +11,7 @@ from threading import Lock
 from datetime import datetime
 #import json
 
-async_mode = None
+async_mode = "eventlet"
 sio = SocketIO(async_mode=async_mode)
 
 views = Blueprint('views', __name__)
@@ -62,7 +62,7 @@ def my_broadcast_event(message):
     db.session.add(new_note)
     db.session.commit()
     emit('message_add',{'user_name': current_user.user_name,'data': new_note.data, 'id':new_note.user_id, 'noteID':new_note.id} ,broadcast=True)
-    load_all_messages()
+    #load_all_messages()
     return jsonify({})
 
 @sio.event

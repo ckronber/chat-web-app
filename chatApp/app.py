@@ -4,7 +4,7 @@ from website.views import sio
 app = create_app()
 sio.init_app(app)
 PORT = 443
-#PORT = 5000
+PORT = 5000
 HOST = "localhost"
 MYCERT = "C:\\Users\\ckron\\cert.pem"
 MYKEY = "C:\\Users\\ckron\\key.pem"
