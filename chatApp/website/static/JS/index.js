@@ -5,6 +5,7 @@ let edit = document.getElementById("edDel");
 let listElement = document.createElement("li");
 listElement.setAttribute("id", "msgEdit");
 let onlineData, editedID, username, thisUser;
+let messID;
 
 const sio = io();
 
@@ -27,7 +28,7 @@ function getCurrentUser(){
 function editNote(noteId,noteData){
   //var nData = document.getElementById("modalEdit");
   document.getElementById("modalEdit").value = noteData;
-  var messID = "chat"+noteId;
+  messID = noteId;
   //nData.value = noteData;
  //return messID;
 }
@@ -84,10 +85,28 @@ function showPass2(){
   }
 }
 
+function createMessage(msg){
+  edit = `<div id = \"edDel\">
+    <div type = \"button\" class = \"btn\" data-bs-toggle=\"modal\" data-bs-target=\"#editModalCenter\" id =\"editB\" onclick =\"editNote('`+msg.noteID+"','"+msg.data+`')\">
+    <img src=\"./static/images/edit.png\" id=\"editImage\">
+    </div>
+    <button type=\"button\" class=\"btn-close\" id =\"closeX\" aria-label=\"Close\" onclick=\"deleteNote('`+msg.noteID+`')\">
+    </button>
+  </div>`;
+
+  if(msg.user_name == thisUser){
+    var listValue = "<li class=\"list-group-item chatStuff\" id =\"chat"+msg.noteID+"\">You: "+ msg.data + edit +"</li>";
+  }
+  else{
+    var listValue= "<li class=\"list-group-item chatStuff\" id =\"chat"+msg.noteID+"\">"+msg.user_name +" : " +  msg.data +"</li>";
+  }
+  return listValue;
+}
+
 //Used from Stack Overflow
 function removeElement(id) {
   var element = document.getElementById(id);
-  element.parentNode.removeChild(element);
+  element.parentElement.removeChild(element);
 }
 //-------------------------------------------------------
 //Functions for changing bubble color for online/offline
@@ -140,8 +159,14 @@ sio.on('up_user',function(online) {
   }
 })
 
+
+sio.on('edit_message',function(messId){
+  document.getElementById('chat'+messId.noteID).innerHTML = createMessage(messId);
+})
+
 sio.on('delete_message',function(messId){
-  console.log(messId.id)
+  //message = document.getElementById('chat'+messId).innerHTML;
+  removeElement('chat'+messId.id);
 })
 
 //reloads the page
@@ -152,26 +177,11 @@ sio.on('load_page',function(){
 
 //message receiving message add from socketio server emit message_add
 sio.on('message_add',function(msg) {
-  edit = `<div id = \"edDel\">
-    <div type = \"button\" class = \"btn\" data-bs-toggle=\"modal\" data-bs-target=\"#editModalCenter\" id =\"editB\" onclick =\"editNote('`+msg.id+"','"+msg.data+`')\">
-    <img src=\"./static/images/edit.png\" id=\"editImage\">
-    </div>
-    <button type=\"button\" class=\"btn-close\" id =\"closeX\" aria-label=\"Close\" onclick=\"deleteNote('`+msg.id+`')\">
-    </button>
-  </div>`;
-
-  console.log(edit)
-
-  if(msg.user_name == thisUser){
-    var listValue = "<li class=\"list-group-item chatStuff\" id =\"chat"+msg.id+"\">You: "+ msg.data + edit +"</li>"
-  }
-  else{
-    var listValue= "<li class=\"list-group-item chatStuff\">"+msg.user_name +" : " +  msg.data +"</li>";
-  }
+  listValue = createMessage(msg);
   console.log(listValue);
   $('#log').append(listValue);
   scrollTobottom();
-  //return false;
+  return false;
 })
 
 /*
@@ -206,6 +216,7 @@ $('form#broadcast').submit(function() {
 
 $('form#editForm').submit(function(){
   var editedData = $("#modalEdit").val();
+  var editedID = messID;
   $("#editModalCenter").modal("hide");
   console.log(editedID,editedData);
   sio.emit('edit_event', {id:editedID, data: editedData});

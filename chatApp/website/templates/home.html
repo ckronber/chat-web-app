@@ -46,7 +46,7 @@
               </div>
             </li>
           {%else%}
-            <li class="list-group-item" id="otherList">{{note.user.user_name + ": " + note.data}}</li>
+            <li class="list-group-item chatStuff" id="chat{{note.id}}">{{note.user.user_name + ": " + note.data}}</li>
           {%endif%} 
         {% endfor %}
       </ul>

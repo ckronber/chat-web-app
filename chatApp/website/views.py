@@ -61,7 +61,7 @@ def my_broadcast_event(message):
     new_note = Note(data=message['data'], date = datetime.now(),user_id = current_user.id)
     db.session.add(new_note)
     db.session.commit()
-    emit('message_add',{'user_name': current_user.user_name,'data': new_note.data, 'id':new_note.user_id} ,broadcast=True)
+    emit('message_add',{'user_name': current_user.user_name,'data': new_note.data, 'id':new_note.user_id, 'noteID':new_note.id} ,broadcast=True)
     load_all_messages()
     return jsonify({})
 
@@ -75,18 +75,18 @@ def edit_event(message):
     noteEdit.data = message['data']
     noteEdit.edited = True
     db.session.commit()
-    emit('message_edit',{'id':noteEdit.msg_id ,'data':noteEdit.data})
-    load_all_messages()
+    emit('edit_message',{'user_name': current_user.user_name,'noteID':noteEdit.id ,'data':noteEdit.data},broadcast = True)
+    #load_all_messages()
     return jsonify({})
 
 @sio.event
 def delete_event(message):
     noteDelete = Note.query.filter_by(id = message['id']).first()
+    emit("delete_message",{"id":noteDelete.id},broadcast = True)
     db.session.delete(noteDelete)
     db.session.commit()
-    emit("delete_message",{"id":noteDelete.id},broadcast = True)
-    load_all_messages()
-    return jsonify({})
+    #load_all_messages()
+   # return jsonify({})
 
 @sio.event
 def load_all_messages():
