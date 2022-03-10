@@ -4,8 +4,9 @@ let input = document.getElementById("noteMSG");
 let edit = document.getElementById("edDel");
 let listElement = document.createElement("li");
 listElement.setAttribute("id", "msgEdit");
-let onlineData, editedID, username, thisUser;
-let messID;
+let onlineData, editedID, username, thisUser,messID;
+let Users = [];
+
 
 const sio = io();
 
@@ -15,9 +16,8 @@ function scrollTobottom(){
 }
 
 function scrollBotPage(){
-  var scrollingheight = (document.body.scrollHeight);
-  console.log(scrollingheight);
-  return scrollingheight; 
+  var sHeight = document.getElementById("chatPage");
+  console.log(sHeight.scrollHeight);
 }
 
 //Gets the currentUser that is logged in
@@ -135,6 +135,7 @@ function userOfflineBubble(){
 sio.on('c_user',function(msg) {
   thisUser = msg.user_name;
 });
+
 // disconnect automatically emits from the server when the user disconnects
 
 sio.on("disconnect", () => {
@@ -158,7 +159,6 @@ sio.on('up_user',function(online) {
     }
   }
 })
-
 
 sio.on('edit_message',function(messId){
   document.getElementById('chat'+messId.noteID).innerHTML = createMessage(messId);
@@ -223,9 +223,6 @@ $('form#editForm').submit(function(){
   return false;
 })
 
-window.onbeforeunload =async function () {
-  window.scrollTo(0, scrollBotPage());
-}
 
 //Functions to use when the page loads
 $(document).ready(function() {
@@ -265,6 +262,8 @@ $(document).ready(function() {
   
 */
   // Handlers for the different forms in the page. These accept data from the user and send it to the server in a variety of ways
+
+
 
 
 // using enter with messages as well as clicking submit

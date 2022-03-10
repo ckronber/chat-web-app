@@ -1,5 +1,5 @@
 .navTextMain, H1{
-    color: rgb(50, 172, 141);
+    color: rgb(12, 44, 36);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -13,6 +13,7 @@ body{
     margin-top: -1rem;
     padding-top: .2rem;
 }
+
 
 #sideAdd{
     position:relative;
@@ -286,21 +287,24 @@ body{
 /*=====================================================*/
 
 #channelAdd{
-    display:inline-flex;
+    display:flex;
     font-weight: bolder;
+    width:auto;
+    height:auto;
 }
 
 #chanText{
-    width:max-content;
+    width:auto;
+    display:inline-block;
 }
 
 #addChan{
-    margin-left:2rem;
+    margin-left:1rem;
     background: none;
     width: auto;
     height:min-content;
     transform: rotate(90deg);
-    display:flex;
+    display:inline-block;
 }
 
 .addSign:hover{
@@ -311,11 +315,11 @@ body{
 }
 
 #searchChan{
-    margin-left:3rem;
+    margin-left:1rem;
     background: none;
     width: auto;
     height:min-content;
-    display:flex;
+    display:inline-block;
 }
 
 .searchChan:hover{
