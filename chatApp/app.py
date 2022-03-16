@@ -12,7 +12,7 @@ MYCERT = "C:\\Users\\ckron\\cert.pem"
 MYKEY = "C:\\Users\\ckron\\key.pem"
 
 if __name__ == "__main__":
-    sio.run(app,debug=True,port=PORT,host=HOST)
+    sio.run(app,debug=True,port=PORT)
     #sio.run(debug=True,port=PORT,host=HOST,cors_allowed_origins="*")
     '''
     if PORT == 443:
