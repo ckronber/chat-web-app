@@ -2,7 +2,6 @@ from flask import Blueprint,request,jsonify,render_template
 from flask_socketio import SocketIO,emit,send
 from flask.helpers import url_for
 from flask_login import login_required,current_user, logout_user
-from itsdangerous import json
 from .models import Note, User
 from . import db
 from threading import Lock
@@ -11,7 +10,6 @@ from datetime import datetime
 
 async_mode = "eventlet"
 sio = SocketIO(async_mode=async_mode)
-
 views = Blueprint('views', __name__)
 thread = None
 thread_lock = Lock()

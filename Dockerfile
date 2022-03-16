@@ -1,26 +1,25 @@
+# syntax=docker/dockerfile:1
+
 # For more information, please refer to https://aka.ms/vscode-docker-python
-FROM python:3.9
-#-slim-buster
+FROM python:3.9-slim-buster
+EXPOSE 5000 8000 80
 
-EXPOSE 80
-
+ENV FLASK_ENV = "development"
 ENV DOCKER_BUILD=1
-
 # Keeps Python from generating .pyc files in the container
 ENV PYTHONDONTWRITEBYTECODE=1
-
 # Turns off buffering for easier container logging
 ENV PYTHONUNBUFFERED=1
+
+WORKDIR /chatApp
 
 COPY requirements.txt .
 # Install pip requirements
 RUN pip install -r requirements.txt
 
-COPY ./chatApp ./chat
+COPY ./chatApp .
 
 #During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
-#CMD ["--bind", "0.0.0.0:5000", "./chat/app:sio"]
-#CMD ["gunicorn --worker-class eventlet -w 1","./chat/app:app"]
-CMD gunicorn --worker-class socketio.sgunicorn.GeventSocketIOWorker --log-file=- server:./chat/app
-#CMD ["python", "./chat/app.py"]
-#RUN python ./chat/app.py
+CMD ["python","-m","flask","run","--host=0.0.0.0"]
+#CMD ["uwsgi","--http :5000","--gevent","1000","--http-websockets","--master","--wsgi-file","app.py","--callable","app"]
+#CMD uwsgi --http :5000 --gevent 1000 --http-websockets --master --wsgi-file app.py --callable app
