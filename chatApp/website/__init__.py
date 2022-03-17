@@ -7,6 +7,7 @@ import json
 
 FILEPATH = "chatApp/website/"
 DB_NAME = "database.db"
+HEROKU_URI = "postgres://wssjwvjerqtxlr:598fd557ca3fc4fa1c6e8de14bb1ca6b4cdd94ee72f4737394aa9a268077aa08@ec2-54-161-238-249.compute-1.amazonaws.com:5432/dfj6jr90dri7lg"
 
 db = SQLAlchemy()
 
