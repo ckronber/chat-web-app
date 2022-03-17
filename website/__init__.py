@@ -28,7 +28,7 @@ def create_app():
     db.init_app(app)
     #migrate = Migrate(app=app,db=db)
     
-    db.create_all(app=app)
+    #db.create_all(app=app)
     #if path.isfile(FILEPATH+DB_NAME) is not True:
     #    db.create_all(app=app)
     #    print("created")
