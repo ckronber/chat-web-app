@@ -3,7 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 from os import path,environ
 from flask_login import LoginManager
 from flask_migrate import Migrate
-import json
 
 FILEPATH = "chatApp/website/"
 DB_NAME = "database.db"
