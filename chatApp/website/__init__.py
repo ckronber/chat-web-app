@@ -7,6 +7,7 @@ import json
 
 FILEPATH = "chatApp/website/"
 DB_NAME = "database.db"
+FILESTART = "postgres://"
 
 db = SQLAlchemy()
 
