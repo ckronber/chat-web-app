@@ -14,9 +14,9 @@ db = SQLAlchemy()
 def create_app():
     app = Flask(__name__)
     uri = environ.get("DATABASE_URL")
-    if uri and uri.startswith("postgres://"):
-        uri = uri.replace("postgres://", "postgresql://", 1)
-
+    #if uri and uri.startswith("postgres://"):
+        #uri = uri.replace("postgres://", "postgresql://", 1)
+        
     app.config['SECRET_KEY'] = 'mySecretKey'
     app.config['SQLALCHEMY_DATABASE_URI'] = uri or f'sqlite:///{DB_NAME}' 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -27,7 +27,7 @@ def create_app():
     #app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
    
     db.init_app(app)
-    migrate = Migrate(app=app,db=db)
+    #migrate = Migrate(app=app,db=db)
 
     #if path.isfile(FILEPATH+DB_NAME) is not True:
     #    db.create_all(app=app)

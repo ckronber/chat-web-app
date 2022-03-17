@@ -10,7 +10,7 @@ HOST = "0.0.0.0"
 MYCERT = "C:\\Users\\ckron\\cert.pem"
 MYKEY = "C:\\Users\\ckron\\key.pem"
 
-#changed buildpack
+#changed procfile
 
 if __name__ == "__main__":
     app.run()
