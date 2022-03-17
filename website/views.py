@@ -8,7 +8,7 @@ from threading import Lock
 from datetime import datetime
 #import json
 
-async_mode = "eventlet"
+async_mode = "gevent"
 sio = SocketIO(async_mode=async_mode)
 views = Blueprint('views', __name__)
 thread = None
