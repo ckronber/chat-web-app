@@ -13,8 +13,8 @@ db = SQLAlchemy()
 def create_app():
     app = Flask(__name__)
     uri = environ.get("DATABASE_URL")
-    #if uri and uri.startswith("postgres://"):
-        #uri = uri.replace("postgres://", "postgresql://", 1)
+    if uri and uri.startswith("postgres://"):
+        uri = uri.replace("postgres://", "postgresql://", 1)
 
     app.config['SECRET_KEY'] = 'mySecretKey'
     app.config['SQLALCHEMY_DATABASE_URI'] = uri or f'sqlite:///{DB_NAME}' 
