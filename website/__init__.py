@@ -16,7 +16,7 @@ def create_app():
     uri = environ.get("DATABASE_URL")
     #if uri and uri.startswith("postgres://"):
         #uri = uri.replace("postgres://", "postgresql://", 1)
-        
+
     app.config['SECRET_KEY'] = 'mySecretKey'
     app.config['SQLALCHEMY_DATABASE_URI'] = uri or f'sqlite:///{DB_NAME}' 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -27,8 +27,10 @@ def create_app():
     #app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
    
     db.init_app(app)
-    #migrate = Migrate(app=app,db=db)
-
+    migrate = Migrate(app=app,db=db)
+    
+    if db.__sizeof__() > 0:
+        db.create_all(app=app)
     #if path.isfile(FILEPATH+DB_NAME) is not True:
     #    db.create_all(app=app)
     #    print("created")
