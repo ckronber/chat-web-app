@@ -6,7 +6,7 @@ app = create_app()
 sio.init_app(app)
 PORT = 443
 PORT = 5000
-HOST = "localhost"
+HOST = "0.0.0.0"
 MYCERT = "C:\\Users\\ckron\\cert.pem"
 MYKEY = "C:\\Users\\ckron\\key.pem"
 
