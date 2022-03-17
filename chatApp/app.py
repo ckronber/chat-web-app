@@ -16,7 +16,8 @@ if __name__ == "__main__":
         sio.run(app,port=PORT,host=HOST,certfile=MYCERT,keyfile=MYKEY,server_side=True,debug=True)
     else:
         #sio.run(app,debug=True,host=HOST,port=PORT)
-        sio.run(app,debug=True,host=HOST,port=PORT)
+        sio.run(app,debug=True)
+        #host=HOST,port=PORT
     #sio.run(app,debug=True,port=80,host=HOST)
     #sio.run(app,debug=True,host=HOST,port=
     
