@@ -10,4 +10,5 @@ I have not yet implemented direct messaging but that will be the next part of th
 1. Download and Install
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.python.org/downloads/"><img src = "https://www.python.org/static/img/python-logo.png" height="50rem"></a>
+<br>
 - Make sure to add the environment variable checkbox when installing python
