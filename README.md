@@ -11,5 +11,3 @@ I have not yet implemented direct messaging but that will be the next part of th
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.python.org/downloads/"><img src = "https://www.python.org/static/img/python-logo.png" height="50rem"></a>
 - Make sure to add the environment variable checkbox when installing python
-
-2. Make sure py
