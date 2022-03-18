@@ -4,16 +4,18 @@ from os import path,environ
 from flask_login import LoginManager
 from flask_migrate import Migrate
 
-FILEPATH = "chatApp/website/"
+FILEPATH = "website/"
 DB_NAME = "database.db"
-FILESTART = "postgres://"
 
 db = SQLAlchemy()
 
 def create_app():
+    db_online = False
     app = Flask(__name__)
     uri = environ.get("DATABASE_URL")
+
     if uri and uri.startswith("postgres://"):
+        db_online = True
         uri = uri.replace("postgres://", "postgresql://", 1)
 
     app.config['SECRET_KEY'] = 'mySecretKey'
@@ -28,10 +30,9 @@ def create_app():
     db.init_app(app)
     #migrate = Migrate(app=app,db=db)
     
-    #db.create_all(app=app)
-    #if path.isfile(FILEPATH+DB_NAME) is not True:
-    #    db.create_all(app=app)
-    #    print("created")
+    if path.isfile(FILEPATH+DB_NAME) is not True and db_online == False:
+        db.create_all(app=app)
+        print("created")
         
     from . import views,auth
     app.register_blueprint(views.views, url_prefix='/')
@@ -46,4 +47,4 @@ def create_app():
     def load_user(id):
         return User.query.get(int(id))
 
-    return app
+    return app,db_online

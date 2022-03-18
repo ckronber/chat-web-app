@@ -1,4 +1,6 @@
-from website.models import User
+from numpy import broadcast
+from .models import User
+from .views import sio
 from . import db
 from flask import Blueprint,render_template,flash,redirect,request,url_for
 from werkzeug.security import generate_password_hash,check_password_hash
@@ -15,10 +17,8 @@ def login():
 
         if user:
             if check_password_hash(user.password,password):
-                #flash('Logged in successfully!', category='success')
                 login_user(user, remember=True)
                 return redirect(url_for('views.home'))
-                #return redirect('/home')
             else:
                 flash('Incorrect password, try again.', category = 'error')
         else:
@@ -62,8 +62,7 @@ def sign_up():
              db.session.add(new_user)
              db.session.commit()
              login_user(new_user,remember=True)
-             #flash('Account Created!', category='success')
+             sio.emit("new_user",{new_user.user_name},broadcast=True)
              return redirect(url_for('views.home'))
-             #return redirect('/home')
 
     return render_template("sign_up.html",user=current_user)

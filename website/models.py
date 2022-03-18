@@ -87,3 +87,4 @@ class Channel(db.Model):
     
     def __repr__(self):
         return f"id: {self.id}: Channel Name: {self.name} Channel Description: {self.description}"
+        
