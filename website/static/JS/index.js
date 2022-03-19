@@ -1,7 +1,7 @@
 let submitMessage = document.getElementById("submitMessage");
 let form = document.getElementById("listItem");
 let input = document.getElementById("noteMSG");
-let edit = document.getElementById("edDel");
+//let edit = document.getElementById("edDel");
 let listElement = document.createElement("li");
 listElement.setAttribute("id", "msgEdit");
 let onlineData, editedID, username, thisUser,messID;
@@ -99,7 +99,7 @@ function showPass2(){
 }
 
 function createMessage(msg){
-  edit = `<div id = \"edDel\">
+  var edit = `<div id = \"edDel\">
     <div type = \"button\" class = \"btn\" data-bs-toggle=\"modal\" data-bs-target=\"#editModalCenter\" id =\"editB\" onclick =\"editNote('`+msg.noteID+"','"+msg.data+`')\">
     <img src=\"./static/images/edit.png\" id=\"editImage\">
     </div>
