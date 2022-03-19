@@ -3,9 +3,8 @@ from website.views import sio
 
 app,db_online = create_app()
 sio.init_app(app)
-PROCFILE_INFO = "web: gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 app:app"
-#PORT = 443
-PORT = 5000
+PORTS = [443,5000]
+PORT = PORTS[1]
 HOST = "localhost"
 SSLCERT = ["C:\\Users\\ckron\\cert.pem", "C:\\Users\\ckron\\key.pem"]
 

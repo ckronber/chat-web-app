@@ -25,6 +25,19 @@ function getCurrentUser(){
   sio.emit("getUser");
 }
 
+function updateUserList(userSignedUp){
+  var htmlUser = `
+  <li id = \"user`+userSignedUp.id+`\">
+    <div type=\"button\" class=\"btn btn-primary position-relative\" id = \"userLink\" data-bs-placement=\"left\">`+userSignedUp.user_name+`
+      <div id = \"myBubble`+userSignedUp.id+`\">
+          <span class=\"position-absolute top-0 start-100 translate-middle p-1 bg-success rounded-circle\" id = \"bubble\"></span>
+      </div>
+    </div>
+  </li>`;
+  var list = document.getElementById("uList").innerHTML();
+  list.append(htmlUser);
+}
+
 function editNote(noteId,noteData){
   //var nData = document.getElementById("modalEdit");
   document.getElementById("modalEdit").value = noteData;
@@ -136,6 +149,10 @@ sio.on('c_user',function(msg) {
   thisUser = msg.user_name;
 });
 
+sio.on('new_user',function(newUserData) {
+   updateUserList(newUserData);
+});
+
 // disconnect automatically emits from the server when the user disconnects
 
 sio.on("disconnect", () => {
@@ -148,7 +165,7 @@ sio.on('connect',function() {
 })
 
 sio.on('up_user',function(online) {
-  user = document.getElementById("myBubble"+online.id);
+  var user = document.getElementById("myBubble"+online.id);
   if (user!= null){
     if(online.status == true)
     {
