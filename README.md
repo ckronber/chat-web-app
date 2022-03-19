@@ -1,4 +1,4 @@
-## Chat Web App
+## Chat Web App V0.5
 
 This is a web application that is currently being worked on and can be used to chat with others using the same web application.
 

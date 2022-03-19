@@ -35,6 +35,7 @@ function updateUserList(userSignedUp){
     </div>
   </li>`;
   var list = document.getElementById("uList").innerHTML();
+  console.log(list);
   list.append(htmlUser);
 }
 
@@ -113,6 +114,20 @@ function createMessage(msg){
   else{
     var listValue= "<li class=\"list-group-item chatStuff\" id =\"chat"+msg.noteID+"\">"+msg.user_name +" : " +  msg.data +"</li>";
   }
+  return listValue;
+}
+
+function editMessage(msg){
+  var edit = `<div id = \"edDel\">
+    <div type = \"button\" class = \"btn\" data-bs-toggle=\"modal\" data-bs-target=\"#editModalCenter\" id =\"editB\" onclick =\"editNote('`+msg.noteID+"','"+msg.data+`')\">
+    <img src=\"./static/images/edit.png\" id=\"editImage\">
+    </div>
+    <button type=\"button\" class=\"btn-close\" id =\"closeX\" aria-label=\"Close\" onclick=\"deleteNote('`+msg.noteID+`')\">
+    </button>
+  </div>`;
+
+    var listValue = "<li class=\"list-group-item chatStuff\" id =\"chat"+msg.noteID+"\">You: "+ msg.data + edit +"</li>";
+
   return listValue;
 }
 
