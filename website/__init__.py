@@ -1,6 +1,7 @@
+from django.forms import FilePathField
 from flask import Flask,Blueprint,blueprints
 from flask_sqlalchemy import SQLAlchemy
-from os import path,environ
+from os import path,environ,remove
 from flask_login import LoginManager
 from flask_migrate import Migrate
 
@@ -17,6 +18,8 @@ def create_app():
     if uri and uri.startswith("postgres://"):
         db_online = True
         uri = uri.replace("postgres://", "postgresql://", 1)
+        if(path.isfile(FILEPATH+DB_NAME)):
+            remove(FILEPATH+DB_NAME)
 
     app.config['SECRET_KEY'] = 'mySecretKey'
     app.config['SQLALCHEMY_DATABASE_URI'] = uri or f'sqlite:///{DB_NAME}' 
