@@ -1,3 +1,4 @@
+from argparse import Namespace
 from flask import Blueprint,request,jsonify,render_template
 from flask_socketio import SocketIO,emit,send
 from flask.helpers import url_for
@@ -7,13 +8,11 @@ from . import db
 from threading import Lock
 from datetime import datetime
 
-
 async_mode = "eventlet"
 sio = SocketIO(async_mode=async_mode)
 views = Blueprint('views', __name__)
 thread = None
 thread_lock = Lock()
-
 
 #ROUTE FOR HOME WEBPAGE
 #========================================================================================
@@ -24,7 +23,6 @@ def home():
     myNotes = Note.query.all()
     users = User.query.all()
     return render_template('home.html',allNotes=myNotes,users = users,user=current_user,async_mode = sio.async_mode)
-
 
 #ROUTE FOR ACCOUNT WEBPAGE
 #========================================================================================
@@ -60,7 +58,6 @@ def my_broadcast_event(message):
     db.session.add(new_note)
     db.session.commit()
     emit('message_add',{'user_name': current_user.user_name,'data': new_note.data, 'id':new_note.user_id, 'noteID':new_note.id} ,broadcast=True)
-    #load_all_messages()
     return jsonify({})
 
 @sio.event

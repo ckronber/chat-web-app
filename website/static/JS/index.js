@@ -4,10 +4,13 @@ let input = document.getElementById("noteMSG");
 let edit = document.getElementById("edDel");
 let listElement = document.createElement("li");
 listElement.setAttribute("id", "msgEdit");
-let onlineData, editedID, username, thisUser,messID;
-let Users = [];
+let onlineData, editedID, username,thisUser,messID,numUsers;
 
 const sio = io();
+
+function upsdateUserNumber(){
+  numUsers+=1;
+}
 
 function scrollTobottom(){
   var objDiv = document.getElementById("messageArea");
@@ -25,7 +28,6 @@ function getCurrentUser(){
 }
 
 function updateUserList(userSignedUp){
- 
   var htmlUser = `
     <li id = \"user`+userSignedUp.id+`\">
       <div type=\"button\" class=\"btn btn-primary position-relative\" id = \"userLink\" data-bs-placement=\"left\">`+userSignedUp.user_name+`

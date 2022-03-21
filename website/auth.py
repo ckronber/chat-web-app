@@ -1,6 +1,7 @@
+from argparse import Namespace
 from numpy import broadcast
 from .models import User
-from .views import sio
+from .views import sio,update_ulist
 from . import db
 from flask import Blueprint,render_template,flash,redirect,request,url_for
 from werkzeug.security import generate_password_hash,check_password_hash
@@ -63,6 +64,7 @@ def sign_up():
              db.session.commit()
              login_user(new_user,remember=True)
              sio.emit("new_user",{"id":new_user.id,"user_name":new_user.user_name},broadcast=True)
+             sio.emit('up_user',{"status":True,"id":new_user.id},broadcast=True)
              return redirect(url_for('views.home'))
 
     return render_template("sign_up.html",user=current_user)
