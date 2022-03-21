@@ -6,7 +6,7 @@ from .models import Note, User
 from . import db
 from threading import Lock
 from datetime import datetime
-#import json
+
 
 async_mode = "eventlet"
 sio = SocketIO(async_mode=async_mode)
@@ -14,13 +14,6 @@ views = Blueprint('views', __name__)
 thread = None
 thread_lock = Lock()
 
-
-#ONLINE/OFFLINE
-#=====================================================================================
-@sio.event
-def update_ulist(online,userid):
-    emit('up_user',{"status":online,"id":userid},broadcast=True)
-    return jsonify({})
 
 #ROUTE FOR HOME WEBPAGE
 #========================================================================================
@@ -41,11 +34,20 @@ def account():
     return render_template('userSettings.html',user = current_user,async_mode = sio.async_mode)
 
 
+#ONLINE/OFFLINE
+#=====================================================================================
+@sio.event
+def update_ulist(online,userid):
+    emit('up_user',{"status":online,"id":userid},broadcast=True)
+    return jsonify({})
+
+
 #EVENTS FOR SOCKETIO SERVER
+#=========================================================================================
 
 #@sio.event
-#def my_event():
-#    pass
+#def start_background_task():
+    #pass
     #emit('my_response',{'data': message['data']})
 
 @sio.event
@@ -72,7 +74,6 @@ def edit_event(message):
     noteEdit.edited = True
     db.session.commit()
     emit('edit_message',{'user_name': current_user.user_name,'noteID':noteEdit.id ,'data':noteEdit.data},broadcast = True)
-    #load_all_messages()
     return jsonify({})
 
 @sio.event
@@ -81,8 +82,6 @@ def delete_event(message):
     emit("delete_message",{"id":noteDelete.id},broadcast = True)
     db.session.delete(noteDelete)
     db.session.commit()
-    #load_all_messages()
-   # return jsonify({})
 
 @sio.event
 def load_all_messages():
@@ -123,8 +122,9 @@ def disconnect():
     print(online.user_online)
     return jsonify({})
 
+
 #edit and delete routes to pages that are not used
-"""
+'''
 @views.route('/delete-note', methods=['POST'])
 @login_required
 def deletenote():
@@ -153,4 +153,4 @@ def editNote():
             db.session.commit()
     
     return jsonify({})
-"""
+'''

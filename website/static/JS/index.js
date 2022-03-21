@@ -1,12 +1,11 @@
 let submitMessage = document.getElementById("submitMessage");
 let form = document.getElementById("listItem");
 let input = document.getElementById("noteMSG");
-//let edit = document.getElementById("edDel");
+let edit = document.getElementById("edDel");
 let listElement = document.createElement("li");
 listElement.setAttribute("id", "msgEdit");
 let onlineData, editedID, username, thisUser,messID;
 let Users = [];
-
 
 const sio = io();
 
@@ -26,25 +25,17 @@ function getCurrentUser(){
 }
 
 function updateUserList(userSignedUp){
+ 
   var htmlUser = `
-  <li id = \"user`+userSignedUp.id+`\">
-    <div type=\"button\" class=\"btn btn-primary position-relative\" id = \"userLink\" data-bs-placement=\"left\">`+userSignedUp.user_name+`
-      <div id = \"myBubble`+userSignedUp.id+`\">
-          <span class=\"position-absolute top-0 start-100 translate-middle p-1 bg-success rounded-circle\" id = \"bubble\"></span>
+    <li id = \"user`+userSignedUp.id+`\">
+      <div type=\"button\" class=\"btn btn-primary position-relative\" id = \"userLink\" data-bs-placement=\"left\">`+userSignedUp.user_name+`
+        <div id = \"myBubble`+userSignedUp.id+`\">
+            <span class=\"position-absolute top-0 start-100 translate-middle p-1 bg-success rounded-circle\" id = \"bubble\"></span>
+        </div>
       </div>
-    </div>
-  </li>`;
-  var list = document.getElementById("uList").innerHTML();
-  console.log(list);
-  list.append(htmlUser);
-}
+    </li>`;
 
-function editNote(noteId,noteData){
-  //var nData = document.getElementById("modalEdit");
-  document.getElementById("modalEdit").value = noteData;
-  messID = noteId;
-  //nData.value = noteData;
- //return messID;
+  $('#uList').append(htmlUser);
 }
 
 function deleteNote(noteId) {
@@ -109,26 +100,18 @@ function createMessage(msg){
   </div>`;
 
   if(msg.user_name == thisUser){
-    var listValue = "<li class=\"list-group-item chatStuff\" id =\"chat"+msg.noteID+"\">You: "+ msg.data + edit +"</li>";
+    var listValue = "<li class=\"list-group-item chatStuff\" id =\"chat"+msg.noteID+"\"><div> You : &nbsp;<span id=\"edit"+msg.noteID+"\">"+ msg.data+"</span></div>"+ edit +"</li>";
   }
   else{
-    var listValue= "<li class=\"list-group-item chatStuff\" id =\"chat"+msg.noteID+"\">"+msg.user_name +" : " +  msg.data +"</li>";
+    var listValue= "<li class=\"list-group-item chatStuff\" id =\"chat"+msg.noteID+"\">"+msg.user_name +" : &nbsp; <span id=\"edit"+msg.noteID+"\">"+msg.data+"</span></li>";
   }
   return listValue;
 }
 
-function editMessage(msg){
-  var edit = `<div id = \"edDel\">
-    <div type = \"button\" class = \"btn\" data-bs-toggle=\"modal\" data-bs-target=\"#editModalCenter\" id =\"editB\" onclick =\"editNote('`+msg.noteID+"','"+msg.data+`')\">
-    <img src=\"./static/images/edit.png\" id=\"editImage\">
-    </div>
-    <button type=\"button\" class=\"btn-close\" id =\"closeX\" aria-label=\"Close\" onclick=\"deleteNote('`+msg.noteID+`')\">
-    </button>
-  </div>`;
-
-    var listValue = "<li class=\"list-group-item chatStuff\" id =\"chat"+msg.noteID+"\">You: "+ msg.data + edit +"</li>";
-
-  return listValue;
+function editNote(noteId){
+  messID = noteId;
+  var nData = document.getElementById("edit"+noteId).innerText;
+  document.getElementById("modalEdit").value = nData;  
 }
 
 //Used from Stack Overflow
@@ -136,6 +119,7 @@ function removeElement(id) {
   var element = document.getElementById(id);
   element.parentElement.removeChild(element);
 }
+
 //-------------------------------------------------------
 //Functions for changing bubble color for online/offline
 //-------------------------------------------------------
@@ -166,6 +150,7 @@ sio.on('c_user',function(msg) {
 
 sio.on('new_user',function(newUserData) {
    updateUserList(newUserData);
+   return false
 });
 
 // disconnect automatically emits from the server when the user disconnects
@@ -193,7 +178,7 @@ sio.on('up_user',function(online) {
 })
 
 sio.on('edit_message',function(messId){
-  document.getElementById('chat'+messId.noteID).innerHTML = createMessage(messId);
+  document.getElementById("edit"+messId.noteID).innerHTML = messId.data;
 })
 
 sio.on('delete_message',function(messId){
@@ -241,7 +226,6 @@ $('form#broadcast').submit(function() {
   if(broadText.length > 0){
     sio.emit('my_broadcast_event', {data: broadText});
     clearTextArea("broadcast_data");
-    //sio.emit('load_all_messages');
   }
   return false;
 })
@@ -250,7 +234,6 @@ $('form#editForm').submit(function(){
   var editedData = $("#modalEdit").val();
   var editedID = messID;
   $("#editModalCenter").modal("hide");
-  console.log(editedID,editedData);
   sio.emit('edit_event', {id:editedID, data: editedData});
   return false;
 })
@@ -294,8 +277,6 @@ $(document).ready(function() {
   
 */
   // Handlers for the different forms in the page. These accept data from the user and send it to the server in a variety of ways
-
-
 
 
 // using enter with messages as well as clicking submit

@@ -36,16 +36,18 @@
         {%for note in allNotes%} 
           {%if current_user.user_name==note.user.user_name%}
             <li class="list-group-item chatStuff" id="chat{{note.id}}"> <!--colorClass-->
-              {{"You: " + note.data}}
+              <div>
+               You : <span id = "edit{{note.id}}">{{note.data}}</spon>
+              </div>
               <div id="edDel">
-                <div type="button" class = "btn" id="editB" data-bs-toggle="modal" data-bs-target="#editModalCenter" onclick = "editNote('{{note.id}}','{{note.data}}')">
+                <div type="button" class = "btn" id="editB" data-bs-toggle="modal" data-bs-target="#editModalCenter" onclick = "editNote('{{note.id}}')">
                   <img src="../static/images/edit.png" id="editImage"/>
                 </div>
                 <button type="button" class="btn-close" id="closeX" aria-label="Close" onclick="deleteNote('{{note.id}}')"></button>
               </div>
             </li>
           {%else%}
-            <li class="list-group-item chatStuff" id="chat{{note.id}}">{{note.user.user_name + ": " + note.data}}</li>
+            <li class="list-group-item chatStuff" id="chat{{note.id}}">{{note.user.user_name}}  : &nbsp; <span id = "edit{{note.id}}">{{note.data}}</span></li>
           {%endif%} 
         {% endfor %}
       </ul>
