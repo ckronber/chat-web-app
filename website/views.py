@@ -8,7 +8,7 @@ from . import db
 from threading import Lock
 from datetime import datetime
 
-async_mode = "gevent"
+async_mode = "eventlet"
 sio = SocketIO(async_mode=async_mode)
 views = Blueprint('views', __name__)
 thread = None
