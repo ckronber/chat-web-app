@@ -30,7 +30,7 @@ def create_app():
     db.init_app(app)
     #migrate = Migrate(app=app,db=db)
     
-    if path.isfile(FILEPATH+DB_NAME) is not True and db_online == False:
+    if (path.isfile(FILEPATH+DB_NAME) is not True) and (db_online == False):
         db.create_all(app=app)
         print("created")
         
