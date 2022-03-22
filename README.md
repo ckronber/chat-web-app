@@ -40,3 +40,13 @@ I have not yet implemented direct messaging but that will be the next part of th
 &emsp;&emsp;&emsp;&emsp;&emsp;```py --version```
 
 &emsp;&emsp;&emsp;&emsp;&emsp;```python3 --version```
+
+<br>
+<h4>&ensp; 3. Check the pip version to make sure it is installed with the commands below</h4>
+
+&emsp;&emsp;&emsp;&emsp;&emsp;```pip --version```
+
+&emsp;&emsp;&emsp;&emsp;&emsp;```pip3 --version```
+
+&emsp;&emsp;&emsp;&emsp;&emsp;```pip3.10 --version``` - This is the specific version of python that pip is using
+
