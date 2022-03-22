@@ -15,14 +15,14 @@ I have not yet implemented direct messaging but that will be the next part of th
 
 &emsp;&emsp;&emsp;&emsp;- Make sure the pip selection is checked like it is  in the image below.
 <br>
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<img src = "images\first.png" height="300rem">
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <img src = "images\first.png" height="300rem">
 <br>
 <br>
 &emsp;&emsp;&emsp;&emsp;- Make sure to add the environment variable checkbox when installing python also.
 
 <br>
 <br>
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<img src = "images\secondPic.png" height="300rem">
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <img src = "images\secondPic.png" height="300rem">
 
 <br>
 <br>
