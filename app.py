@@ -1,12 +1,13 @@
 from website import create_app
 from website.views import sio,async_mode
+import os
 
-app,db_online = create_app()
+app = create_app()
 
-if(db_online == True):
-    async_mode = "gevent"
+if os.environ.get("DB_ONLINE") == "True":
+    db_online = True
 else:
-    async_mode = "eventlet"
+    db_online = False
 
 sio.init_app(app)
 PORTS = [443,5000]

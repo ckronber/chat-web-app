@@ -3,12 +3,17 @@ from flask import Blueprint,request,jsonify,render_template
 from flask_socketio import SocketIO,emit,send
 from flask.helpers import url_for
 from flask_login import login_required,current_user, logout_user
-from .models import Note, User
-from . import db
 from threading import Lock
 from datetime import datetime
+import os
+from .models import Note, User
+from . import db
 
-async_mode = "eventlet"
+if os.environ.get("DB_ONLINE") == "True":
+    async_mode = "gevent"
+else:
+    async_mode = "eventlet"
+
 sio = SocketIO(async_mode=async_mode)
 views = Blueprint('views', __name__)
 thread = None

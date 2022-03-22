@@ -23,6 +23,7 @@ pandas
 postgres
 psycopg
 python-dateutil
+python-dotenv
 python-socketio
 regex
 requests
