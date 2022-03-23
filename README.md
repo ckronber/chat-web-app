@@ -49,4 +49,15 @@ I have not yet implemented direct messaging but that will be the next part of th
 
 &emsp;&emsp;&emsp;&emsp;&emsp;```pip3.10 --version``` - This is the specific version of python that pip is using
 
-&emsp;
+<br>
+<h4>&ensp; 4. Click the code button</h4>
+
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <img src = "images\codeButton.png" height="300rem">
+
+- You can click the copy button to copy the code and then add git clone to the beginning of it in a terminal or command prompt. I have already copied and added git clone so you do not have to do that with the text below. you can just copy what is below and paste it  ito a terminal or command prompt.
+
+&emsp;&emsp;&emsp;&emsp;&emsp;```git clone https://github.com/ckronber/chat-web-app.git```
+
+
+- If you would like to download the zip file, you can do that also by clicking Download ZIP.
+
