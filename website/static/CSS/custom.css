@@ -287,7 +287,7 @@ body{
 /*=====================================================*/
 
 #channelAdd{
-    display:flex;
+    display:inline-flexbox;
     font-weight: bolder;
     width:auto;
     height:auto;
@@ -295,16 +295,16 @@ body{
 
 #chanText{
     width:auto;
-    display:inline-block;
+    display:inline-flex;
 }
 
 #addChan{
     margin-left:1rem;
     background: none;
     width: auto;
-    height:min-content;
+    height:max-content;
     transform: rotate(90deg);
-    display:inline-block;
+    display:inline-flex;
 }
 
 .addSign:hover{
@@ -319,7 +319,7 @@ body{
     background: none;
     width: auto;
     height:min-content;
-    display:inline-block;
+    display:inline-flex;
 }
 
 .searchChan:hover{
@@ -390,7 +390,7 @@ body{
 
 #topDiv{
     align-items: center;
-    display:inline-flexbox;
+    display:inline-flex;
 }
 
 /*=====================================================*/
