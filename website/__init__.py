@@ -12,7 +12,7 @@ db = SQLAlchemy()
 def create_app():
     app = Flask(__name__)
     uri = environ.get("DATABASE_URL")
-    db_online = environ.get()
+    db_online = environ.get("db-online")
     print("DB_ONLINE = " +db_online)
     if db_online == None:
         db_online = False
