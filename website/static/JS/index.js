@@ -180,7 +180,7 @@ sio.on('up_user',function(online) {
 })
 
 sio.on('edit_message',function(messId){
-  document.getElementById("edit"+messId.noteID).innerHTML = messId.data;
+  document.getElementById("edit"+messId.noteID).innerText = messId.data;
 })
 
 sio.on('delete_message',function(messId){
@@ -235,8 +235,8 @@ $('form#broadcast').submit(function() {
 $('form#editForm').submit(function(){
   var editedData = $("#modalEdit").val();
   var editedID = messID;
-  $("#editModalCenter").modal("hide");
   sio.emit('edit_event', {id:editedID, data: editedData});
+  $("#editModalCenter").modal("hide");
   return false;
 })
 
