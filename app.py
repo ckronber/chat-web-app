@@ -1,5 +1,7 @@
 from website import create_app
 from website.views import sio,async_mode
+from dotenv import load_dotenv
+load_dotenv()
 import os
 
 app = create_app()
@@ -16,6 +18,7 @@ HOST = "localhost"
 SSLCERT = ["C:\\Users\\ckron\\cert.pem", "C:\\Users\\ckron\\key.pem"]
 
 if __name__ == "__main__":
+    print(db_online)
     if(db_online):
         app.run()
     else:
