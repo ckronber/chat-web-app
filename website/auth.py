@@ -1,5 +1,3 @@
-from argparse import Namespace
-from numpy import broadcast
 from .models import User
 from .views import sio,update_ulist
 from . import db

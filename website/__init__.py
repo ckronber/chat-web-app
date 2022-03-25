@@ -1,4 +1,3 @@
-from django.forms import FilePathField
 from flask import Flask,Blueprint,blueprints
 from flask_sqlalchemy import SQLAlchemy
 from os import path,environ,remove

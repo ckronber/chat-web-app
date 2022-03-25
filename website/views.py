@@ -1,4 +1,3 @@
-from argparse import Namespace
 from flask import Blueprint,request,jsonify,render_template
 from flask_socketio import SocketIO,emit,send
 from flask.helpers import url_for
