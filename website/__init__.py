@@ -3,7 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 from os import path,environ,remove
 from flask_login import LoginManager
 from flask_migrate import Migrate
-import os
 
 FILEPATH = "website/"
 DB_NAME = "database.db"
@@ -11,21 +10,18 @@ DB_NAME = "database.db"
 db = SQLAlchemy()
 
 def create_app():
-    db_online = False
     app = Flask(__name__)
     uri = environ.get("DATABASE_URL")
+    db_online = environ.get()
+    print("DB_ONLINE = " +db_online)
+    if db_online == None:
+        db_online = False
 
     if uri and uri.startswith("postgres://"):
-        db_online = True
         uri = uri.replace("postgres://", "postgresql://", 1)
         if(path.isfile(FILEPATH+DB_NAME)):
             remove(FILEPATH+DB_NAME)
     
-    if(db_online == True):
-        os.environ['DB_ONLINE'] = "True"
-    else:
-        os.environ['DB_ONLINE'] = "False"
-
     app.config['SECRET_KEY'] = 'mySecretKey'
     app.config['SQLALCHEMY_DATABASE_URI'] = uri or f'sqlite:///{DB_NAME}' 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

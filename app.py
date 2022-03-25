@@ -1,25 +1,19 @@
 from website import create_app
 from website.views import sio,async_mode
-from dotenv import load_dotenv
-load_dotenv()
 import os
 
 app = create_app()
-
-if os.environ.get("DB_ONLINE") == "True":
-    db_online = True
-else:
-    db_online = False
+database_online = os.environ.get("db-online")
 
 sio.init_app(app)
+
 PORTS = [443,5000]
 PORT = PORTS[1]
 HOST = "localhost"
 SSLCERT = ["C:\\Users\\ckron\\cert.pem", "C:\\Users\\ckron\\key.pem"]
 
 if __name__ == "__main__":
-    print(db_online)
-    if(db_online):
+    if(database_online == "True"):
         app.run()
     else:
         if PORT == 443:

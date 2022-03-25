@@ -4,13 +4,13 @@ from flask.helpers import url_for
 from flask_login import login_required,current_user, logout_user
 from threading import Lock
 from datetime import datetime
-from dotenv import load_dotenv
-load_dotenv()
 import os
 from .models import Note, User
 from . import db
 
-if os.environ.get("DB_ONLINE") == "True":
+database_online = os.environ.get("db-online")
+
+if  database_online == "True":
     async_mode = "gevent"
 else:
     async_mode = "eventlet"
