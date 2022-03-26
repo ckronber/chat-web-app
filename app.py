@@ -4,7 +4,6 @@ import os
 
 app = create_app()
 database_online = os.environ.get("db-online")
-
 sio.init_app(app)
 
 PORTS = [443,5000]

@@ -1,5 +1,5 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content%}
-<div class="row" width = "max-width" id = "mainRow" >
+<div class="row" width = "max-width" id = "mainRow">
   <div class="col-8" id = "columnLeft">
     <!--width="fixed"  padding-right="200rem"-->
     <br>
@@ -37,17 +37,18 @@
           {%if current_user.user_name==note.user.user_name%}
             <li class="list-group-item chatStuff" id="chat{{note.id}}"> <!--colorClass-->
               <div>
-               You : <span id = "edit{{note.id}}">{{note.data}}</spon>
-              </div>
-              <div id="edDel">
-                <div type="button" class = "btn" id="editB" data-bs-toggle="modal" data-bs-target="#editModalCenter" onclick = "editNote('{{note.id}}')">
-                  <img src="../static/images/edit.png" id="editImage"/>
+               You : <span id = "edit{{note.id}}">{{note.data}}
+                <div id="edDel">
+                  <div type="button" class = "btn" id="editB" data-bs-toggle="modal" data-bs-target="#editModalCenter" onclick = "editNote('{{note.id}}')">
+                    <img src="../static/images/edit.png" id="editImage"/>
+                  </div>
+                  <button type="button" class="btn-close" id="closeX" aria-label="Close" onclick="deleteNote('{{note.id}}')"></button>
                 </div>
-                <button type="button" class="btn-close" id="closeX" aria-label="Close" onclick="deleteNote('{{note.id}}')"></button>
+               </spon>
               </div>
             </li>
           {%else%}
-            <li class="list-group-item chatStuff" id="chat{{note.id}}">{{note.user.user_name}}  : &nbsp; <span id = "edit{{note.id}}">{{note.data}}</span></li>
+            <li class="list-group-item chatStuff" id="chat{{note.id}}"><div>{{note.user.user_name}}  : &nbsp; <span id = "edit{{note.id}}">{{note.data}}</span></div></li>
           {%endif%} 
         {% endfor %}
       </ul>
@@ -56,17 +57,7 @@
 
     <br>
 
-    <!--MESSAGE AREA-->
-    <div id = "sendArea">
-      <form name="messForm" id="broadcast" method="POST" class="input-group mb-3 shadow" action="/">
-        <textarea type="input" name="broadcast_data" id="broadcast_data" class="form-control"></textarea>
-        <div ></div>
-        <div id="submitBlock">
-          <input type="submit" value="" id="submitMessage">
-        </div>
-      </form>
-    </div>
-    <!--END MESSAGE AREA-->
+
 
     <br>
 
@@ -135,16 +126,16 @@
       <div>
         <br>
         <!--<button type="button" id="sideAdd" class="btn btn-info btn-sm">Add</button>-->
-        <div class="UserList rounded overflow-auto shadow" style="height: 10rem">
+        <div class="GroupList rounded overflow-auto shadow" style="height: 10rem">
         </div>
       </div>
 
       <br>
       <br>
-      <h5>Users</h5>
+      <h5 id = "userList">Users</h5>
       <br>
 
-      <div class="UserList rounded overflow-auto shadow" style="height: 31.5rem">
+      <div class="UserList rounded overflow-auto shadow">
         <ul id = "uList" style="list-style: none;">
           {%for user in users%}
             {%if user != current_user%}
@@ -221,5 +212,18 @@
       </div>
     </div>
     <!--End of Modal for adding a channel-->
+</div>
+<div class="row" width = "max-width" height = "max-content" id = "broadcastRow">
+  <!--MESSAGE AREA-->
+  <div id = "sendArea">
+    <form name="messForm" id="broadcast" method="POST" class="input-group mb-3 shadow" action="/">
+      <textarea type="input" name="broadcast_data" id="broadcast_data" class="form-control"></textarea>
+      <div ></div>
+      <div id="submitBlock">
+        <input type="submit" value="" id="submitMessage">
+      </div>
+    </form>
+  </div>
+  <!--END MESSAGE AREA-->
 </div>
 {% endblock %}

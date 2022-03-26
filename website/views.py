@@ -15,6 +15,7 @@ if  database_online == "True":
 else:
     async_mode = "eventlet"
 
+print(async_mode)
 sio = SocketIO(async_mode=async_mode)
 views = Blueprint('views', __name__)
 thread = None

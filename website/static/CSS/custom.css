@@ -12,6 +12,29 @@ body{
     background-color:rgba(0, 0, 0,.4);
     margin-top: -1rem;
     padding-top: .2rem;
+    margin-right:-1.5rem;
+    margin-left:-1.5rem;
+    height: 22.5rem;
+    max-width: 10rem;
+    /*width: fit-content;*/
+}
+
+#userList{
+    margin-left:-1.5rem;
+}
+
+.GroupList{
+    background-color:rgba(0, 0, 0,.4);
+    margin-top: -1rem;
+    padding-top: .2rem;
+    margin-right:-1.5rem;
+    margin-left:-1.5rem;
+    max-width: 10rem;
+    height: 15rem;
+}
+
+#broadcastRow{
+    margin-top: -2rem;
 }
 
 #sideAdd{
@@ -141,7 +164,17 @@ body{
 
 #sendArea{
     display:inline-flex;
-    width:100%;
+    width:90%;
+    margin-left:1rem;
+}
+
+.notesEdited{
+    display:inline-flex;
+}
+
+
+.noteED{
+    display:flex;
 }
 
 /*=====================================================*/
@@ -152,41 +185,29 @@ body{
     height: 30rem;
     background-color: rgba(0, 0, 0, .4);
     border-radius: 1rem;
+    display: -ms-flexbox;
 }
 
 .chatStuff{
     color:rgb(52, 180, 159);
-    max-width: max-content;
+    width: auto;
     background-color:transparent;
     height: auto;   
     text-align: left;
     padding: .1rem;
     border:none;
-    display:inline-flex;
-}
-
-#otherList{
-    color:rgb(52, 180, 159);
-    max-width: max-content;
-    background-color:transparent;
-    padding: .1rem;
-    padding-right: .5rem;
-    margin: .1rem;
-    border-radius: 1rem;
-    height: auto;   
-    border: none;
+    display: inline-flex;
 }
 
 #log{
-    display:inline-flex;
     width: 100%;
     height:max-content;
  }
 
 #edDel{
-    display:inline-flex;
     height: 1.8rem;
     width: auto;
+    display: inline-flex;
 }
 
 /*EDIT button*/
@@ -195,7 +216,7 @@ body{
     background-color:transparent;
     display:inline-flex;
     border-radius: 2rem;
-    height:auto;
+    height:1.8rem;
     width:auto;
     margin-right: .1rem;
     opacity: .4;
@@ -210,18 +231,20 @@ body{
     opacity: .9;
 }
 
+/*
  #editImage{
     height:auto;
     width:1.2rem;
- }
+ }*/
 
 /*CLOSE button*/
 #closeX{
     border:none;
-    width:1.2rem;
     height:auto;
+    width:1.2rem;
     border-radius: 1rem;
     opacity:.4;
+    display:inline-flex;
 }
 
 #closeX:hover{
@@ -271,6 +294,10 @@ body{
     padding-right: 1rem;
 }
 
+#uList{
+    margin-left:-1.5rem;
+}
+
 #dMessage{
     display: flex;
     margin-left: -1.5rem;
@@ -289,7 +316,8 @@ body{
 #channelAdd{
     display:inline-flexbox;
     font-weight: bolder;
-    width:auto;
+    margin-left: -1.5rem;
+    width:150%;
     height:auto;
 }
 

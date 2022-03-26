@@ -16,7 +16,7 @@ def create_app():
 
     if db_online == None:
         db_online = False
-    
+    print("db_online " + str(db_online))
     if uri and uri.startswith("postgres://"):
         uri = uri.replace("postgres://", "postgresql://", 1)
         if(path.isfile(FILEPATH+DB_NAME)):
@@ -29,7 +29,6 @@ def create_app():
     migrate = Migrate(app=app,db=db)
     migrate.init_app(app)
     db.init_app(app)
-    
     
     if (path.isfile(FILEPATH+DB_NAME) is not True) and (db_online == False):
         db.create_all(app=app)    
