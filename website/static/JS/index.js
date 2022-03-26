@@ -187,7 +187,13 @@ sio.on('edit_message',function(messId){
   <button type=\"button\" class=\"btn-close\" id =\"closeX\" aria-label=\"Close\" onclick=\"deleteNote('`+messId.noteID+`')\">
   </button>
   </div>`;
-  document.getElementById("edit"+messId.noteID).innerHTML = messId.data + editDelete;
+  
+  if (thisUser == messId.user_name){
+    document.getElementById("edit"+messId.noteID).innerHTML = messId.data + editDelete;
+  }
+  else{
+    document.getElementById("edit"+messId.noteID).innerText = messId.data;
+  }
 })
 
 sio.on('delete_message',function(messId){
