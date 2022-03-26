@@ -180,7 +180,14 @@ sio.on('up_user',function(online) {
 })
 
 sio.on('edit_message',function(messId){
-  document.getElementById("edit"+messId.noteID).innerText = messId.data;
+  var editDelete = `<div id = \"edDel\">
+  <div type = \"button\" class = \"btn\" data-bs-toggle=\"modal\" data-bs-target=\"#editModalCenter\" id =\"editB\" onclick =\"editNote('`+messId.noteID+"','"+messId.data+`')\">
+  <img src=\"./static/images/edit.png\" id=\"editImage\">
+  </div>
+  <button type=\"button\" class=\"btn-close\" id =\"closeX\" aria-label=\"Close\" onclick=\"deleteNote('`+messId.noteID+`')\">
+  </button>
+  </div>`;
+  document.getElementById("edit"+messId.noteID).innerHTML = messId.data + editDelete;
 })
 
 sio.on('delete_message',function(messId){
