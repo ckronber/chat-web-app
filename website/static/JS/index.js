@@ -105,7 +105,7 @@ function createMessage(msg){
     var listValue = "<li class=\"list-group-item chatStuff\" id =\"chat"+msg.noteID+"\"><div> You : &nbsp;<span id=\"edit"+msg.noteID+"\">"+ msg.data+edit+"</span></div></li>";
   }
   else{
-    var listValue= "<li class=\"list-group-item chatStuff\" id =\"chat"+msg.noteID+"\">"+msg.user_name +" : &nbsp; <span id=\"edit"+msg.noteID+"\">"+msg.data+"</span></li>";
+    var listValue= "<li class=\"list-group-item chatStuff\" id =\"chat"+msg.noteID+"\"><div>"+msg.user_name +" : &nbsp; <span id=\"edit"+msg.noteID+"\">"+msg.data+"</span></div></li>";
   }
   return listValue;
 }
