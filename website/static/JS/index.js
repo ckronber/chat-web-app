@@ -111,6 +111,7 @@ function createMessage(msg){
 }
 
 function editNote(noteId){
+  sio.emit("note_id",{id:noteId});
   messID = noteId;
   var nData = document.getElementById("edit"+noteId).innerText;
   document.getElementById("modalEdit").value = nData;  
@@ -121,6 +122,7 @@ function removeElement(id) {
   var element = document.getElementById(id);
   element.parentElement.removeChild(element);
 }
+
 
 //-------------------------------------------------------
 //Functions for changing bubble color for online/offline
@@ -245,11 +247,12 @@ $('form#broadcast').submit(function() {
   return false;
 })
 
+
 $('form#editForm').submit(function(){
   var editedData = $("#modalEdit").val();
   var editedID = messID;
   sio.emit('edit_event', {id:editedID, data: editedData});
-  $("#editModalCenter").modal("hide");
+  $("#editModalCenter").modal("hide");  
   return false;
 })
 

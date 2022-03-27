@@ -5,6 +5,8 @@ from flask_login import login_required,current_user, logout_user
 from threading import Lock
 from datetime import datetime
 import os
+
+from numpy import broadcast
 from .models import Note, User
 from . import db
 
@@ -71,19 +73,20 @@ def my_broadcast_event(message):
 def loadHome():
     return  home()
 
+
 @sio.event
 def edit_event(message):
+    emit('edit_message',{'user_name': current_user.user_name,'noteID':message['id'] ,'data':message['data']},broadcast = True)
     noteEdit = Note.query.filter_by(id = message['id']).first()
     noteEdit.data = message['data']
     noteEdit.edited = True
     db.session.commit()
-    emit('edit_message',{'user_name': current_user.user_name,'noteID':noteEdit.id ,'data':noteEdit.data},broadcast = True)
     return jsonify({})
 
 @sio.event
 def delete_event(message):
+    emit("delete_message",{"id":message['id']},broadcast = True)
     noteDelete = Note.query.filter_by(id = message['id']).first()
-    emit("delete_message",{"id":noteDelete.id},broadcast = True)
     db.session.delete(noteDelete)
     db.session.commit()
 
