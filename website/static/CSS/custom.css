@@ -12,11 +12,8 @@ body{
     background-color:rgba(0, 0, 0,.4);
     margin-top: -1rem;
     padding-top: .2rem;
-    margin-right:-1.5rem;
     margin-left:-1.5rem;
     height: 20rem;
-    max-width: 10rem;
-    /*width: fit-content;*/
 }
 
 #userList{
@@ -27,15 +24,14 @@ body{
     background-color:rgba(0, 0, 0,.4);
     margin-top: -1rem;
     padding-top: .2rem;
-    margin-right:-1.5rem;
     margin-left:-1.5rem;
-    max-width: 10rem;
     height: 15rem;
 }
 
 #broadcastRow{
     margin-top: -2rem;
 }
+
 
 #sideAdd{
     position:relative;
@@ -44,7 +40,7 @@ body{
 }
 
 #columnRight{
-    padding: 2rem;
+    padding-left: 2rem;
 }
 
 #mainRow{
@@ -319,7 +315,7 @@ body{
     display:inline-flexbox;
     font-weight: bolder;
     margin-left: -1.5rem;
-    width:150%;
+    width:100%;
     height:auto;
 }
 

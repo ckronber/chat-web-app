@@ -78,7 +78,6 @@ class User(db.Model,UserMixin):
     def __repr__(self):
         return f"id: {self.id}: email: {self.email} user: {self.first_name}"
 
-
 class Channel(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(NAME_LENGTH), unique = True)
@@ -87,4 +86,3 @@ class Channel(db.Model):
     
     def __repr__(self):
         return f"id: {self.id}: Channel Name: {self.name} Channel Description: {self.description}"
-        
