@@ -102,7 +102,7 @@ function createMessage(msg){
   </div>`;
 
   if(msg.user_name == thisUser){
-    var listValue = "<li class=\"list-group-item chatStuff\" id =\"chat"+msg.noteID+"\"><div> You : &nbsp;<span id=\"edit"+msg.noteID+"\">"+ msg.data+edit+"</span></div></li>";
+    var listValue = "<li class=\"list-group-item chatStuff\" id =\"chat"+msg.noteID+"\"><div> You : &nbsp;<span id=\"edit"+msg.noteID+"\">"+ msg.data+"&nbsp;"+edit+"</span></div></li>";
   }
   else{
     var listValue= "<li class=\"list-group-item chatStuff\" id =\"chat"+msg.noteID+"\"><div>"+msg.user_name +" : &nbsp; <span id=\"edit"+msg.noteID+"\">"+msg.data+"</span></div></li>";
@@ -191,7 +191,7 @@ sio.on('edit_message',function(messId){
   </div>`;
   
   if (thisUser == messId.user_name){
-    document.getElementById("edit"+messId.noteID).innerHTML = messId.data + editDelete;
+    document.getElementById("edit"+messId.noteID).innerHTML = messId.data +"&nbsp"+editDelete;
   }
   else{
     document.getElementById("edit"+messId.noteID).innerText = messId.data;
