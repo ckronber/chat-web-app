@@ -8,9 +8,9 @@ let onlineData, editedID, username,thisUser,messID,numUsers;
 
 const sio = io();
 
-function upsdateUserNumber(){
-  numUsers+=1;
-}
+//---------------------------------------------------------------
+//Functions that have to do with scrolling
+//---------------------------------------------------------------
 
 function scrollTobottom(){
   var objDiv = document.getElementById("messageArea");
@@ -22,7 +22,10 @@ function scrollBotPage(){
   console.log(sHeight.scrollHeight);
 }
 
-//Gets the currentUser that is logged in
+//---------------------------------------------------------------
+//Functions that have to do with the Users
+//---------------------------------------------------------------
+
 function getCurrentUser(){
   sio.emit("getUser");
 }
@@ -40,10 +43,6 @@ function updateUserList(userSignedUp){
   $('#uList').append(htmlUser);
 }
 
-function deleteNote(noteId) {
-  sio.emit("delete_event", {id: noteId});
-}
-
 function addUser(){
   let uIn = document.getElementById("usersADD").value;
   let len = document.getElementById("broadcast_data").placeholder;
@@ -59,12 +58,31 @@ function addUser(){
   clearTextArea("usersADD");
 }
 
+function upsdateUserNumber(){
+  numUsers+=1;
+}
+
+//---------------------------------------------------------------
+//Functions for Direct Messaging
+//---------------------------------------------------------------
+
+
+
+
+//---------------------------------------------------------------
+//Functions for clearing the message area
+//---------------------------------------------------------------
+
 function clearTextArea(broadcast){
   let messageData = document.getElementById(broadcast).value;
   console.log(messageData);
   messageData = "";
   document.getElementById(broadcast).value = messageData;
 }
+
+//---------------------------------------------------------------
+//Functions for showing passwords on the login and sign-up pages
+//---------------------------------------------------------------
 
 function showPass(){
   var x = document.getElementById("password");
@@ -92,6 +110,9 @@ function showPass2(){
   }
 }
 
+//---------------------------------------------------------------
+//Functions for creating, editing and deleting messages
+//---------------------------------------------------------------
 function createMessage(msg){
   var edit = `<div id = \"edDel\">
     <div type = \"button\" class = \"btn\" data-bs-toggle=\"modal\" data-bs-target=\"#editModalCenter\" id =\"editB\" onclick =\"editNote('`+msg.noteID+"','"+msg.data+`')\">
@@ -115,6 +136,10 @@ function editNote(noteId){
   messID = noteId;
   var nData = document.getElementById("edit"+noteId).innerText;
   document.getElementById("modalEdit").value = nData;  
+}
+
+function deleteNote(noteId) {
+  sio.emit("delete_event", {id: noteId});
 }
 
 //Used from Stack Overflow
@@ -147,7 +172,10 @@ function userOfflineBubble(){
 //SocketIO Messages received by the server
 //-----------------------------------------
 
-//reads the current user to this function
+/*
+Socket IO Functions for Users
+-----------------------------------------------------
+*/
 sio.on('c_user',function(msg) {
   thisUser = msg.user_name;
 });
@@ -157,13 +185,15 @@ sio.on('new_user',function(newUserData) {
    return false
 });
 
-// disconnect automatically emits from the server when the user disconnects
+/*
+Socket IO Functions for Connect and Disconnect
+-----------------------------------------------------
+*/
 
 sio.on("disconnect", () => {
   console.log("disconnected");
 })
 
-// Connect automatically emits from the server when the user disconnects
 sio.on('connect',function() {
   console.log("connected!");
 })
@@ -204,7 +234,6 @@ sio.on('delete_message',function(messId){
 })
 
 //reloads the page
-
 sio.on('load_page',function(){
   location.reload();
 })

@@ -73,7 +73,6 @@ def my_broadcast_event(message):
 def loadHome():
     return  home()
 
-
 @sio.event
 def edit_event(message):
     emit('edit_message',{'user_name': current_user.user_name,'noteID':message['id'] ,'data':message['data']},broadcast = True)
