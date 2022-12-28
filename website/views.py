@@ -5,20 +5,18 @@ from flask_login import login_required,current_user, logout_user
 from threading import Lock
 from datetime import datetime
 import os
-
-from numpy import broadcast
 from .models import Note, User
 from . import db
 
 database_online = os.environ.get("db-online")
 
+'''
 if  database_online == "True":
     async_mode = "gevent"
 else:
     async_mode = "eventlet"
-
-print(async_mode)
-sio = SocketIO(async_mode=async_mode)
+'''
+sio = SocketIO()
 views = Blueprint('views', __name__)
 thread = None
 thread_lock = Lock()

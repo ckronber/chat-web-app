@@ -4,7 +4,7 @@ from os import path,environ,remove
 from flask_login import LoginManager
 from flask_migrate import Migrate
 
-FILEPATH = "website/"
+FILEPATH = "instance/"
 DB_NAME = "database.db"
 
 db = SQLAlchemy()
@@ -31,8 +31,8 @@ def create_app():
     db.init_app(app)
     
     if (path.isfile(FILEPATH+DB_NAME) is not True) and (db_online == False):
-        db.create_all(app=app)    
-        print("created")
+        with app.app_context():
+            db.create_all()     
         
     from . import views,auth
     app.register_blueprint(views.views, url_prefix='/')

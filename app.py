@@ -1,5 +1,5 @@
 from website import create_app
-from website.views import sio,async_mode
+from website.views import sio
 import os
 
 app = create_app()
@@ -18,4 +18,4 @@ if __name__ == "__main__":
         if PORT == 443:
             sio.run(app,debug=True,port=PORT,host=HOST,certfile=SSLCERT[0],keyfile=SSLCERT[1],server_side=True)
         else:
-            sio.run(app,debug=True,host=HOST,port=PORT)
+            sio.run(app,debug=True,host=HOST,port=PORT,allow_unsafe_werkzeug=True)
