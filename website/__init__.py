@@ -30,11 +30,11 @@ def create_app():
     migrate.init_app(app)
     db.init_app(app)
     
-    
     if (path.isfile(FILEPATH+DB_NAME) is not True) and (db_online == False):
-        db.create_all(app=app)    
+        with app.app_context():
+            db.create_all()    
         print("created")
-        
+    
     from . import views,auth
     app.register_blueprint(views.views, url_prefix='/')
     app.register_blueprint(auth.auth, url_prefix='/')
