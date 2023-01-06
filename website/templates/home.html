@@ -187,17 +187,16 @@
       <div class="modal-dialog">
         <div class="modal-content">`
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Create Channel</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Channels</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <label for="chanInput" class="col-form-label" >Search for Channel:</label>
+            <label for="chanInput" class="col-form-label" > Search Channels Here:</label>
             <input type="search" class = "form-control" id = "chanInput" placeholder = "Search for channel here" value="">
             <br>
             <div id = "foundChannels">
               <ul>
-                <li>channel1 <button id = "chanButt">Add</button></li>
-                <li>channel2 <button id = "chanButt">Add</button></li>
+                <li>Example Channel Here</li>
               </ul>
             </div>
           </div>
@@ -215,8 +214,15 @@
   <!--MESSAGE AREA-->
   <div id = "sendArea">
     <form name="messForm" id="broadcast" method="POST" class="input-group mb-3 shadow" action="/">
-      <textarea type="input" name="broadcast_data" id="broadcast_data" class="form-control"></textarea>
+      <textarea type="text" name="broadcast_data" id="broadcast_data" class="form-control"></textarea>
       <div ></div>
+
+      <!--Add file for direct messaging to be able to send files to one another 
+      <div id="fileBlock">
+        <input type="file" value="" id="addFile">
+      </div>
+      -->
+
       <div id="submitBlock">
         <input type="submit" value="" id="submitMessage">
       </div>

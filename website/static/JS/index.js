@@ -114,6 +114,7 @@ function showPass2(){
 //Functions for creating, editing and deleting messages
 //---------------------------------------------------------------
 function createMessage(msg){
+
   var edit = `<div id = \"edDel\">
     <div type = \"button\" class = \"btn\" data-bs-toggle=\"modal\" data-bs-target=\"#editModalCenter\" id =\"editB\" onclick =\"editNote('`+msg.noteID+"','"+msg.data+`')\">
     <img src=\"./static/images/edit.png\" id=\"editImage\">
@@ -123,10 +124,10 @@ function createMessage(msg){
   </div>`;
 
   if(msg.user_name == thisUser){
-    var listValue = "<li class=\"list-group-item chatStuff\" id =\"chat"+msg.noteID+"\"><div> You : &nbsp;<span id=\"edit"+msg.noteID+"\">"+ msg.data+"&nbsp;"+edit+"</span></div></li>";
+    var listValue = "<li class=\"list-group-item chatStuff\" id =\"chat"+msg.noteID+"\"><div> You : &nbsp; <span id=\"edit"+msg.noteID+"\">"+ msg.data +"&nbsp;"+edit+"</span></div></li>";
   }
   else{
-    var listValue= "<li class=\"list-group-item chatStuff\" id =\"chat"+msg.noteID+"\"><div>"+msg.user_name +" : &nbsp; <span id=\"edit"+msg.noteID+"\">"+msg.data+"</span></div></li>";
+    var listValue= "<li class=\"list-group-item chatStuff\" id =\"chat"+msg.noteID+"\"><div>"+msg.user_name +" : &nbsp; <span id=\"edit"+msg.noteID+"\">"+msg.data +"</span></div></li>";
   }
   return listValue;
 }
@@ -147,7 +148,6 @@ function removeElement(id) {
   var element = document.getElementById(id);
   element.parentElement.removeChild(element);
 }
-
 
 //-------------------------------------------------------
 //Functions for changing bubble color for online/offline
@@ -268,7 +268,6 @@ function message_clear(){
 
 $('form#broadcast').submit(function() {
   var broadText = $('#broadcast_data').val();
-  console.log(broadText);
   if(broadText.length > 0){
     sio.emit('my_broadcast_event', {data: broadText});
     clearTextArea("broadcast_data");

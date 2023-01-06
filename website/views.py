@@ -61,6 +61,11 @@ def getUser():
 
 @sio.event
 def my_broadcast_event(message):
+
+    #Replacing <, > and / so there can not be injection of html into the chat
+    for hChar in ["<",">","/"]:
+        message['data'] = message['data'].replace(hChar,"")
+        
     new_note = Note(data=message['data'], date = datetime.now(),user_id = current_user.id)
     db.session.add(new_note)
     db.session.commit()
