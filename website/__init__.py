@@ -26,8 +26,8 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = uri or f'sqlite:///{DB_NAME}' 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    migrate = Migrate(app=app,db=db)
-    migrate.init_app(app)
+    #migrate = Migrate(app=app,db=db)
+    #migrate.init_app(app)
     db.init_app(app)
     
     if (path.isfile(FILEPATH+DB_NAME) is not True) and (db_online == False):
