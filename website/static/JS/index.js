@@ -115,7 +115,7 @@ function showPass2(){
 //---------------------------------------------------------------
 function createMessage(msg){
 
-  var edit = `<div id = \"edDel\">
+  let edit = `<div id = \"edDel\">
     <div type = \"button\" class = \"btn\" data-bs-toggle=\"modal\" data-bs-target=\"#editModalCenter\" id =\"editB\" onclick =\"editNote('`+msg.noteID+"','"+msg.data+`')\">
     <img src=\"./static/images/edit.png\" id=\"editImage\">
     </div>
