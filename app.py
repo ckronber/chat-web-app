@@ -2,6 +2,8 @@ from website import create_app
 from website.views import sio
 import os
 
+#added to the app and is ready for push
+
 app = create_app()
 database_online = os.environ.get("db-online")
 sio.init_app(app)
