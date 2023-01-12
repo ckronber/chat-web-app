@@ -18,7 +18,7 @@ def create_app():
         db_online = False
     print("db_online " + str(db_online))
     if uri and uri.startswith("postgres://"):
-        uri = uri.replace("postgres://", "postgresql://", 1)
+        #uri = uri.replace("postgres://", "postgresql://", 1)
         if(path.isfile(FILEPATH+DB_NAME)):
             remove(FILEPATH+DB_NAME)
     
