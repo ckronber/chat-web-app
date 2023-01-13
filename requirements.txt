@@ -2,6 +2,7 @@ aiohttp
 aiosignal
 alembic
 async-timeout
+boto
 dnspython
 eventlet
 flask
