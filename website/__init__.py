@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from os import path,environ,remove
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from boto.s3.connection import S3Connection
 
 FILEPATH = "instance/"
 DB_NAME = "database.db"
@@ -11,8 +12,9 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
-    uri = environ.get("DATABASE_URL")
-    db_online = environ.get("db-online")
+    uri,db_online = S3Connection(environ["DATABASE_URL"],environ["db-online"]) 
+    #uri = environ.get("DATABASE_URL")
+    #db_online = environ.get("db-online")
 
     if db_online == None:
         db_online = False
