@@ -20,7 +20,7 @@ else:
 '''
 
 sio = SocketIO()
-sio.asyc_mode = async_mode
+#sio.asyc_mode = async_mode
 views = Blueprint('views', __name__)
 thread = None
 thread_lock = Lock()
