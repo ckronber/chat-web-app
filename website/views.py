@@ -23,7 +23,7 @@ thread_lock = Lock()
 
 #ROUTE FOR HOME WEBPAGE
 #========================================================================================
-@views.route('/',methods=['GET'])
+#@views.route('/',methods=['GET'])
 @views.route('/home',methods=['GET'])
 @login_required
 def home():
