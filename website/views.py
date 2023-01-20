@@ -10,7 +10,7 @@ from . import db
 
 database_online = os.environ.get("db-online")
 
-async_mode = "gevent"
+#async_mode = "gevent"
 
 '''
 if  database_online == "True":
@@ -33,14 +33,16 @@ thread_lock = Lock()
 def home():
     myNotes = Note.query.all()
     users = User.query.all()
-    return render_template('home.html',allNotes=myNotes,users = users,user=current_user,async_mode = sio.async_mode)
+    #,async_mode = sio.async_mode
+    return render_template('home.html',allNotes=myNotes,users = users,user=current_user)
 
 #ROUTE FOR ACCOUNT WEBPAGE
 #========================================================================================
 @views.route('/account',methods=['GET','POST']) 
 @login_required
 def account():
-    return render_template('userSettings.html',user = current_user,async_mode = sio.async_mode)
+    #async_mode = sio.async_mode
+    return render_template('userSettings.html',user = current_user)
 
 
 #ONLINE/OFFLINE
