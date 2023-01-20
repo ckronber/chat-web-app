@@ -12,7 +12,6 @@ flask-migrate
 flask-socketio
 flask-sqlalchemy
 gevent-websocket
-greenlet
 gunicorn
 ipfshttpclient
 Jinja2
