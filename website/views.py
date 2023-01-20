@@ -10,7 +10,7 @@ from . import db
 
 database_online = os.environ.get("db-online")
 
-async_mode = None
+async_mode = "gevent"
 
 '''
 if  database_online == "True":
