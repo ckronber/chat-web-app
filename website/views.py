@@ -29,16 +29,14 @@ thread_lock = Lock()
 def home():
     myNotes = Note.query.all()
     users = User.query.all()
-    #,async_mode = sio.async_mode
-    return render_template('home.html',allNotes=myNotes,users = users,user=current_user)
+    return render_template('home.html',allNotes=myNotes,users = users,user=current_user,async_mode = sio.async_mode)
 
 #ROUTE FOR ACCOUNT WEBPAGE
 #========================================================================================
 @views.route('/account',methods=['GET','POST']) 
 @login_required
 def account():
-    #async_mode = sio.async_mode
-    return render_template('userSettings.html',user = current_user)
+    return render_template('userSettings.html',user = current_user,async_mode = sio.async_mode)
 
 
 #ONLINE/OFFLINE
