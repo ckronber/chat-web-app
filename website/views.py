@@ -10,10 +10,12 @@ from . import db
 
 database_online = os.environ.get("db-online")
 
+'''
 if  database_online == "True":
     async_mode = "gevent"
 else:
     async_mode = "eventlet"
+'''
 
 sio = SocketIO()
 sio.asyc_mode = async_mode
