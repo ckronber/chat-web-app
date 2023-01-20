@@ -22,7 +22,6 @@ numba
 numpy
 pandas
 postgres
-psycopg
 psycopg2
 python-dateutil
 python-dotenv
