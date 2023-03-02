@@ -24,7 +24,7 @@ numpy
 pandas
 postgres
 psycopg
-psycopg2
+psycopg2-binary
 python-dateutil
 python-dotenv
 python-socketio
