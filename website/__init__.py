@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from os import path,environ,remove
 from flask_login import LoginManager
 from flask_migrate import Migrate
+import psycopg2
 
 FILEPATH = "instance/"
 DB_NAME = "database.db"
