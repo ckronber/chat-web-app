@@ -3,7 +3,6 @@ aiosignal
 alembic
 async-timeout
 boto
-django
 dnspython
 eventlet
 flask
@@ -20,7 +19,6 @@ Jinja2
 jsonschema
 matplotlib
 numpy
-pandas
 postgres
 psycopg
 psycopg2-binary
