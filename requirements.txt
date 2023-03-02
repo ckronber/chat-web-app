@@ -20,7 +20,6 @@ ipfshttpclient
 Jinja2
 jsonschema
 matplotlib
-numba
 numpy
 pandas
 postgres
