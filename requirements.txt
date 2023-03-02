@@ -3,6 +3,7 @@ aiosignal
 alembic
 async-timeout
 boto
+django
 dnspython
 eventlet
 flask
