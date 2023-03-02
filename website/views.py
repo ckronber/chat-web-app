@@ -14,7 +14,7 @@ database_online = os.environ.get("db-online")
 #    async_mode = "gevent"
 #else:
 #    async_mode = "eventlet"
-async_mode = "eventlet"
+async_mode = "gevent"
 
 sio = SocketIO()
 sio.asyc_mode = async_mode
