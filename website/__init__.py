@@ -12,7 +12,6 @@ db = SQLAlchemy()
 def create_app():
     app = Flask(__name__)
     uri = environ.get("DATABASE_URL")
-    uri += "sslmode=require"
     db_online = environ.get("db-online")
 
     if db_online == None:
