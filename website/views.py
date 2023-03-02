@@ -15,7 +15,7 @@ if  database_online == "True":
 else:
     async_mode = "eventlet"
     
-#async_mode = ""
+async_mode = ""
 
 sio = SocketIO()
 sio.asyc_mode = async_mode
