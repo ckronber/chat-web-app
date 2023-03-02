@@ -10,14 +10,15 @@ from . import db
 
 database_online = os.environ.get("db-online")
 
-#if  database_online == "True":
-#    async_mode = "gevent"
-#else:
-#    async_mode = "eventlet"
+if  database_online == "True":
+    async_mode = "gevent.greenlet"
+else:
+    async_mode = "eventlet"
+    
 #async_mode = ""
 
 sio = SocketIO()
-#sio.asyc_mode = async_mode
+sio.asyc_mode = async_mode
 views = Blueprint('views', __name__)
 thread = None
 thread_lock = Lock()
