@@ -10,11 +10,10 @@ flask
 flask-bootstrap
 flask-login
 flask-migrate
-flask-socketio
+flask-socketio 
 flask-sqlalchemy
 gevent
 gevent-websocket
-greenlet
 gunicorn
 ipfshttpclient
 Jinja2
