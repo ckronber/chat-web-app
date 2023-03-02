@@ -17,7 +17,6 @@ gunicorn
 ipfshttpclient
 Jinja2
 jsonschema
-matplotlib
 numpy
 postgres
 psycopg
