@@ -21,6 +21,6 @@ if __name__ == "__main__":
         app.run()
     else:
         if PORT == 443:
-            sio.run(app,debug=True,port=PORT,host=HOST,certfile=SSLCERT[0],keyfile=SSLCERT[1],server_side=True)
+            sio.run(app,debug=True,port=PORT,host=HOST,certfile=SSLCERT[0],keyfile=SSLCERT[1])
         else:
             sio.run(app,debug=True,host=HOST,port=PORT)

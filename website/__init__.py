@@ -20,13 +20,13 @@ def create_app():
     print("db_online " + str(db_online))
     if uri and uri.startswith("postgres://"):
         uri = uri.replace("postgres://", "postgresql://", 1)
+        conn = psycopg2.connect(uri, sslmode='require')
         if(path.isfile(FILEPATH+DB_NAME)):
             remove(FILEPATH+DB_NAME)
     
-    conn = psycopg2.connect(uri, sslmode='require')
     
     app.config['SECRET_KEY'] = 'mySecretKey'
-    app.config['SQLALCHEMY_DATABASE_URI'] = uri or f'sqlite:///{DB_NAME}' 
+    app.config['SQLALCHEMY_DATABASE_URI'] = conn or f'sqlite:///{DB_NAME}' 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     #migrate = Migrate(app,db)
