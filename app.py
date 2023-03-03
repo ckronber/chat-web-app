@@ -16,7 +16,7 @@ SSLCERT = ["C:\\Users\\ckron\\cert.pem", "C:\\Users\\ckron\\key.pem"]
 
 if __name__ == "__main__":
     if(database_online == "True"):
-        app.run()
+        app.run(app,port = 11457)
     else:
         if PORT == 443:
             sio.run(app,debug=True,port=PORT,host=HOST,certfile=SSLCERT[0],keyfile=SSLCERT[1],server_side=True)
