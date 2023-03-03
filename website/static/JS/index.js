@@ -6,7 +6,7 @@ let listElement = document.createElement("li");
 listElement.setAttribute("id", "msgEdit");
 let onlineData, editedID, username,thisUser,messID,numUsers;
 
-const sio = io("http://ckronberg-web-app.herokuapp.com:" + "26379");
+const sio = io();
 
 //---------------------------------------------------------------
 //Functions that have to do with scrolling
