@@ -1,5 +1,5 @@
-from gevent import monkey
-monkey.patch_all()
+#from gevent import monkey
+#monkey.patch_all()
 from website import create_app
 from website.views import sio
 from gevent.pywsgi import WSGIServer
