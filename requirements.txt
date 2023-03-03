@@ -13,7 +13,6 @@ flask-socketio
 flask-sqlalchemy
 gevent
 gevent-websocket
-greenlet
 gunicorn
 ipfshttpclient
 Jinja2
