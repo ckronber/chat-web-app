@@ -4,14 +4,12 @@ alembic
 async-timeout
 boto
 dnspython
-eventlet
 flask
 flask-bootstrap
 flask-login
 flask-migrate
 flask-socketio 
 flask-sqlalchemy
-gevent
 gevent-websocket
 gunicorn
 ipfshttpclient
