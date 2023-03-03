@@ -15,7 +15,7 @@ if  database_online == "True":
 else:
    async_mode = "eventlet"
     
-sio = SocketIO()
+sio = SocketIO(cors_allowed_origins="*")
 sio.asyc_mode = async_mode
 views = Blueprint('views', __name__)
 thread = None
