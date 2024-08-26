@@ -7,7 +7,7 @@ database_online = os.environ.get("db-online")
 sio.init_app(app)
 
 #* Here are the ports that are used
-PORTS = [443,5000]
+PORTS = [443,8000]
 PORT = PORTS[1]
 HOST = "localhost"
 SSLCERT = ["C:\\Users\\ckron\\cert.pem", "C:\\Users\\ckron\\key.pem"]
