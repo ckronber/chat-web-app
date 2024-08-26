@@ -61,8 +61,8 @@ def sign_up():
              db.session.add(new_user)
              db.session.commit()
              login_user(new_user,remember=True)
-             sio.emit("new_user",{"id":new_user.id,"user_name":new_user.user_name},broadcast=True)
-             sio.emit('up_user',{"status":True,"id":new_user.id},broadcast=True)
+             sio.emit("new_user",{"id":new_user.id,"user_name":new_user.user_name})
+             sio.emit('up_user',{"status":True,"id":new_user.id})
              return redirect(url_for('views.home'))
 
     return render_template("sign_up.html",user=current_user)
