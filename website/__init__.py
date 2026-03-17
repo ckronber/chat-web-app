@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from os import path,environ,remove
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from . import views,auth
+from .models import User
 
 FILEPATH = "website/"
 DB_NAME = "database.db"
@@ -35,7 +37,6 @@ def create_app():
             db.create_all()    
         print("created")
     
-    from . import views,auth
     app.register_blueprint(views.views, url_prefix='/')
     app.register_blueprint(auth.auth, url_prefix='/')
 
@@ -43,7 +44,6 @@ def create_app():
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
-    from .models import User
     @login_manager.user_loader
     def load_user(id):
         return User.query.get(int(id))

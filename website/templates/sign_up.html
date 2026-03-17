@@ -1,54 +1,73 @@
-{% extends "base.html" %} {% block title %}Sign Up{% endblock %} {% block
-    content %}
-    <form method="POST" id = "signPost">
-      <div class = "shadow" id = "signupInfo">
-        <br>
-        <h3 align="center">Sign Up</h3>
-        <hr>
-        <div class="form-floating" id = "signInput">
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            name="email"
-            placeholder="Enter Email"
-          />
-          <label for="email">Email Address</label>
+{% extends "base.html" %}
+
+{% block title %}Sign Up • MyApp{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg border-success">
+                <div class="card-header bg-success text-white py-3 text-center">
+                    <h4 class="mb-0 fw-bold"><i class="fas fa-user-plus me-2"></i>Create Account</h4>
+                </div>
+
+                <div class="card-body p-4">
+
+                    {% include '_flashes.html' %}
+
+                    <form method="POST" class="needs-validation" novalidate>
+                        {{ form.hidden_tag() }}
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            {{ form.email.label(class="form-label fw-semibold") }}
+                            {{ form.email(class="form-control is-invalid" if form.email.errors else "form-control", placeholder="your@email.com") }}
+                            {% for error in form.email.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Username -->
+                        <div class="mb-3">
+                            {{ form.user_name.label(class="form-label fw-semibold") }}
+                            {{ form.user_name(class="form-control is-invalid" if form.user_name.errors else "form-control", placeholder="johndoe") }}
+                            {% for error in form.user_name.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-3">
+                            {{ form.password1.label(class="form-label fw-semibold") }}
+                            {{ form.password1(class="form-control is-invalid" if form.password1.errors else "form-control", placeholder="Min. 7 characters") }}
+                            {% for error in form.password1.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="mb-3">
+                            {{ form.password2.label(class="form-label fw-semibold") }}
+                            {{ form.password2(class="form-control is-invalid" if form.password2.errors else "form-control", placeholder="Re-enter password") }}
+                            {% for error in form.password2.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Submit -->
+                        <div class="d-grid gap-2">
+                            {{ form.submit(class="btn btn-success py-2 fw-semibold") }}
+                        </div>
+
+                        <p class="text-center mt-3 small text-muted mb-0">
+                            Already have an account?
+                            <a href="{{ url_for('auth.login') }}" class="link-primary fw-semibold">Login</a>
+                        </p>
+                    </form>
+
+                </div>
+            </div>
         </div>
-        <div class="form-floating" id = "signInput">
-          <input
-            type="text"
-            class="form-control"
-            id="user_name"
-            name="user_name"
-            placeholder="Enter Username"
-          />
-          <label for="user_name">Username</label>
-        </div>
-        <div class="form-floating" id = "signInput">
-          <input
-            type="password"
-            class="form-control"
-            id="password1"
-            name="password1"
-            placeholder="Enter Password"
-          />
-          <label for="password1">Password</label>
-        </div>
-        <div class="form-floating" id = "signInput">
-          <input
-            type="password"
-            class="form-control"
-            id="password2"
-            name="password2"
-            placeholder="Confirm Password"
-          />
-          <label for="password2">Password (Confirm)</label>
-          <br>
-          <br>
-        <input type ="checkbox" id ="passShow"  onclick="showPass2()"> <div id = "checkLabel">Show Passwords</div>
-      </div>
-      <br>
-      <button type="submit" id = "signSubmit" class="btn btn-primary">Submit</button>
-    </form>
-    {% endblock %}
+    </div>
+</div>
+{% endblock %}

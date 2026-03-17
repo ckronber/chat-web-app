@@ -1,32 +1,54 @@
-{% extends "base.html" %} {% block title %}Login{% endblock %} {% block content
-%}
-<div id = "loginForm">
-  <form id = "myLogin" method="POST">
-    <br>
-    <br>
-    <div class = "shadow" id = "loginInfo">
-      <h3 align="center">Login</h3>
-      <hr>
-      <br>
+{% extends "base.html" %}
 
-      <div class="form-floating mb-3">
-        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email"/>
-        <label for="email">Email Address</label>
-      </div>
-      <br>
-      <div class="form-floating mb-3"> <!--form-width-md-->
-        <input type="password" id="password" class="form-control" name="password" placeholder="Enter password"/>
-        <label for="password">Password</label>
-        <br />
-        <input type="checkbox" id = "passShow" onclick="showPass()"/><div id = "checkLabel">Show Password</div>
-      </div>
+{% block title %}Login • MyApp{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow-lg border-primary">
+                <div class="card-header bg-primary text-white py-3 text-center">
+                    <h4 class="mb-0 fw-bold"><i class="fas fa-sign-in-alt me-2"></i>Welcome Back</h4>
+                </div>
+                <div class="card-body p-4">
+
+                    {% include '_flashes.html' %}
+
+                    <form method="POST" class="needs-validation" novalidate>
+                        {{ form.hidden_tag() }}
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            {{ form.email.label(class="form-label fw-semibold") }}
+                            {{ form.email(class="form-control is-invalid" if form.email.errors else "form-control", placeholder="john@example.com") }}
+                            {% for error in form.email.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-3">
+                            {{ form.password.label(class="form-label fw-semibold") }}
+                            {{ form.password(class="form-control is-invalid" if form.password.errors else "form-control", placeholder="••••••••") }}
+                            {% for error in form.password.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Submit -->
+                        <div class="d-grid gap-2">
+                            {{ form.submit(class="btn btn-primary py-2 fw-semibold") }}
+                        </div>
+
+                        <p class="text-center mt-3 small text-muted mb-0">
+                            Don't have an account?
+                            <a href="{{ url_for('auth.sign_up') }}" class="link-primary fw-semibold">Sign up</a>
+                        </p>
+                    </form>
+
+                </div>
+            </div>
+        </div>
     </div>
-
-    <button type="submit" id = "loginSelf" class="btn btn-primary">Login</button>
-  </form>
-  
-  <form id = "mySign" action="/signup">
-    <button id = "newUser" class="btn btn-secondary">New User?</button>
-  </form>
 </div>
 {% endblock %}
