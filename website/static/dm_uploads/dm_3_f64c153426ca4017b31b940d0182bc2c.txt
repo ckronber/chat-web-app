@@ -1,0 +1,4 @@
+Example of how to migrate a database when making changes to database:
+
+flask db migrate -m "Add DirectMessage model"
+flask db upgrade

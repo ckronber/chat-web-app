@@ -1,54 +1,48 @@
-{% extends "base.html" %} {% block title %}Sign Up{% endblock %} {% block
-    content %}
-    <form method="POST" id = "signPost">
-      <div class = "shadow" id = "signupInfo">
-        <br>
-        <h3 align="center">Sign Up</h3>
-        <hr>
-        <div class="form-floating" id = "signInput">
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            name="email"
-            placeholder="Enter Email"
-          />
-          <label for="email">Email Address</label>
-        </div>
-        <div class="form-floating" id = "signInput">
-          <input
-            type="text"
-            class="form-control"
-            id="user_name"
-            name="user_name"
-            placeholder="Enter Username"
-          />
-          <label for="user_name">Username</label>
-        </div>
-        <div class="form-floating" id = "signInput">
-          <input
-            type="password"
-            class="form-control"
-            id="password1"
-            name="password1"
-            placeholder="Enter Password"
-          />
-          <label for="password1">Password</label>
-        </div>
-        <div class="form-floating" id = "signInput">
-          <input
-            type="password"
-            class="form-control"
-            id="password2"
-            name="password2"
-            placeholder="Confirm Password"
-          />
-          <label for="password2">Password (Confirm)</label>
-          <br>
-          <br>
-        <input type ="checkbox" id ="passShow"  onclick="showPass2()"> <div id = "checkLabel">Show Passwords</div>
+{% extends "base.html" %} {% block title %}Sign Up{% endblock %} {% block content%}
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-icon">
+        <i class="fas fa-user-plus"></i>
       </div>
-      <br>
-      <button type="submit" id = "signSubmit" class="btn btn-primary">Submit</button>
+      <h2>Create Account</h2>
+      <p class="text-muted">Join CK Chat today</p>
+    </div>
+
+    <form method="POST" id="signPost" class="auth-form">
+      <div class="form-floating mb-3">
+        <input type="email" class="form-control" id="email" name="email" placeholder=" " required>
+        <label for="email"><i class="fas fa-envelope me-2"></i>Email Address</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="user_name" name="user_name" placeholder=" " required>
+        <label for="user_name"><i class="fas fa-at me-2"></i>Username</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="password1" name="password1" placeholder=" " required>
+        <label for="password1"><i class="fas fa-lock me-2"></i>Password</label>
+      </div>
+
+      <div class="form-floating mb-4">
+        <input type="password" class="form-control" id="password2" name="password2" placeholder=" " required>
+        <label for="password2"><i class="fas fa-lock me-2"></i>Confirm Password</label>
+      </div>
+
+      <div class="form-check mb-4">
+        <input type="checkbox" class="form-check-input" id="passShow" onclick="showPass2()">
+        <label class="form-check-label" for="passShow">Show passwords</label>
+      </div>
+
+      <button type="submit" id="signSubmit" class="btn btn-primary btn-lg w-100">
+        <i class="fas fa-user-plus me-2"></i>Create Account
+      </button>
     </form>
-    {% endblock %}
+
+    <div class="auth-footer">
+      <p>Already have an account? <a href="/login" class="auth-link">Sign in</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}

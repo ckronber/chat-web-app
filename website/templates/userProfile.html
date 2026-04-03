@@ -1,0 +1,114 @@
+{% extends "base.html" %} {% block title %}{{ profile_user.user_name }}'s Profile{% endblock %} {% block content%}
+<div class="profile-page">
+  <div class="profile-container">
+    <div class="profile-header">
+      <div class="profile-cover">
+        <div class="profile-avatar-large">
+          {% if profile_user.image %}
+          <img src="{{ url_for('static', filename='uploads/' + profile_user.image) }}" alt="{{ profile_user.user_name }}">
+          {% else %}
+          <i class="fas fa-user"></i>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-content">
+      <div class="profile-info">
+        <div class="profile-name-section">
+          <h2>{{ profile_user.user_name }}</h2>
+          <span class="badge {% if profile_user.user_online %}bg-success{% else %}bg-secondary{% endif %}">
+            {% if profile_user.user_online %}Online{% else %}Offline{% endif %}
+          </span>
+        </div>
+
+        {% if profile_user.first_name or profile_user.last_name %}
+        <p class="profile-real-name">{{ profile_user.first_name }} {{ profile_user.last_name }}</p>
+        {% endif %}
+
+        {% if profile_user.description %}
+        <p class="profile-bio">{{ profile_user.description }}</p>
+        {% endif %}
+
+        <div class="profile-stats">
+          <div class="stat-item">
+            <i class="fas fa-comment"></i>
+            <span>{{ user_notes|length }} messages</span>
+          </div>
+          <div class="stat-item">
+            <i class="fas fa-calendar"></i>
+            <span>Joined {{ profile_user.id }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-details">
+        <h4><i class="fas fa-user me-2"></i>About</h4>
+        
+        <div class="detail-item">
+          <label><i class="fas fa-venus-mars me-2"></i>Gender</label>
+          <span>{{ profile_user.gender.value if profile_user.gender else 'Not specified' }}</span>
+        </div>
+
+        {% if profile_user.birth_date %}
+        <div class="detail-item">
+          <label><i class="fas fa-birthday-cake me-2"></i>Birthday</label>
+          <span>{{ profile_user.birth_date.strftime('%B %d') }}</span>
+        </div>
+        {% endif %}
+
+        <div class="detail-item">
+          <label><i class="fas fa-heart me-2"></i>Relationship</label>
+          <span>{{ profile_user.relationship_status.value if profile_user.relationship_status else 'Not specified' }}</span>
+        </div>
+
+        {% if profile_user.relationship_status and profile_user.relationship_status.value == 'Married' and profile_user.marriage_date %}
+        <div class="detail-item">
+          <label><i class="fas fa-ring me-2"></i>Anniversary</label>
+          <span>{{ profile_user.marriage_date.strftime('%B %d, %Y') }}</span>
+        </div>
+        {% endif %}
+
+        {% if profile_user.interests %}
+        <div class="detail-item">
+          <label><i class="fas fa-star me-2"></i>Interests</label>
+          <span>{{ profile_user.interests }}</span>
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="profile-actions">
+        {% if user.id != profile_user.id %}
+        <button class="btn btn-primary" onclick="openDM('{{ profile_user.user_name }}', '{{ profile_user.id }}')">
+          <i class="fas fa-paper-plane me-2"></i>Send Message
+        </button>
+        {% else %}
+        <a href="/account" class="btn btn-primary">
+          <i class="fas fa-edit me-2"></i>Edit Profile
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Send Message Modal -->
+<div class="modal fade" id="dmModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fas fa-paper-plane me-2"></i>Send Message</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted mb-3">Send a message to <strong id="dmUserName"></strong></p>
+        <textarea type="text" id="dmMessage" class="form-control" rows="4" placeholder="Type your message..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="sendDM()"><i class="fas fa-paper-plane me-2"></i>Send</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

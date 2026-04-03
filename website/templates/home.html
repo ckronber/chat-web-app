@@ -1,233 +1,330 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content%}
-<div class="row" width = "max-width" id = "mainRow">
-  <div class="col-8" id = "columnLeft">
-    <!--width="fixed"  padding-right="200rem"-->
-    <br>
+<script>
+  var current_user_id = {{ current_user.id }};
+</script>
 
-    <h4 align="left" id="tHel" class="userN">
-      Hello, {{current_user.user_name}}
-    </h4>
-  
-    <hr>
-
-    <p class="userMessage">
-      Add Users to a message below, <br>
-      seperating them with a comma (<b> , </b>)
-    </p>
-
-    <!--SEND USERS AREA-->
-    <div class="input-group mb-3 shadow p-3" id="SendUsers">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon1">@</span>
-      </div>
-      <input type="search" name="userInput" id="usersADD" class="form-control" placeholder="Usernames" aria-label="Username" aria-describedby="basic-addon1"/>
-      &nbsp;
-      <div type="button" id="addIT" class="btn btn-sm" onclick="addUser()">
-        <span><img src="../static/images/addPerson.png" width="25rem" height="30rem"/></span>
-      </div>
-    </div>
-    <!--END SEND USERS AREA-->
-
-    <br>
-
-    <!--ALL MESSAGES-->
-    <div class="overflow-auto shadow p-3 mb-3" id="messageArea">
-      <ul class="list-group list-group-flush" id="log">
-        {%for note in allNotes%} 
-          {%if current_user.user_name==note.user.user_name%}
-            <li class="list-group-item chatStuff" id="chat{{note.id}}"> <!--colorClass-->
-              <div>
-               You : <span id = "edit{{note.id}}">{{note.data}}&nbsp;
-                <div id="edDel">
-                  <div type="button" class = "btn" id="editB" data-bs-toggle="modal" data-bs-target="#editModalCenter" onclick = "editNote('{{note.id}}')">
-                    <img src="../static/images/edit.png" id="editImage"/>
-                  </div>
-                  <button type="button" class="btn-close" id="closeX" aria-label="Close" onclick="deleteNote('{{note.id}}')"></button>
-                </div>
-               </spon>
-              </div>
-            </li>
-          {%else%}
-            <li class="list-group-item chatStuff" id="chat{{note.id}}"><div>{{note.user.user_name}}  : &nbsp; <span id = "edit{{note.id}}">{{note.data}}</span></div></li>
-          {%endif%} 
-        {% endfor %}
-      </ul>
-    </div>
-    <!--END ALL MESSAGES-->
-
-    <br>
-    <br>
-
-    <!--Modal used when update button is clicked-->
-    <div class="modal fade" id="editModalCenter" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" id = "mod">
-
-          <div class = "modal-header" id = "modHead">
-            <h5 class = "modal-title" id = "editTitle" width = "max-width">Edit Message</h5>
-            <button type = "button" id="modClose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<!-- DM Toast Notification -->
+<div class="toast-container position-fixed top-0 end-0 p-4" style="z-index: 9999; margin-top: 80px;">
+  <div id="dmToast" class="toast show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="6000">
+    <div class="toast-body dm-toast-body p-3">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-3">
+          <div class="dm-toast-icon">
+            <i class="fas fa-comment-dots"></i>
           </div>
-
-          <form id = "editForm" method="POST" action="/"> 
-            <div class="modal-body" id = "modBody">
-              <textarea type = "text" id = "modalEdit"></textarea>
-            </div>
-
-            <div class="modal-footer" id = "modFoot">
-              <button type="button" id = "closeModal" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button id = "updateSubmit" type="submit" class="btn btn-primary">Update</button>
-            </div>
-          </form> 
+          <div>
+            <div class="dm-toast-title">New Message</div>
+            <div class="dm-toast-text" id="dmToastBody">You have a new message</div>
+          </div>
         </div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
       </div>
     </div>
-    <!--End of modal code--> 
-
   </div>
-    <!--End of Left Column with Message Area-->
+</div>
 
-  <!--Right side Column-->
-  <div class="col-4" id = "columnRight">
-      <br>
-
-      <!--
-      <div>
-        <p>
-          Async mode is: <b>{{async_mode}}</b><br />
-          Current transport is: <b><span id="transport"></span></b><br />
-          Average ping/pong latency: <b><span id="ping-pong"></span>ms</b>
-        </p>
-      </div>
-      -->
-
-      <!--Channel Section of the code-->
-      <div id = "channelAdd">
-        <h5 id = "chanText">My Channels</h5>
-        <!--Add Channel-->
-        <div type ="button" id = "addChan" data-bs-toggle="modal" data-bs-target="#channelModal">
-          <svg xmlns="http://www.w3.org/2000/svg" width="1.7rem" height="1.7rem" fill="currentColor" class="bi bi-file-plus addSign" viewBox="0 0 16 16">
-            <path d="M8.5 6a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V10a.5.5 0 0 0 1 0V8.5H10a.5.5 0 0 0 0-1H8.5V6z"/>
-            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
-          </svg>
-        </div>
-        <!--End of add channel section-->
-        <!--Searching for Channels-->
-        <div type = "button" id = "searchChan" data-bs-toggle="modal" data-bs-target="#channelSearch">
-          <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" fill="currentColor" class="bi bi-search searchChan" viewBox="0 0 16 16">
-            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-          </svg>
-        </div>
-      </div>
-      <!--End of channel Section of code-->
-
-      <div>
-        <br>
-        <!--<button type="button" id="sideAdd" class="btn btn-info btn-sm">Add</button>-->
-        <div class="GroupList rounded overflow-auto shadow" style="height: 10rem">
+<div class="chat-container">
+  <div class="row g-0 h-100">
+    <!-- Left Column - Chat Area -->
+    <div class="col-lg-8 col-md-7 chat-main">
+      <div class="chat-header">
+        <div class="d-flex align-items-center gap-3">
+          <div class="user-avatar">
+            <i class="fas fa-user"></i>
+          </div>
+          <div>
+            <h5 class="mb-0">Hello, {{current_user.user_name}}</h5>
+            <small class="status-text"><i class="fas fa-circle text-success me-1"></i> Online</small>
+          </div>
         </div>
       </div>
 
-      <br>
-      <br>
-      <h5 id = "userList">Users</h5>
-      <br>
+      <div class="chat-instructions">
+        <p class="mb-0"><i class="fas fa-info-circle me-2"></i>Type below to send a message to everyone</p>
+      </div>
 
-      <div class="UserList rounded overflow-auto shadow">
-        <ul id = "uList" style="list-style: none;">
-          {%for user in users%}
-            {%if user != current_user%}
-              <li id = "user{{user.id}}">
-                <div type="button" class="btn btn-primary position-relative" id = "userLink" data-bs-placement="left">
-                  {{user.user_name}}
-                  <div id = "myBubble{{user.id}}">
-                    {%if user.user_online == true%} 
-                      <span class="position-absolute top-0 start-100 translate-middle p-1 bg-success rounded-circle" id = "bubble"></span>
-                    {%else%}
-                      <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger rounded-circle"id = "bubble"></span>
-                    {%endif%}
+      <div class="messages-container" id="messageArea">
+        <div class="new-messages-indicator" id="newMessagesIndicator" onclick="scrollToBottom()">
+          <i class="fas fa-arrow-down me-2"></i>New messages
+        </div>
+        <ul class="messages-list" id="log">
+          {%for note in allNotes%} 
+            {%if current_user.user_name==note.user.user_name%}
+              <li class="message-item message-own" id="chat{{note.id}}">
+                <div class="message-bubble">
+                  <div class="message-meta">
+                    <span class="message-sender">You</span>
+                    <span class="message-time">{{note.date.strftime('%m/%d %I:%M %p')}}{% if note.edited and note.edited_date %}<span class="message-edited">(edited {{ note.edited_date.strftime('%m/%d %I:%M %p') }})</span>{% endif %}</span>
+                  </div>
+                  <div class="message-content-row">
+                    <span class="message-text" id="edit{{note.id}}">{{note.data}}</span>
+                    <div class="message-actions">
+                      <button type="button" class="msg-btn msg-btn-edit" data-bs-toggle="modal" data-bs-target="#editModalCenter" onclick="editNote('{{note.id}}')" title="Edit">
+                        <i class="fas fa-pen-to-square"></i>
+                      </button>
+                      <button type="button" class="msg-btn msg-btn-delete" onclick="deleteNote('{{note.id}}')" title="Delete">
+                        <i class="fas fa-trash-can"></i>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </li>
-            {%endif%}
-          {%endfor%}
+            {%else%}
+              <li class="message-item" id="chat{{note.id}}">
+                <div class="message-bubble message-other">
+                  <div class="message-meta">
+                    <span class="message-sender">{{note.user.user_name}}</span>
+                    <span class="message-time">{{note.date.strftime('%m/%d %I:%M %p')}}{% if note.edited and note.edited_date %}<span class="message-edited">(edited {{ note.edited_date.strftime('%m/%d %I:%M %p') }})</span>{% endif %}</span>
+                  </div>
+                  <div class="message-content-wrapper">
+                    <span class="message-text" id="edit{{note.id}}">{{note.data}}</span>
+                  </div>
+                </div>
+              </li>
+            {%endif%} 
+          {% endfor %}
         </ul>
       </div>
-    </div>
-    <!--End of Right side Column-->
 
-    <!-- Modal for Adding a Channel -->
-    <div class="modal fade" id="channelModal" tabindex="-1" aria-labelledby="createChannel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Create Channel</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="message-input-container">
+        <form name="messForm" id="broadcast" method="post" class="message-form">
+          <div class="input-group">
+            <textarea type="text" name="broadcast_data" id="broadcast_data" class="form-control" placeholder="Type your message..." rows="1"></textarea>
+            <button type="submit" class="btn btn-primary btn-send">
+              <i class="fas fa-paper-plane"></i>
+            </button>
           </div>
-          <div class="modal-body">
-            <label for="chanInput" class="col-form-label" >Channel Name:</label>
-            <input type="Name" class = "form-control" id = "chanInput" placeholder = "Enter a name for this Channel" value="">
-            <br>
-            <label for="chanDesc" class="col-form-label">About:</label>
-            <textarea class = "form-control" name="description" id="chanDesc" placeholder="Enter desciption here" value=""></textarea>
-            <br>
-            <label for="userNum" class="col-form-label">Max Number of Users:</label>
-            <input type="number" class = "form-control" id = "userNum" min=2 max=100>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right Column - Sidebar -->
+    <div class="col-lg-4 col-md-5 chat-sidebar">
+      <div class="sidebar-section">
+        <div class="section-header">
+          <h5><i class="fas fa-hashtag me-2"></i>Channels</h5>
+          <div class="section-actions">
+            <button class="btn-icon" data-bs-toggle="modal" data-bs-target="#channelModal" title="Create Channel">
+              <i class="fas fa-plus"></i>
+            </button>
+            <button class="btn-icon" data-bs-toggle="modal" data-bs-target="#channelSearch" title="Search Channels">
+              <i class="fas fa-search"></i>
+            </button>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
+        </div>
+        <div class="channel-list GroupList">
+          <!-- Channels will be populated here -->
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <h5><i class="fas fa-users me-2"></i>Users</h5>
+        <div class="user-list UserList">
+          <ul id="uList" class="list-unstyled">
+            {%for user in users%}
+              {%if user != current_user%}
+                <li id="user{{user.id}}" class="user-item">
+                    <div class="user-card" onclick="openDModal('{{user.user_name}}', {{user.id}})">
+                    <div class="user-avatar-sm">
+                      {% if user.image %}
+                      <img src="{{ url_for('static', filename='uploads/' + user.image) }}" alt="" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                      {% else %}
+                      <i class="fas fa-user"></i>
+                      {% endif %}
+                      <span class="online-indicator" id="onlineIndicator{{user.id}}">
+                        {%if user.user_online == true%} 
+                          <span class="online-dot online"></span>
+                        {%else%}
+                          <span class="online-dot offline"></span>
+                        {%endif%}
+                      </span>
+                    </div>
+                    <span class="user-name">{{user.user_name}}</span>
+                    <span class="user-status">
+                      {%if user.user_online == true%} 
+                        <span class="badge bg-success status-badge" id="statusBadge{{user.id}}">Online</span>
+                      {%else%}
+                        <span class="badge bg-secondary status-badge" id="statusBadge{{user.id}}">Offline</span>
+                      {%endif%}
+                    </span>
+                    <div class="user-actions" onclick="event.stopPropagation()">
+                      <a href="/user/{{user.id}}" class="user-action-btn user-profile-btn" title="View Profile">
+                        <i class="fas fa-info-circle"></i>
+                      </a>
+                    </div>
+                  </div>
+                </li>
+              {%endif%}
+            {%endfor%}
+          </ul>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <h5><i class="fas fa-comment-dots me-2"></i>Direct Messages</h5>
+        <div class="dm-conversations-list" id="dmConversationsList">
+          <div class="dm-conversation-empty">Loading conversations...</div>
         </div>
       </div>
     </div>
-    <!--End of Modal for adding a channel-->
-
-    <!-- Modal for Searching for a Channel -->
-    <div class="modal fade" id="channelSearch" tabindex="-1" aria-labelledby="searchChannel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">`
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Channels</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <label for="chanInput" class="col-form-label" > Search Channels Here:</label>
-            <input type="search" class = "form-control" id = "chanInput" placeholder = "Search for channel here" value="">
-            <br>
-            <div id = "foundChannels">
-              <ul>
-                <li>Example Channel Here</li>
-              </ul>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Search</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--End of Modal for adding a channel-->
-</div>
-<br>
-<div class="row" width = "max-width" height = "max-content" id = "broadcastRow">
-  <!--MESSAGE AREA-->
-  <div id = "sendArea">
-    <form name="messForm" id="broadcast" method="post" class="input-group mb-3 shadow" action="/">
-      <textarea type="text" name="broadcast_data" id="broadcast_data" class="form-control"></textarea>
-      <div ></div>
-
-      <!--Add file for direct messaging to be able to send files to one another 
-      <div id="fileBlock">
-        <input type="file" value="" id="addFile">
-      </div>
-      -->
-
-      <div id="submitBlock">
-        <input type="submit" value="" id="submitMessage">
-      </div>
-    </form>
   </div>
-  <!--END MESSAGE AREA-->
 </div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModalCenter" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Edit Message</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="editForm" method="POST" action="/"> 
+        <div class="modal-body">
+          <textarea type="text" id="modalEdit" class="form-control" rows="4"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form> 
+    </div>
+  </div>
+</div>
+
+<!-- Create Channel Modal -->
+<div class="modal fade" id="channelModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fas fa-plus-circle me-2"></i>Create Channel</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="chanInput" class="form-label">Channel Name</label>
+          <input type="text" class="form-control" id="chanInput" placeholder="Enter channel name">
+        </div>
+        <div class="mb-3">
+          <label for="chanDesc" class="form-label">Description</label>
+          <textarea class="form-control" id="chanDesc" rows="3" placeholder="Enter description"></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="userNum" class="form-label">Max Users</label>
+          <input type="number" class="form-control" id="userNum" min="2" max="100" value="50">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary">Create</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Search Channel Modal -->
+<div class="modal fade" id="channelSearch" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fas fa-search me-2"></i>Find Channels</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <input type="search" class="form-control" placeholder="Search channels...">
+        </div>
+        <div class="channel-results">
+          <ul class="list-unstyled">
+            <li class="channel-result-item">
+              <span><i class="fas fa-hashtag me-2"></i>Example Channel</span>
+              <button class="btn btn-sm btn-outline-primary">Join</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Search</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Direct Message Modal -->
+<div class="modal fade" id="dmModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex align-items-center gap-3">
+          <div class="dm-user-avatar" id="dmModalAvatar">
+            <i class="fas fa-user"></i>
+          </div>
+          <div>
+            <h5 class="modal-title mb-0" id="dmModalTitle">Username</h5>
+            <small class="dm-user-status text-muted" id="dmModalStatus"></small>
+          </div>
+        </div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body dm-modal-body">
+        <div class="dm-messages-container" id="dmMessagesContainer">
+          <div class="dm-messages" id="dmMessages">
+            <!-- DM conversation will be loaded here -->
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer dm-input-area">
+        <div class="dm-file-preview-container" id="dmFilePreviewContainer" style="display: none; margin-bottom: 0.5rem;">
+          <div class="dm-file-preview" id="dmFilePreview"></div>
+          <button type="button" class="dm-file-remove" onclick="removeDMFile()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <form id="dmForm" class="w-100">
+          <div class="input-group">
+            <button type="button" class="btn btn-secondary dm-attach-btn" onclick="document.getElementById('dmFileInput').click()">
+              <i class="fas fa-paperclip"></i>
+            </button>
+            <input type="file" id="dmFileInput" style="display: none;" onchange="updateFilePreview(this.files[0])" accept="image/*,.pdf,.doc,.docx,.txt,.mp3,.mp4,.wav,.mov,.avi">
+            <input type="text" id="dmMessageInput" class="form-control" placeholder="Type a message..." autocomplete="off">
+            <button type="submit" class="btn btn-primary" id="dmSendBtn">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit DM Modal -->
+<div class="modal fade" id="editDModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Edit Message</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="editDModalId">
+        <textarea type="text" id="editDModalInput" class="form-control" rows="3"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="saveEditDM()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Image Preview Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content modal-image-content">
+      <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+      <img id="imageModalImg" src="" alt="Image" class="img-fluid">
+    </div>
+  </div>
+</div>
+
 {% endblock %}

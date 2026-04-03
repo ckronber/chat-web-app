@@ -1,32 +1,38 @@
-{% extends "base.html" %} {% block title %}Login{% endblock %} {% block content
-%}
-<div id = "loginForm">
-  <form id = "myLogin" method="POST">
-    <br>
-    <br>
-    <div class = "shadow" id = "loginInfo">
-      <h3 align="center">Login</h3>
-      <hr>
-      <br>
-
-      <div class="form-floating mb-3">
-        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email"/>
-        <label for="email">Email Address</label>
+{% extends "base.html" %} {% block title %}Login{% endblock %} {% block content%}
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-icon">
+        <i class="fas fa-comments"></i>
       </div>
-      <br>
-      <div class="form-floating mb-3"> <!--form-width-md-->
-        <input type="password" id="password" class="form-control" name="password" placeholder="Enter password"/>
-        <label for="password">Password</label>
-        <br />
-        <input type="checkbox" id = "passShow" onclick="showPass()"/><div id = "checkLabel">Show Password</div>
-      </div>
+      <h2>Welcome Back</h2>
+      <p class="text-muted">Sign in to continue to CK Chat</p>
     </div>
 
-    <button type="submit" id = "loginSelf" class="btn btn-primary">Login</button>
-  </form>
-  
-  <form id = "mySign" action="/signup">
-    <button id = "newUser" class="btn btn-secondary">New User?</button>
-  </form>
+    <form id="myLogin" method="POST" class="auth-form">
+      <div class="form-floating mb-3">
+        <input type="email" class="form-control" id="email" name="email" placeholder=" " required>
+        <label for="email"><i class="fas fa-envelope me-2"></i>Email Address</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input type="password" id="password" class="form-control" name="password" placeholder=" " required>
+        <label for="password"><i class="fas fa-lock me-2"></i>Password</label>
+      </div>
+
+      <div class="form-check mb-4">
+        <input type="checkbox" class="form-check-input" id="passShow" onclick="showPass()">
+        <label class="form-check-label" for="passShow">Show password</label>
+      </div>
+
+      <button type="submit" id="loginSelf" class="btn btn-primary btn-lg w-100 mb-3">
+        <i class="fas fa-sign-in-alt me-2"></i>Login
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Don't have an account? <a href="/signup" class="auth-link">Sign up</a></p>
+    </div>
+  </div>
 </div>
 {% endblock %}
