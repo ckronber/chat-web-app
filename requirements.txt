@@ -3,7 +3,6 @@ aiosignal
 alembic
 async-timeout
 dnspython
-eventlet
 Flask
 Flask-Bootstrap
 Flask-Login
